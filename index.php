@@ -5,9 +5,10 @@ $moduleName = extractModuleName($routes);
 $action = extractActionName($routes);
 $_GET = extractGetParams();
 
-include_once("header.php");
+include_once("./vista/includes/header.php");
 
 $filename = "controlador/controlador_" . $moduleName . ".php";
+
 if( file_exists($filename) ){
     include_once($filename);
     call_user_func( $moduleName . '_' . $action );
@@ -15,7 +16,7 @@ if( file_exists($filename) ){
     echo ' <div class="w3-container w3-content w3-center w3-padding-64" >La pagina solicitada no existe</div>';
 }
 
-include_once("footer.php");
+include_once("./vista/includes/footer.php");
 
 
 function parseRoutes(){
@@ -24,7 +25,7 @@ function parseRoutes(){
 }
 
 function extractModuleName($routes){
-    return !empty($routes[1]) ? $routes[1] : "labanda";
+    return !empty($routes[2]) ? $routes[2] : "home";
 }
 
 function extractActionName($routes){

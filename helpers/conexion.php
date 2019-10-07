@@ -1,4 +1,4 @@
-<?php
+<!--?php
 include('config.php');
 
 function getConexion(){
@@ -19,4 +19,23 @@ function getConexion(){
     return $conn;
 }
 
+?-->
+
+<?php
+    include('config.php');
+
+    class Conectar {
+        public static function conexion () {
+            $config = getConfigAsArray();
+            $servername = $config['database']['hostname'];
+            $username = $config['database']['username'];
+            $dbname = $config['database']['database'];
+            $password = $config['database']['password'];
+            
+            $conexion = mysqli_connect($servername, $username, $password, $dbname);
+
+            $conexion->query("SET NAMES 'utf8'");
+            return $conexion;
+        }
+    }
 ?>
