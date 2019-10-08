@@ -1,0 +1,2 @@
+# Evito la ejecucion de los archivos PHP sin pasar por el index
+DENY FROM ALL
