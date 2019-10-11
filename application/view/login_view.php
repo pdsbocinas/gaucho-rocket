@@ -6,8 +6,7 @@
                 <!--<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Cerrar">×</span>-->
                 <!--<img src="img_avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">-->
             </div>
-
-            <form class="w3-container" action="/action_page.php">
+            <form class="w3-container" action="<?php echo $path->getEvent('login', 'loginAction'); ?>" method="POST">
                 <div class="w3-section">
                     <label><b>Usuario</b></label>
                     <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingrese su Usuario" name="usuario" required>

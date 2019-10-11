@@ -12,11 +12,15 @@ class Router
 
     function start(){
         $routes = $this->parseRoutes();
+        // extrae el primer path desp del root del proyecto. Ej localhost://gaucho-rocket/viajes -> viajes es el primer path
         $moduleName = $this->extractModuleName($routes);
+        // extrae del segundo path el action. Ej localhost://gaucho-rocket/viajes/crear -> crear es el segundo path
         $action = $this->extractActionName($routes);
+        // extrae parametros, por ejemplo / viajes?precio=1000-2000
         $_GET = $this->extractGetParams();
 
-        if(isset($_SESSION["log"]) && $_SESSION["log"] ) {
+        // isset($_SESSION["log"]) && $_SESSION["log"] || true para que pase siempre
+        if(isset($_SESSION["log"]) && $_SESSION["log"]) {
             $controller = $this->createController($moduleName);
             $this->executeActionFromController($controller, $action);
         } else {
@@ -31,19 +35,21 @@ class Router
     }
 
     private function extractModuleName($routes){
-        return !empty($routes[1]) ? $routes[1] : "main";
+        return !empty($routes[2]) ? $routes[2] : "main";
     }
 
     private function extractActionName($routes){
-        return !empty($routes[2]) ? $routes[2] : "index";
+        return !empty($routes[3]) ? $routes[3] : "index";
     }
 
     private function createController($moduleName){
         $controllerName = 'Controller_' . $moduleName;
         $controllerFile = strtolower($controllerName) . '.php';
+        // esto devuelve donde se encuentra el archivo
         $controllerPath = $this->path->getPage("controller",  $controllerFile );
         $controller = false;
         if ( $controllerPath != null ) {
+            // lo incluye y lo instancia
             include $controllerPath;
             $controller = new $controllerName;
         }
@@ -80,10 +86,10 @@ class Router
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
         header("Status: 404 Not Found");
-        header('Location:'.$host.'error/error404');
+        header('Location:'.$host.'gaucho-rocket/error/error404');
         exit();
     }
-
+    // extrae los query string
     private function extractGetParams() {
 
         $getParams = array();

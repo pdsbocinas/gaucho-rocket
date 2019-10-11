@@ -1,11 +1,11 @@
 <?php
 
-class Controller_Login extends Controller{
+class Controller_Centros extends Controller{
 
     private $path;
     private $view;
 
-    public function __construct()
+    function __construct()
     {
         // Incluyo todos los modelos a utilizar
 
@@ -18,9 +18,8 @@ class Controller_Login extends Controller{
     function index(){
         $this->view->generate('login_view.php', 'template_login.php');
     }
-
-    function loginAction () {
-        echo "llego!";
-    }
-
+    
+    function crear(){
+      echo "hola!!!";
+  }
 }

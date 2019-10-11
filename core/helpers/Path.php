@@ -67,8 +67,12 @@ class Path
         }
 
     }
-
-
+    // armar urls para utilizar
+    public function getEvent($controller, $action) {
+        // $root =  $this->paths["root"]  != "" ?  $this->paths["root"] : "/";
+        $event = "http://" . $_SERVER['HTTP_HOST'] . "/" . 'gaucho-rocket' . "/". $controller . "/" . $action;
+        return $event;
+    }
 
 
 

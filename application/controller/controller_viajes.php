@@ -1,16 +1,16 @@
 <?php
 
-class Controller_Login extends Controller{
+class Controller_Viajes extends Controller{
 
     private $path;
     private $view;
+    private $usuario;
 
-    public function __construct()
-    {
+    function __construct() {
         // Incluyo todos los modelos a utilizar
-
         $this->path = Path::getInstance("config/path.ini");
         require_once( $this->path->getPage("model", "Usuario.php") );
+        $this->usuario = new Usuario();
 
         $this->view = new View();
     }
@@ -19,8 +19,8 @@ class Controller_Login extends Controller{
         $this->view->generate('login_view.php', 'template_login.php');
     }
 
-    function loginAction () {
-        echo "llego!";
+    function crear () {
+        $result = $this->usuario->getAllUsers();
+        return $result;
     }
-
 }
