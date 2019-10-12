@@ -13,7 +13,9 @@ echo "<link rel='stylesheet' href='" . $path->getLink("css","fontawesome-free-5.
 </style>
 <body onload="document.getElementById('id01').style.display='block'" class="w3-light-grey">
 <!-- !PAGE CONTENT! -->
-<?php require_once($path->getPage("view",$content_view)); ?>
+<?php
+    require_once($path->getPage("view",$content_view)); 
+?>
 <!-- !END PAGE CONTENT! -->
 </body>
 </html>

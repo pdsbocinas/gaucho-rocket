@@ -52,7 +52,6 @@ class Path
         }
     }
 
-
     public function getLink($path, $file = ''){
 
         $root =  $this->paths["root"]  != "" ?  $this->paths["root"] : "/";
@@ -73,9 +72,4 @@ class Path
         $event = "http://" . $_SERVER['HTTP_HOST'] . "/" . 'gaucho-rocket' . "/". $controller . "/" . $action;
         return $event;
     }
-
-
-
-
-
 }
