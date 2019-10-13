@@ -1,4 +1,4 @@
-<form class='w3-container' action='<?php echo $path->getEvent('login', 'loginAction'); ?>' method='POST'>
+<form class='w3-container' action='<?php echo $path->getEvent('main', 'home'); ?>' method='POST'>
   <div class='w3-section'>
     <label><b>Usuario</b></label>
     <input class='w3-input w3-border w3-margin-bottom' type='text' pattern='(?!^\d+$)^.+$' placeholder='Ingrese su Usuario' name='email' required>

@@ -24,7 +24,7 @@ class Router
             $controller = $this->createController($moduleName);
             $this->executeActionFromController($controller, $action);
         } else {
-            $controller = $this->createController("Login");
+            $controller = $this->createController("Main");
             $this->executeActionFromController($controller, $action);
         }
     }
