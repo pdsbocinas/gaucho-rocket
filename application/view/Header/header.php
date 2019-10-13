@@ -1,19 +1,32 @@
-<div class="w3-container">
-  <div id="id01" class="w3-modal">
-    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-      <div class="w3-center"><br>
-        <!--<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Cerrar">×</span>-->
-        <!--<img src="img_avatar4.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">-->
-        <?php
-          if (isset($_SESSION['nombre_de_usuario'])) {
-            echo "Bienvenido:" . $_SESSION['nombre_de_usuario'] . "";
-          } else {
-            include("form.php");
-            echo "<p>" .$data. "</p>";
-          }
-        ?>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+    </ul>
+    <div class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Login
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <?php
+        if (isset($_SESSION['nombre_de_usuario'])) {
+          echo "Bienvenido:" . $_SESSION['nombre_de_usuario'] . "";
+        } else {
+          include("form.php");
+          echo "<p>" . $data . "</p>";
+        }
+        ?>
       </div>
     </div>
   </div>
-</div>
+</nav>

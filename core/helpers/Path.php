@@ -57,7 +57,7 @@ class Path
         $root =  $this->paths["root"]  != "" ?  $this->paths["root"] : "/";
 
         if (array_key_exists( $path, $this->paths )) {
-            $fullLink = "http://" . $_SERVER['HTTP_HOST'] . $root . $this->paths[$path] . $file;
+            $fullLink = "http://" . $_SERVER['HTTP_HOST'] . "/" . 'gaucho-rocket' . "/" . $this->paths[$path] . $file;
             return $fullLink;
 
         } else {
