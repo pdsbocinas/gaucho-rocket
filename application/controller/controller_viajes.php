@@ -19,8 +19,4 @@ class Controller_Viajes extends Controller{
         $this->view->generate('login_view.php', 'template_login.php');
     }
 
-    function crear () {
-        $result = $this->usuario->getAllUsers();
-        return $result;
-    }
 }
