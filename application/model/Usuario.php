@@ -28,6 +28,14 @@ class Usuario
     $this->email = $email;
   }
 
+  public function getPassword() {
+    return $this->password;
+  }
+
+  public function setPassword($password){
+    $this->password = $password;
+  }
+
   public function getAllUsers() {
     $sql = "select * from Usuario";
     $query = $this->database->query($sql);
@@ -58,5 +66,13 @@ class Usuario
 
     $message = "Usuario no encontrado";
     return $message;
+  }
+
+  public function createNewUser($nombre_de_usuario, $email, $password) {
+    var_dump($nombre_de_usuario, $email, $password);
+    $sql = "insert into Usuario (nombre_de_usuario, email, password) values ('$nombre_de_usuario', '$email', '$password')";
+    $insertUser = $this->database->exec($sql);
+    
+    var_dump($insertUser);die();
   }
 }

@@ -42,5 +42,14 @@ class Controller_Main extends Controller
 		}
 		
 		$this->view->generate('view_home.php', 'template_home.php', $data);
-	}
+    }
+    
+    function register () {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $nombre_de_usuario = $_POST['nombre_de_usuario'];
+
+        $result = $this->usuario->createNewUser($nombre_de_usuario, $email, $password);
+
+    }
 }
