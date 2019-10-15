@@ -7,8 +7,10 @@ class Usuario
   private $nombre_de_usuario;
   private $email;
   private $password;
+  
 
   public function __construct() {
+    $this->path = Path::getInstance("config/path.ini");
     $this->database = new Database();
   }
 
@@ -69,10 +71,13 @@ class Usuario
   }
 
   public function createNewUser($nombre_de_usuario, $email, $password) {
-    var_dump($nombre_de_usuario, $email, $password);
-    $sql = "insert into Usuario (nombre_de_usuario, email, password) values ('$nombre_de_usuario', '$email', '$password')";
+    // le agrego el rol porque en la base esta con la condicion de que no puede ser null
+    $sql = "insert into Usuario (nombre_de_usuario, email, password, rol) values ('$nombre_de_usuario', '$email', '$password', 'x')";
     $insertUser = $this->database->exec($sql);
-    
-    var_dump($insertUser);die();
+    $insertUser = $this->database->get_affected_rows();
+    $this->getUserByMail($email, $password);
+    // esto redirecciona
+    $link =  "location:" . $this->path->getEvent('main', '');
+    header($link);
   }
 }
