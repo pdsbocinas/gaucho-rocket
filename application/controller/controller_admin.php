@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Centros extends Controller {
+class Controller_Admin extends Controller {
 
   private $path;
   private $view;
