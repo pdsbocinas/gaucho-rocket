@@ -17,7 +17,15 @@ class Controller_Admin extends Controller {
     $this->view->generate('login_view.php', 'template_login.php');
   }
 
-  function crear () {
+  function crearCentro () {
+    echo "hola!!!";
+  }
+
+  function verTodosLosCentros () {
+    echo "hola!!!";
+  }
+
+  function modificarCentros () {
     echo "hola!!!";
   }
 }
