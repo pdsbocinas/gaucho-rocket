@@ -19,7 +19,7 @@ class Controller_Viajes extends Controller{
         $this->view->generate('login_view.php', 'template_login.php');
     }
 
-    function buscarViajesPorKeyword ($keyword) {
+    function buscar ($keyword) {
         // llega el GET del frontend
         // del front en el action se llama de esta forma: $path->getEvent('viajes', 'buscarPorPalabra');
         // otra opcion es hacer una peticion con AJAX cosa de mandar a la url algo mas copado tipo /?keyword=palabra-buscada
