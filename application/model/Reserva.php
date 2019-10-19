@@ -4,6 +4,7 @@
     private $path;
     private $database;
 
+    // se debe autogenerar un codigo
     private $codigo;
     private $fecha;
 
