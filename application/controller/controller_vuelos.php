@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Viajes extends Controller{
+class Controller_Vuelos extends Controller{
 
     private $path;
     private $view;
@@ -17,6 +17,10 @@ class Controller_Viajes extends Controller{
 
     function index(){
         $this->view->generate('login_view.php', 'template_login.php');
+    }
+
+    function obtenerTodoslosVuelos () {
+
     }
 
     function buscar ($keyword) {

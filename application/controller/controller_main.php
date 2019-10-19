@@ -16,7 +16,8 @@ class Controller_Main extends Controller
 	}
 
 	function index() {
-		$this->view->generate('view_home.php', 'template_home.php');
+		$data = $this->path->getEvent('viajes', 'obtenerTodoslosVuelos');
+		$this->view->generate('view_home.php', 'template_home.php', $data);
 	}
 
 	function home () {
@@ -37,19 +38,18 @@ class Controller_Main extends Controller
 		} else {
 			$data = $result;
 			session_start();
-            session_destroy();
-            $this->index();
+			session_destroy();
+			$this->index();
 		}
 		
 		$this->view->generate('view_home.php', 'template_home.php', $data);
-    }
+  }
     
-    function register () {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $nombre_de_usuario = $_POST['nombre_de_usuario'];
+	function register () {
+			$email = $_POST['email'];
+			$password = $_POST['password'];
+			$nombre_de_usuario = $_POST['nombre_de_usuario'];
 
-        $result = $this->usuario->createNewUser($nombre_de_usuario, $email, $password);
-
-    }
+			$result = $this->usuario->createNewUser($nombre_de_usuario, $email, $password);
+	}
 }
