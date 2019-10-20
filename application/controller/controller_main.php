@@ -6,17 +6,22 @@ class Controller_Main extends Controller
 	private $path;
 	private $view;
 	private $usuario;
+	private $vuelo;
 
 	public function __construct() {
 		// Incluyo todos los modelos a utilizar
 		$this->path = Path::getInstance("config/path.ini");
 		require_once($this->path->getPage("model", "Usuario.php"));
+		require_once($this->path->getPage("model", "Vuelo.php"));
 		$this->usuario = new Usuario();
+		$this->vuelo = new Vuelo();
 		$this->view = new View();
 	}
 
 	function index() {
-		$data = $this->path->getEvent('viajes', 'obtenerTodoslosVuelos');
+		$url = $this->path->getEvent('vuelos', 'obtenerTodoslosVuelos');
+		$result = file_get_contents($url);
+		$data = json_decode($result, true);
 		$this->view->generate('view_home.php', 'template_home.php', $data);
 	}
 

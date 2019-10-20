@@ -37,4 +37,11 @@ class Vuelo
     // echo json_encode($result);
   }
 
+  function obtenerTodoslosVuelos () {
+    $sql = "select * from Vuelo";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($result);
+  }
+
 }
