@@ -15,7 +15,7 @@ class Controller_Vuelos extends Controller{
         $this->view = new View();
     }
 
-    function index(){
+    function index () {
         $this->view->generate('view_home.php', 'template_home.php');
     }
 

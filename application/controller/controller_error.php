@@ -6,6 +6,7 @@ class Controller_Error extends Controller{
     }
 
     function error404(){
-        $this->view->generateErrorView('error404_view.php');
+        echo "error";
+        //$this->view->generateErrorView('error404_view.php');
     }
 }

@@ -44,4 +44,18 @@ class Vuelo
     echo json_encode($result);
   }
 
+  function obtenerVueloPorId ($id) {
+    $sql = "select v.titulo, v.precio, v.fecha_salida, v.fecha_llegada, 
+    o.destino as origen, d.destino as destino, t.cantidad_de_dias, t.porcentaje, e.descripcion
+    from Vuelo v
+    inner join Destino o on v.origen_id = o.id
+    inner join Destino d on v.destino_id = d.id
+    inner join Tarifa t on v.tarifa_id = t.id
+    inner join Equipo e on v.equipo_id = e.id
+    where v.id = '$id'";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    return json_encode($result);
+  }
+
 }
