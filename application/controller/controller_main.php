@@ -36,6 +36,8 @@ class Controller_Main extends Controller
 			$this->usuario->setNombre($fila['nombre_de_usuario']);
 			$_SESSION['nombre_de_usuario'] = $this->usuario->getNombre();
 			$_SESSION['email'] = $this->usuario->getEmail();
+			$_SESSION['userId'] = $this->usuario->getId();
+
 		}
 
 		if (is_array($array)) {
@@ -46,7 +48,8 @@ class Controller_Main extends Controller
 			session_destroy();
 			$this->index();
 		}
-		
+		$link =  "location:" . $this->path->getEvent('main', 'index');
+    header($link);
 		$this->view->generate('view_home.php', 'template_home.php', $data);
   }
     

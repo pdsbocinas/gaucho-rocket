@@ -4,6 +4,7 @@ class Usuario
 {
 
   private $database;
+  private $id;
   private $nombre_de_usuario;
   private $email;
   private $password;
@@ -22,6 +23,14 @@ class Usuario
 
   public function setNombre($nombre_de_usuario) {
     $this->nombre_de_usuario = $nombre_de_usuario;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+
+  public function setId($id){
+    $this->id = $id;
   }
 
   public function getEmail() {

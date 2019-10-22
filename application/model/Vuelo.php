@@ -45,8 +45,8 @@ class Vuelo
   }
 
   function obtenerVueloPorId ($id) {
-    $sql = "select v.titulo, v.precio, v.fecha_salida, v.fecha_llegada, 
-    o.destino as origen, d.destino as destino, t.cantidad_de_dias, t.porcentaje, e.descripcion
+    $sql = "select v.id, v.titulo, v.precio, v.fecha_salida, v.fecha_llegada, v.descripcion as vueloDescripcion,
+    o.destino as origen, d.destino as destino, t.cantidad_de_dias, t.porcentaje, e.descripcion as equipoDescripcion
     from Vuelo v
     inner join Destino o on v.origen_id = o.id
     inner join Destino d on v.destino_id = d.id
@@ -55,7 +55,7 @@ class Vuelo
     where v.id = '$id'";
     $query = $this->database->query($sql);
     $result = $query->fetch_all(MYSQLI_ASSOC);
-    return json_encode($result);
+    return $result;
   }
 
 }

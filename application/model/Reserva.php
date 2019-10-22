@@ -27,6 +27,16 @@
       $this->path = Path::getInstance("config/path.ini");
       $this->database = new Database();
     }
+
+    function crearReserva($userEmail, $vueloId) {
+      $currentTime = date('Y-m-d H:i:s');
+      $sql = "insert into Reserva (codigo, fecha, vuelo_id, cabina_id, servicio_id, usuario_id, precio_final) 
+      values ('fse4634b', '$currentTime', '$vueloId', 1, 1, 1, 123456)";
+      $insertReserva = $this->database->exec($sql);
+      $insertReserva = $this->database->get_affected_rows();
+      $link =  "location:" . $this->path->getEvent('main', '');
+      header($link);
+    }
   }
   
 ?>
