@@ -9,7 +9,7 @@
     <?php
       if ($_SESSION['rol'] == 'admin') {
         echo "<li class='nav-item active'>";
-        echo "<a class='nav-link' href='#'>Admin</a>";
+        echo "<a class='nav-link' href=" . $path->getEvent('admin', 'index') . ">Admin</a>";
         echo "</li>";
       }
     ?>

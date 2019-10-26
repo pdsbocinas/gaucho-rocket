@@ -26,7 +26,6 @@ class Controller_Reservas extends Controller{
   }
 
   function confirm () {
-    //var_dump($_SESSION['email'], $_POST['id']);
     $vueloId = $_POST['id'];
     $userEmail = $_SESSION['email'];
     $data = $this->reserva->crearReserva($userEmail, $vueloId);

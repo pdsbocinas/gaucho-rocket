@@ -5,4 +5,9 @@
     <p class="card-text"><?php echo $fila['descripcion'] ?></p>
     <a href="reservas?id=<?php echo $fila['id'] ?>" class="btn btn-primary">Reserva</a>
   </div>
+  <?php 
+    if ($_SESSION['rol'] == "admin") {
+      echo "<p>Editar</p>";
+    }
+  ?>
 </div>

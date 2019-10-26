@@ -19,9 +19,8 @@ class Controller_Main extends Controller
 	}
 
 	function index() {
-		$url = $this->path->getEvent('vuelos', 'obtenerTodoslosVuelos');
-		$result = file_get_contents($url);
-		$data = json_decode($result, true);
+    $result = $this->vuelo->obtenerTodoslosVuelos();
+    $data = json_decode($result, true);
 		$this->view->generate('view_home.php', 'template_home.php', $data);
 	}
 
