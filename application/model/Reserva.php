@@ -30,8 +30,9 @@
 
     function crearReserva($userEmail, $vueloId) {
       $currentTime = date('Y-m-d H:i:s');
+      $result = md5($userEmail);
       $sql = "insert into Reserva (codigo, fecha, vuelo_id, cabina_id, servicio_id, usuario_id, precio_final) 
-      values ('fse4634b', '$currentTime', '$vueloId', 1, 1, 1, 123456)";
+      values ('$result', '$currentTime', '$vueloId', 1, 1, 1, 123456)";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
       $link =  "location:" . $this->path->getEvent('main', '');

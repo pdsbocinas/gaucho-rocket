@@ -49,6 +49,14 @@ class Usuario
     $this->password = $password;
   }
 
+  public function getRol() {
+    return $this->rol;
+  }
+
+  public function setRol($rol){
+    $this->rol = $rol;
+  }
+
   public function getAllUsers() {
     $sql = "select * from Usuario";
     $query = $this->database->query($sql);

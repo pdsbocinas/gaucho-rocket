@@ -34,10 +34,11 @@ class Controller_Main extends Controller
 		foreach ($array as $fila) {
 			$this->usuario->setEmail($fila['email']);
 			$this->usuario->setNombre($fila['nombre_de_usuario']);
+			$this->usuario->setRol($fila['rol']);
 			$_SESSION['nombre_de_usuario'] = $this->usuario->getNombre();
 			$_SESSION['email'] = $this->usuario->getEmail();
 			$_SESSION['userId'] = $this->usuario->getId();
-
+			$_SESSION['rol'] = $this->usuario->getRol();
 		}
 
 		if (is_array($array)) {
