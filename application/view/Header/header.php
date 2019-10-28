@@ -12,6 +12,9 @@
         echo "<a class='nav-link' href=" . $path->getEvent('admin', 'index') . ">Admin</a>";
         echo "</li>";
       }
+      if (!isset($_SESSION['rol'])) {
+        echo "<a class='nav-link'>user</a>";
+      }
     ?>
     </ul>
     <div class="nav-item dropdown">
