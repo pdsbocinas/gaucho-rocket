@@ -1,3 +1,23 @@
+drop database gauchorocket;
+create database gauchorocket;
+use gauchorocket;
+
+create table centroMedico(
+							id int primary key not null,
+                            nombre varchar(60),
+                            ubicacion varchar(60)
+							);
+                            
+insert into centroMedico(id,nombre,ubicacion)
+				values	(1,'Santa Rosa','Buenos Aires'),
+						(2,'Los Cedros','Cordoba'),
+                        (3,'Ferreti','Santa Fe');
+                        
+select * from centroMedico;
+
+
+
+
 CREATE TABLE Cabina (
   id int(11) NOT NULL,
   descripcion varchar(255) DEFAULT NULL,
@@ -118,11 +138,10 @@ ALTER TABLE Reserva
   ADD PRIMARY KEY (cabina_id);
 
 ALTER TABLE Reserva
-  ADD PRIMARY KEY (id);
-
+  ADD PRIMARY KEY (id),  
   ADD KEY vuelo_id (vuelo_id),
   ADD KEY cabina_id (cabina_id),
-  ADD KEY servicio_id (servicio_id),
+  ADD KEY servicio_id (servicio_id);
 
 --
 -- Indices de la tabla Servicio
@@ -226,3 +245,5 @@ ALTER TABLE Vuelo
   ADD CONSTRAINT vuelo_ibfk_2 FOREIGN KEY (destino_id) REFERENCES Destino (id),
   ADD CONSTRAINT vuelo_ibfk_3 FOREIGN KEY (tarifa_id) REFERENCES Tarifa (id),
   ADD CONSTRAINT vuelo_ibfk_4 FOREIGN KEY (equipo_id) REFERENCES Equipo (id);
+  
+  
