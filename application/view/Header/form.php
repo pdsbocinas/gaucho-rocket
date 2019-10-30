@@ -1,4 +1,4 @@
-<form action='<?php echo $path->getEvent('main', 'home'); ?>' method='POST'>
+<form action='<?php echo $path->getEvent('main', 'login'); ?>' method='POST'>
   <div class="form-group">
     <label><b>Usuario</b></label>
     <input type="email" class="form-control" pattern='(?!^\d+$)^.+$' placeholder='Ingrese su Usuario' name='email' required>
