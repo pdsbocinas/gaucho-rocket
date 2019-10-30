@@ -34,6 +34,17 @@ class Controller_Admin extends Controller {
     $this->view->generate('Admin/view_admin_centros.php', 'template_admin.php', $data);
   }
 
+
+  function editarCentro(){
+
+    $this->view->generate('Admin/view_admin_editar_centros.php', 'template_admin.php');
+  }
+
+  function altaCentro(){
+
+    $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php');
+  }
+
   function crearCentro () {
     echo "hola!!!";
   }

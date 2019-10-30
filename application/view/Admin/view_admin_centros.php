@@ -5,4 +5,4 @@
     }
     ?>  
 </div>
-<button class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Agregar Centro</button>
+<a href="<?php echo $path->getEvent('admin', 'altaCentro'); ?>" class="btn btn-primary stretched-link">Nuevo Centro</a>

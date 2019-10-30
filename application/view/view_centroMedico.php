@@ -5,6 +5,5 @@
       include($path->getPage("view", "components/card_centros.php"));
     }
   ?>
-  <h1>Centros medicos vista </h1>
 </div>
 

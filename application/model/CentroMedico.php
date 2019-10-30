@@ -19,4 +19,14 @@ class CentroMedico
 
     }
 
+    public function obtenerCentroPorId($id){
+        $sql = "select * from centroMedico where id=$id";
+        $query = $this->database->query($sql);
+        $result = $query->fetch_all(MYSQLI_ASSOC);
+        return json_encode($result);
+    }
+    public function editarCentroMedico(){
+        
+    }
+
 }
