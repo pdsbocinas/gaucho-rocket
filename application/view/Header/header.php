@@ -24,7 +24,9 @@
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <?php
         if (isset($_SESSION['nombre_de_usuario'])) {
-          echo "Bienvenido:" . $_SESSION['nombre_de_usuario'] . "";
+          echo "Bienvenido:" . $_SESSION['nombre_de_usuario'] . "<br>";
+          echo "<a href="  . $path->getEvent('micuenta', 'reservas') . ">Mis reservas</a><br>";
+          echo "<a href="  . $path->getEvent('micuenta', 'examenes') . ">Mi examenes</a><br>";
         } else {
           include("form.php");
           echo "<p>" . $data . "</p>";

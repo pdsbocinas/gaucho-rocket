@@ -35,8 +35,7 @@
       values ('$result', '$currentTime', '$vueloId', 1, 1, 1, 123456)";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
-      $link =  "location:" . $this->path->getEvent('main', '');
-      header($link);
+      return $insertReserva;
     }
   }
   

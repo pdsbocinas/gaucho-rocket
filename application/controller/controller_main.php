@@ -31,7 +31,7 @@ class Controller_Main extends Controller
 
 	function index() {
     $result = $this->vuelo->obtenerTodoslosVuelos();
-    $data = json_decode($result, true);
+		$data = json_decode($result, true);
 		$this->view->generate('view_home.php', 'template_home.php', $data);
 	}
 
@@ -43,13 +43,17 @@ class Controller_Main extends Controller
 		$array = json_decode($result, true);
 
 		foreach ($array as $fila) {
+			$this->usuario->setId($fila['id']);
 			$this->usuario->setEmail($fila['email']);
 			$this->usuario->setNombre($fila['nombre_de_usuario']);
 			$this->usuario->setRol($fila['rol']);
+			$this->usuario->setNivel($fila['nivel']);
+			$_SESSION['id'] = $this->usuario->getId();
 			$_SESSION['nombre_de_usuario'] = $this->usuario->getNombre();
 			$_SESSION['email'] = $this->usuario->getEmail();
 			$_SESSION['userId'] = $this->usuario->getId();
 			$_SESSION['rol'] = $this->usuario->getRol();
+			$_SESSION['nivel'] = $this->usuario->getNivel();
 		}
 		
 		if (is_array($array)) {

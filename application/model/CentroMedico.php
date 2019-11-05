@@ -12,10 +12,10 @@ class CentroMedico
         }
 
     public function obtenerTodosLosCentrosMedicos(){
-            $sql = "select * from centroMedico";
-            $query = $this->database->query($sql);
-            $result = $query->fetch_all(MYSQLI_ASSOC);
-            return json_encode($result);
+        $sql = "select * from centroMedico";
+        $query = $this->database->query($sql);
+        $result = $query->fetch_all(MYSQLI_ASSOC);
+        return json_encode($result);
 
     }
 

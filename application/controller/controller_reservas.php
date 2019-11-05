@@ -28,7 +28,13 @@ class Controller_Reservas extends Controller{
   function confirm () {
     $vueloId = $_POST['id'];
     $userEmail = $_SESSION['email'];
-    $data = $this->reserva->crearReserva($userEmail, $vueloId);
+    $userNivel = $_SESSION['nivel'];
+    if (is_null($userNivel)) {
+      $data = "por favor hagase el estudio medico para reservar";
+      $this->view->generate('view_detalle_reserva.php', 'template_home.php', $data);
+    } else {
+      $data = $this->reserva->crearReserva($userEmail, $vueloId);
+    }
   }
 }
 
