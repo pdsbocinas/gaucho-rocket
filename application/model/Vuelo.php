@@ -58,4 +58,11 @@ class Vuelo
     return $result;
   }
 
+  function obtenerVuelosPorTipoDeVuelo ($equipo_id) {
+    $sql = "select * from Vuelo where equipo_id = '$equipo_id'";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    return json_encode($result);
+  }
+
 }
