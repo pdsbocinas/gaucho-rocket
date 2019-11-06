@@ -1,5 +1,5 @@
 
-<form action="" method="GET"
+<form action="vista_prueba_alta.php" method="GET"
   <div class="form-group">
     <label for="nro">Numero</label>
     <input type="number" class="form-control" name ="nro" id="nro" aria-describedby="emailHelp" placeholder="numero de Centro">

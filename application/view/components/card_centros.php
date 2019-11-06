@@ -18,7 +18,6 @@
         
         $link= $path->getEvent('admin','editarCentro');
         echo"<a href='$link'>Editar</a>";
-        
         //echo "<button type='submit'class='btn btn-link'><a href='$link'>Editar</a></button>";
       }
       ?>

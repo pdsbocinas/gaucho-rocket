@@ -12,7 +12,10 @@ insert into centroMedico(id,nombre,ubicacion)
 				values	(1,'Santa Rosa','Buenos Aires'),
 						(2,'Los Cedros','Cordoba'),
                         (3,'Ferreti','Santa Fe');
-                        
+--        UPDATE centroMedico
+--          SET id = 4, nombre = "la casa da Ann",ubicacion = "la matanza"
+--        	WHERE id=1;
+                    
 select * from centroMedico;
 
 
@@ -118,6 +121,8 @@ CREATE TABLE Vuelo (
 
 INSERT INTO Vuelo (id, titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, equipo_id, descripcion) VALUES
 (1, 'Vuelo a la luna', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo');
+-- (2, 'Marte', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo'),
+-- (3, 'Vuelo a todo el sistema solar', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'Nos vimo en disney');
 
 ALTER TABLE Cabina
   ADD PRIMARY KEY (id);

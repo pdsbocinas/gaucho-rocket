@@ -6,7 +6,7 @@
     <a href="reservas?id=<?php echo $fila['id'] ?>" class="btn btn-primary">Reserva</a>
   </div>
   <?php 
-    if ($_SESSION['rol'] == "admin") {
+    if (isset($_SESSION['rol']) && $_SESSION['rol'] == "admin") {
       echo "<p>Editar</p>";
     }
   ?>

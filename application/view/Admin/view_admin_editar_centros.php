@@ -6,7 +6,7 @@
     }
   ?>
 
- <form action="'<?php echo $path->getEvent('admin', 'editarCentro'); ?>'">
+ <form action="<?php echo $path->getEvent('admin', 'exito');?>">
    <div class="form-group">
      <label for="nro">Numero</label>
      <input type="number" class="form-control" name ="nro" id="nro"  value="<?php echo $fila['id']?>" aria-describedby="emailHelp" placeholder="numero de Centro">
@@ -20,4 +20,5 @@
      <input type="text" name="ubicacion" class="form-control" id="ubicacion" value="<?php echo $fila['ubicacion']?>" placeholder="ubicacion">
    </div>
    <button type="submit" class="btn btn-primary">Editar/Guardar</button>
+   
  </form>
