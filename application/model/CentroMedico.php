@@ -25,8 +25,12 @@ class CentroMedico
         $result = $query->fetch_all(MYSQLI_ASSOC);
         return json_encode($result);
     }
-    public function editarCentroMedico(){
+    // public function editarCentroMedico($id){
         
-    }
+    //         $sql = "select * from id = '$id'";
+    //         $query = $this->database->query($sql);
+    //         $result = $query->fetch_all(MYSQLI_ASSOC);
+    //         return $result;
+    // }
 
 }

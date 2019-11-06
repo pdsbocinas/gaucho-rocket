@@ -1,5 +1,5 @@
 
-<form >
+<form action="" method="GET"
   <div class="form-group">
     <label for="nro">Numero</label>
     <input type="number" class="form-control" name ="nro" id="nro" aria-describedby="emailHelp" placeholder="numero de Centro">
@@ -12,5 +12,6 @@
     <label for="exampleInputPassword1">Ubicacion</label>
     <input type="password" name="ubicacion" class="form-control" id="ubicacion" placeholder="ubicacion">
   </div>
-  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="">EDITAR </a>
+ 
 </form>

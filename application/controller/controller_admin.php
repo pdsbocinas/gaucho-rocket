@@ -6,7 +6,8 @@ class Controller_Admin extends Controller {
   private $view;
   private $vuelo;
   private $centroMedico;
-
+  
+  
   function __construct() {
     // Incluyo todos los modelos a utilizar
     $this->path = Path::getInstance("config/path.ini");
@@ -17,7 +18,7 @@ class Controller_Admin extends Controller {
     $this->view = new View();
     $this->centroMedico= new CentroMedico();
   }
-
+  
   function index () {
     $this->view->generate('Admin/view_admin.php', 'template_home.php');
   }
@@ -34,16 +35,21 @@ class Controller_Admin extends Controller {
     $this->view->generate('Admin/view_admin_centros.php', 'template_admin.php', $data);
   }
 
-
+  
   function editarCentro(){
-
-    $this->view->generate('Admin/view_admin_editar_centros.php', 'template_admin.php');
+    //$id=CentroMedico['id'];
+    var_dump($id);
+    // var_dump($nombre);
+    // var_dump($descripcion);
+     $result = $this->centroMedico->obtenerCentroPorId($id);
+     $data = json_decode($result, true);
+    $this->view->generate('Admin/view_admin_editar_centros.php', 'template_admin.php',$data);
   }
 
-  function altaCentro(){
-
-    $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php');
-  }
+  // function altaCentro(){
+    
+  //   $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php',$data);
+  // }
 
   function crearCentro () {
     echo "hola!!!";

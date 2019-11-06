@@ -1,10 +1,5 @@
 <?php
 
-// $centros=new CentroMedico();
-// $datos=$centros->obtenerTodosLosCentrosMedicos();
-
-
-
 class Controller_CentroMedicos extends Controller
 {
     private $path;
@@ -26,5 +21,12 @@ class Controller_CentroMedicos extends Controller
     function obtenerTodosLosCentrosMedicos () {
         $data = $this->centroMedico->obtenerTodosLosCentrosMedicos();
         return $data;
+    }
+
+    function altaCentro(){
+        $id=$_GET['id'];
+        $data = $this->centroMedico->obtenerCentroPorId($id);
+        return $data;
+       
     }
 }

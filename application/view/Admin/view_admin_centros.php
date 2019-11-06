@@ -1,3 +1,4 @@
+<a href="" class="btn btn-primary stretched-link">Nuevo Centro</a>
 <div class="container">
   <?php
     foreach ($data as $fila) {
@@ -5,4 +6,3 @@
     }
     ?>  
 </div>
-<a href="<?php echo $path->getEvent('admin', 'altaCentro'); ?>" class="btn btn-primary stretched-link">Nuevo Centro</a>
