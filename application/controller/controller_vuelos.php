@@ -30,4 +30,13 @@ class Controller_Vuelos extends Controller{
     echo $data;
   }
 
+  function obtenerVuelosPorDestinoFechas () {
+    $desde = $_POST['desde'];
+    $hasta = $_POST['hasta'];
+    $origen_id = $_POST['origen_id'];
+    $destino_id = $_POST['destino_id'];
+    $data = $this->vuelo->obtenerVuelosPorDestinoFechas($origen_id, $destino_id, $desde, $hasta);
+    echo $data;
+  }
+
 }

@@ -1,30 +1,30 @@
 <div class="container-fluid">
   <div class="row">
-    <form class="d-flex align-items-center" method="post">
+    <form class="d-flex align-items-center" method="post" app>
       <div class="col-md-4 col-sm-4">
         <label>Origen:</label>
-        <select class="form-control">
-          <option value="buenos-aires">Buenos Aires</option>
-          <option value="ankara">Ankara</option>
+        <select class="form-control origen">
+          <option value="1">Buenos Aires</option>
+          <option value="2">Ankara</option>
         </select>
       </div>
       <div class="col-md-4 col-sm-4">
         <label>Destinos:</label>
-        <select class="form-control">
-          <option value="marte">Marte</option>
-          <option value="luna">Luna</option>
+        <select class="form-control destino">
+          <option value="1">Marte</option>
+          <option value="2">Luna</option>
         </select>
       </div>
       <div class="col-md-4 col-sm-4"> <!-- Date input -->
         <label class="control-label" for="date">Date</label>
-        <input class="form-control" id="date" name="date_from" placeholder="MM/DD/YYY" value="2019-01-01" type="text"/>
+        <input class="form-control" id="date_desde" name="date_from" placeholder="MM/DD/YYY" value="" type="date"/>
       </div>
       <div class="col-md-4 col-sm-4"> <!-- Date input -->
         <label class="control-label" for="date">Date</label>
-        <input class="form-control" id="date" name="date_end" placeholder="MM/DD/YYY" value="2019-02-02" type="text"/>
+        <input class="form-control" id="date_hasta" name="date_end" placeholder="MM/DD/YYY" value="" type="date"/>
       </div>
       <div class="align-self-end mb-0 form-group"> <!-- Submit button -->
-        <button class="btn btn-primary " name="submit" type="submit">Submit</button>
+        <button class="btn btn-primary submit" name="submit">Submit</button>
       </div>
     </form>
   </div>
@@ -78,15 +78,59 @@
     $('.tipoVuelo').on('click', function(e) {
       obtenerVuelosPorTipo(this);
     })
+
+    $('.submit').on('click', function(e) {
+      e.preventDefault();
+      obtenerVuelosPorFecha(this);
+    })
   });
+
+  function obtenerVuelosPorFecha (obj) {
+    const origen_id = $('.origen').val();
+    const destino_id = $('.destino').val();
+    const desde = $('#date_desde').val();
+    const hasta = $('#date_hasta').val();
+
+    const data = {
+      origen_id,
+      destino_id,
+      desde,
+      hasta,
+    }
+    console.log(data)
+    $.ajax({
+      type: "POST",
+      url: "<?php echo $path->getEvent('vuelos', 'obtenerVuelosPorDestinoFechas') ?>",
+      data: data,
+      success: function(response) {
+        const jsonResponse = JSON.parse(response);
+        const notFound = `<p>No se encontro ningun vuelo</p>`;
+        if (jsonResponse.length === 0) {
+          $('.server').remove();
+          return $("#vuelos").html(notFound);
+        }
+        const html = jsonResponse.map(function(vuelo){
+          return (
+            `<div class='card' style='width: 18rem'>
+            <img src='https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg' class='card-img-top'>
+            <div class='card-body'>
+              <h5 class='card-title'> ${vuelo.titulo} </h5>
+              <p class='card-text'> ${vuelo.descripcion} </p>
+              <a href='' class='btn btn-primary'>Reserva</a>
+            </div>`
+          )})
+        $('.server').remove();
+        $("#vuelos").html(html)
+      }
+    })
+  }
 
   function obtenerVuelosPorTipo(obj) {
     const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
     const equipoId = obj.id.match(regexOnlyNumber).shift();
-    console.log(equipoId)
     $.ajax({
       type: "POST",
-      url: "http://localhost:8888/gaucho-rocket/vuelos/obtenerVuelosPorTipoDeVuelo",
+      url: "<?php echo $path->getEvent('vuelos', 'obtenerVuelosPorTipoDeVuelo') ?>",
       data: { equipo_id: equipoId },
       success: function(response) {
         const jsonResponse = JSON.parse(response);

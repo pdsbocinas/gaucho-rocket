@@ -65,4 +65,11 @@ class Vuelo
     return json_encode($result);
   }
 
+  function obtenerVuelosPorDestinoFechas ($origen_id, $destino_id, $desde, $hasta) {
+    $sql = "select * from Vuelo where origen_id = '$origen_id' and destino_id = '$destino_id' and fecha_salida >= '$desde' and fecha_llegada <= '$hasta'";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    return json_encode($result);
+  }
+
 }
