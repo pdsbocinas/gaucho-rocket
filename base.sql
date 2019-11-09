@@ -23,13 +23,13 @@ select * from centroMedico;
 
 
 CREATE TABLE Cabina (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL primary key,
   descripcion varchar(255) DEFAULT NULL,
   porcentaje int(255) NOT NULL
 );
 
 CREATE TABLE Usuario (
-  nombre_de_usuario varchar(255) NOT NULL,
+  nombre_de_usuario varchar(255) NOT NULL primary key,
   email varchar(255) NOT NULL,
   password varchar(255) NOT NULL,
   rol varchar(255) NOT NULL,
@@ -47,7 +47,7 @@ INSERT INTO Cabina (id, descripcion, porcentaje) VALUES
 (4, 'suite', 12);
 
 CREATE TABLE Destino (
-  id int(255) NOT NULL,
+  id int(255) NOT NULL /*AUTO_INCREMENT*/ primary key,
   destino varchar(255) DEFAULT NULL
 );
 
@@ -58,7 +58,7 @@ INSERT INTO Destino (id, destino) VALUES
 
 
 CREATE TABLE Equipo (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL primary key,
   descripcion varchar(255) NOT NULL
 );
 
@@ -68,7 +68,7 @@ INSERT INTO Equipo (id, descripcion) VALUES
 (3, 'alta aceleracion');
 
 CREATE TABLE Reserva (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL primary key,
   codigo varchar(255) DEFAULT NULL,
   fecha timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   vuelo_id int(11) NOT NULL,
@@ -86,7 +86,7 @@ INSERT INTO Reserva (id, codigo, fecha, vuelo_id, cabina_id, servicio_id, usuari
 (11, '3b05c626688e7f68336dad4e43fb7ee3', '2019-10-25 20:54:54', 1, 1, 1, 1, 123456);
 
 CREATE TABLE Servicio (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL primary key,
   descripcion varchar(255) NOT NULL,
   porcentaje int(11) NOT NULL
 );
@@ -97,7 +97,7 @@ INSERT INTO Servicio (id, descripcion, porcentaje) VALUES
 
 
 CREATE TABLE Tarifa (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL primary key,
   cantidad_de_dias int(11) NOT NULL,
   porcentaje int(11) NOT NULL
 );
@@ -108,7 +108,7 @@ INSERT INTO Tarifa (id, cantidad_de_dias, porcentaje) VALUES
 (2, 10, 15);
 
 CREATE TABLE Vuelo (
-  id int(11) NOT NULL,
+  id int(11) NOT NULL AUTO_INCREMENT primary key,
   titulo varchar(255) DEFAULT NULL,
   precio int(11) DEFAULT NULL,
   fecha_salida date DEFAULT NULL,
@@ -121,17 +121,18 @@ CREATE TABLE Vuelo (
 );
 
 INSERT INTO Vuelo (id, titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, equipo_id, descripcion) VALUES
-(1, 'Vuelo a la luna', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo');
--- (2, 'Marte', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo'),
--- (3, 'Vuelo a todo el sistema solar', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'Nos vimo en disney');
+(1, 'Vuelo a la luna', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo'),
+ (2, 'Marte', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo'),
+ (3, 'Vuelo a todo el sistema solar', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'Nos vimo en disney');
 
-ALTER TABLE Cabina
-  ADD PRIMARY KEY (id);
 
-ALTER TABLE Destino
-  ADD PRIMARY KEY (id);
+-- ALTER TABLE Cabina
+-- ADD PRIMARY KEY (id);
 
-ALTER TABLE Equipo
+-- ALTER TABLE Destino
+-- ADD PRIMARY KEY (id);
+
+/*ALTER TABLE Equipo
   ADD PRIMARY KEY (id);
 
 ALTER TABLE Reserva
@@ -142,9 +143,9 @@ ALTER TABLE Usuario
 
 ALTER TABLE Reserva
   ADD PRIMARY KEY (cabina_id);
-
+*/
 ALTER TABLE Reserva
-  ADD PRIMARY KEY (id),  
+  -- ADD PRIMARY KEY (id),  
   ADD KEY vuelo_id (vuelo_id),
   ADD KEY cabina_id (cabina_id),
   ADD KEY servicio_id (servicio_id);
@@ -152,26 +153,26 @@ ALTER TABLE Reserva
 --
 -- Indices de la tabla Servicio
 --
-ALTER TABLE Servicio
-  ADD PRIMARY KEY (id);
+-- ALTER TABLE Servicio
+-- ADD PRIMARY KEY (id);
 
 --
 -- Indices de la tabla Tarifa
 --
-ALTER TABLE Tarifa
-  ADD PRIMARY KEY (id);
+-- ALTER TABLE Tarifa
+--  ADD PRIMARY KEY (id);
 
 --
 -- Indices de la tabla Usuario
 --
-ALTER TABLE Usuario
-  ADD PRIMARY KEY (id);
+-- ALTER TABLE Usuario
+-- ADD PRIMARY KEY (id);
 
 --
 -- Indices de la tabla Vuelo
 --
 ALTER TABLE Vuelo
-  ADD PRIMARY KEY (id),
+  -- ADD PRIMARY KEY (id),
   ADD KEY origen_id (origen_id),
   ADD KEY destino_id (destino_id),
   ADD KEY tarifa_id (tarifa_id),
@@ -252,4 +253,12 @@ ALTER TABLE Vuelo
   ADD CONSTRAINT vuelo_ibfk_3 FOREIGN KEY (tarifa_id) REFERENCES Tarifa (id),
   ADD CONSTRAINT vuelo_ibfk_4 FOREIGN KEY (equipo_id) REFERENCES Equipo (id);
   
-  
+  select * from vuelo;
+  select v.id, v.titulo, v.precio, v.fecha_salida, v.fecha_llegada, v.descripcion as vueloDescripcion,
+    o.destino as origen, d.destino as destino, t.cantidad_de_dias, t.porcentaje, e.descripcion as equipoDescripcion
+    from Vuelo v
+    inner join Destino o on v.origen_id = o.id
+    inner join Destino d on v.destino_id = d.id
+    inner join Tarifa t on v.tarifa_id = t.id
+    inner join Equipo e on v.equipo_id = e.id
+    where v.id = 7;

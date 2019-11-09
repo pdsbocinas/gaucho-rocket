@@ -48,15 +48,33 @@ class Controller_Admin extends Controller {
     $this->centroMedico->eliminaCentroPorId($id);
   }
 
-  function altaCentro(){
-    $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php');
+  
+   function altaVuelos(){
+    $this->view->generate('Admin/view_admin_alta_vuelos.php', 'template_admin.php');
    }
 
+   
+   function guardaVuelo(){
+    $titulo=$_GET['titulo'];
+    $precio=$_GET['precio'];
+    $fecha_salida=($_GET['fecha_salida']);
+    $fecha_llegada=($_GET['fecha_llegada']);
+    $origen_id=$_GET['origen_id'];
+    $destino_id=$_GET['destino_id'];
+    $tarifa_id=$_GET['tarifa_id'];
+    $equipo_id=$_GET['equipo_id'];
+    $descripcion=$_GET['descripcion'];
+    $this->vuelo->nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion);
+   }
+
+   function altaCentro(){
+    $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php');
+     }
   function guardaCentro(){
-    $id=$_GET['id'];
+    //$id=$_GET['id'];
     $nombre=$_GET['nombre'];
     $ubicacion=$_GET['ubicacion'];
-    $this->centroMedico->nuevoCentro($id,$nombre,$ubicacion);
+    $this->centroMedico->nuevoCentro($nombre,$ubicacion);
    }
   
   function exito(){

@@ -57,5 +57,12 @@ class Vuelo
     $result = $query->fetch_all(MYSQLI_ASSOC);
     return $result;
   }
-
+  function nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion){
+    $sql= "INSERT INTO Vuelo (id, titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, equipo_id, descripcion) 
+            VALUES   (NULL,'$titulo',$precio,'$fecha_salida', '$fecha_llegada',$origen_id, $destino_id, $tarifa_id, $equipo_id, '$descripcion');";
+    $query = $this->database->exec($sql);
+    $query = $this->database->get_affected_rows();
+    $link =  "location:" . $this->path->getEvent('admin', 'vuelos');
+    header ($link);
+  }
 }
