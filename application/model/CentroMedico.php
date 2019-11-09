@@ -25,7 +25,11 @@ class CentroMedico
         $result = $query->fetch_all(MYSQLI_ASSOC);
         return json_encode($result);
     }
-    public function editarCentroMedico(){
+    public function editarCentroMedico($user_id){
+        $sql = "update Usuario set nivel = 'rand(1, 3)' where id = '$user_id'";
+    }
+
+    public function otorgarPermisoMedico() {
         
     }
 

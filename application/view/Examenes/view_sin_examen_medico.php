@@ -21,7 +21,7 @@
       const getId = this.id.match(regexOnlyNumber).shift();
       $.ajax({
         type: "POST",
-        url: "http://localhost:8888/gaucho-rocket/micuenta/crearTurno",
+        url: "<?php echo $path->getEvent('micuenta', 'crearTurno') ?>",
         data: { centro_id: getId },
         success: function(response)
         {

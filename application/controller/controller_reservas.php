@@ -30,8 +30,7 @@ class Controller_Reservas extends Controller{
     $userEmail = $_SESSION['email'];
     $userNivel = $_SESSION['nivel'];
     if (is_null($userNivel)) {
-      $data = "por favor hagase el estudio medico para reservar";
-      $this->view->generate('view_detalle_reserva.php', 'template_home.php', $data);
+      $this->view->generate('Examenes/view_sin_estudio_hecho.php', 'template_home.php');
     } else {
       $data = $this->reserva->crearReserva($userEmail, $vueloId);
     }

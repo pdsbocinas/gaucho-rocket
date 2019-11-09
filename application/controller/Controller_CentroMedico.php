@@ -27,4 +27,9 @@ class Controller_CentroMedicos extends Controller
         $data = $this->centroMedico->obtenerTodosLosCentrosMedicos();
         return $data;
     }
+
+    function otorgarPermisoMedico () {
+        $data = $this->centroMedico->otorgarPermisoMedico();
+        return $data;
+    }
 }
