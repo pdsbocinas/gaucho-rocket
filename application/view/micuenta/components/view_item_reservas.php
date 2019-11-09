@@ -8,5 +8,5 @@
   <p class="card-text" name='ubicacion'><?php echo $fila->usuario_id ?></p>
   <p class="card-text" name='ubicacion'><?php echo $fila->precio_final ?></p>
   <p class="card-text" name='ubicacion'><?php echo $fila->pagada ?></p>
-  <a href="javascript:void(0)" id="reserva-<?php echo $fila->id ?>" class="btn btn-primary pagar">Pagar</a>
+  <a href="javascript:void(0)" id="reserva-<?php echo $fila->id ?>" class="btn <?php echo $fila->pagada == 1 ? 'btn-success disabled' : 'btn-primary pagar' ?>"><?php echo $fila->pagada == 1 ? 'Pagada' : 'Pagar' ?></a>
 </div>
