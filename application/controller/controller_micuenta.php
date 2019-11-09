@@ -46,7 +46,6 @@ class Controller_MiCuenta extends Controller{
     $id = $_SESSION['id'];
     $user = $this->usuario->obtenerNivelDelUsuario($id);
     $user = json_decode($user);
-    var_dump(is_null($_SESSION['nivel']) and is_null($user->nivel));
     if(is_null($_SESSION['nivel']) and is_null($user->nivel)) {
       $currentTime = date('Y-m-d H:i:s');
       $usuario_id = (int)$_SESSION['id'];
@@ -58,7 +57,6 @@ class Controller_MiCuenta extends Controller{
       $link =  "location:" . $this->path->getEvent('main', 'index');
       header($link);
     }
-
   }
 
 }

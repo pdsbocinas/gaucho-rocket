@@ -23,6 +23,8 @@
     // seria el valor del vuelo + el de la cabina + el del servicio
     private $precio_final;
     
+    private $pagada;
+
     public function __construct() {
       $this->path = Path::getInstance("config/path.ini");
       $this->database = new Database();
@@ -31,8 +33,8 @@
     function crearReserva($userEmail, $vueloId) {
       $currentTime = date('Y-m-d H:i:s');
       $result = md5($userEmail);
-      $sql = "insert into Reserva (codigo, fecha, vuelo_id, cabina_id, servicio_id, usuario_id, precio_final) 
-      values ('$result', '$currentTime', '$vueloId', 1, 1, 1, 123456)";
+      $sql = "insert into Reserva (codigo, fecha, vuelo_id, cabina_id, servicio_id, usuario_id, precio_final, pagada) 
+      values ('$result', '$currentTime', '$vueloId', 1, 1, 1, 123456, 0)";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
       return $insertReserva;
