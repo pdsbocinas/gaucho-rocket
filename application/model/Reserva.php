@@ -39,6 +39,20 @@
       $insertReserva = $this->database->get_affected_rows();
       return $insertReserva;
     }
+
+    function obtenerReservasPorUsuario($id) {
+      $sql = "select * from Reserva where usuario_id = '$id'";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
+
+    function pagarReserva($reserva_id) {
+      $sql = "update Reserva set pagada = 1 where id = " . $reserva_id;
+      $updateReserva = $this->database->exec($sql);
+      $updateReserva = $this->database->get_affected_rows();
+      return $updateReserva;
+    }
   }
   
 ?>
