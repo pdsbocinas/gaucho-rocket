@@ -37,33 +37,33 @@ class Controller_Admin extends Controller {
 
   
   function editarCentro(){
-    //$id=CentroMedico['id'];
-    var_dump($id);
-    // var_dump($nombre);
-    // var_dump($descripcion);
+    $id=$_GET['id'];
      $result = $this->centroMedico->obtenerCentroPorId($id);
      $data = json_decode($result, true);
     $this->view->generate('Admin/view_admin_editar_centros.php', 'template_admin.php',$data);
   }
 
+  function eliminarCentro(){
+    $id=$_GET['id'];
+    $this->centroMedico->eliminaCentroPorId($id);
+  }
+
+  function altaCentro(){
+    $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php');
+   }
+
+  function guardaCentro(){
+    $id=$_GET['id'];
+    $nombre=$_GET['nombre'];
+    $ubicacion=$_GET['ubicacion'];
+    $this->centroMedico->nuevoCentro($id,$nombre,$ubicacion);
+   }
+  
   function exito(){
-    
-    $this->view->generate('Admin/vista_prueba_alta.php', 'template_admin.php');
+    $id=$_GET['id'];
+    $nombre=$_GET['nombre'];
+    $ubicacion=$_GET['ubicacion'];
+    $this->centroMedico->actualizaCentro($id,$nombre,$ubicacion);
   }
-  // function altaCentro(){
-    
-  //   $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php',$data);
-  // }
-
-  function crearCentro () {
-    echo "hola!!!";
-  }
-
-  function verTodosLosCentros () {
-    echo "hola!!!";
-  }
-
-  function modificarCentros () {
-    echo "hola!!!";
-  }
+ 
 }

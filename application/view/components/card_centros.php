@@ -4,22 +4,13 @@
     <h5 class="card-title" name='id'><?php echo $fila['id'] ?></h5>
     <p class="card-text" name='nombre'><?php echo $fila['nombre'] ?></p>
     <p class="card-text" name='ubicacion'><?php echo $fila['ubicacion'] ?></p>
-   
-   
-   
-    <form action="" method="get">
-      <input type="hidden" name="id" value='<?php echo $fila['id'] ?>'>
-      <input type="hidden" name="nombre" value='<?php echo $fila['nombre'] ?>'>
-      <input type="hidden" name="id" value='<?php echo $fila['id'] ?>'>
-     
-    </div>
-    <?php 
-      if ($_SESSION['rol'] == "admin") {
-        
-        $link= $path->getEvent('admin','editarCentro');
-        echo"<a href='$link'>Editar</a>";
-        //echo "<button type='submit'class='btn btn-link'><a href='$link'>Editar</a></button>";
-      }
-      ?>
+  
+       <?php 
+      if ($_SESSION['rol'] == "admin") { 
+        ?>
+        <a href="<?php echo  $path->getEvent('admin','editarCentro'); ?>?id=<?php echo $fila['id'] ?>">Editar</a>     
+        <a href="<?php echo  $path->getEvent('admin','eliminarCentro'); ?>?id=<?php echo $fila['id'] ?>">Eliminar</a>
+        <?php } ?>
+      
       </form>
 </div>

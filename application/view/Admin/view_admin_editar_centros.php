@@ -6,10 +6,10 @@
     }
   ?>
 
- <form action="<?php echo $path->getEvent('admin', 'exito');?>">
+ <form action="<?php echo $path->getEvent('admin', 'exito'); ?>" method="GET">
    <div class="form-group">
      <label for="nro">Numero</label>
-     <input type="number" class="form-control" name ="nro" id="nro"  value="<?php echo $fila['id']?>" aria-describedby="emailHelp" placeholder="numero de Centro">
+     <input type="number" class="form-control" name ="id" value="<?php echo $fila['id']?>" aria-describedby="emailHelp" placeholder="numero de Centro">
    </div>
    <div class="form-group">
      <label for="exampleInputPassword1">Nombre</label>
@@ -19,6 +19,7 @@
      <label for="exampleInputPassword1">Ubicacion</label>
      <input type="text" name="ubicacion" class="form-control" id="ubicacion" value="<?php echo $fila['ubicacion']?>" placeholder="ubicacion">
    </div>
+   
    <button type="submit" class="btn btn-primary">Editar/Guardar</button>
    
  </form>

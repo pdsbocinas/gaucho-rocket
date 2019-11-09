@@ -3,7 +3,7 @@ create database gauchorocket;
 use gauchorocket;
 
 create table centroMedico(
-							id int primary key not null,
+							id int primary key not null AUTO_INCREMENT,
                             nombre varchar(60),
                             ubicacion varchar(60)
 							);
@@ -15,7 +15,8 @@ insert into centroMedico(id,nombre,ubicacion)
 --        UPDATE centroMedico
 --          SET id = 4, nombre = "la casa da Ann",ubicacion = "la matanza"
 --        	WHERE id=1;
-                    
+                
+		
 select * from centroMedico;
 
 

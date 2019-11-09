@@ -1,4 +1,11 @@
-<a href="" class="btn btn-primary stretched-link">Nuevo Centro</a>
+<div class="card" style="width: 18rem;">
+  
+  <div class="card-body">
+    <a href="<?php echo  $path->getEvent('admin','altaCentro'); ?>">alta centro</a> 
+       <!-- <a href="" class="btn btn-primary stretched-link">AGREGAR UN CENTRO</a> -->
+  </div>
+</div>
+</div>
 <div class="container">
   <?php
     foreach ($data as $fila) {
