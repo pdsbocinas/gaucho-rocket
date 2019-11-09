@@ -121,4 +121,10 @@ class Usuario
     $updateUser = $this->database->get_affected_rows();
     return $updateUser;
   }
+
+  public function obtenerNivelDelUsuario ($id) {
+    $sql = "select * from Usuario where id = '$id'";
+    $query = $this->database->query_row($sql);
+    return json_encode($query);
+  }
 }

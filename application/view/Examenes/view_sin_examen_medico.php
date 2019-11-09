@@ -23,9 +23,9 @@
         type: "POST",
         url: "<?php echo $path->getEvent('micuenta', 'crearTurno') ?>",
         data: { centro_id: getId },
-        success: function(response)
-        {
-          console.log("response",response);
+        success: function(response) {
+          var link =  "<?php echo $this->path->getEvent('micuenta', 'examenes') ?>";
+          window.location.href = link
         }
       })
     })

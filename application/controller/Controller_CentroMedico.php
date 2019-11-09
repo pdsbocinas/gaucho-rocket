@@ -28,8 +28,4 @@ class Controller_CentroMedicos extends Controller
         return $data;
     }
 
-    function otorgarPermisoMedico () {
-        $data = $this->centroMedico->otorgarPermisoMedico();
-        return $data;
-    }
 }

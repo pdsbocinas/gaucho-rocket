@@ -29,24 +29,31 @@ class Controller_MiCuenta extends Controller{
   }
 
   function examenes () {
-    //var_dump($_SESSION['nivel']);die();
-    if (is_null($_SESSION['nivel'])) {
+    $id = $_SESSION['id'];
+    $user = $this->usuario->obtenerNivelDelUsuario($id);
+    $user = json_decode($user);
+    if (is_null($_SESSION['nivel']) and is_null($user->nivel)) {
       $result = $this->centros->obtenerTodosLosCentrosMedicos();
       $data = json_decode($result, true);
       $this->view->generate('Examenes/view_sin_examen_medico.php', 'template_home.php', $data);
     } else {
-      $this->view->generate('Examenes/view_con_examen_medico.php', 'template_home.php');
+      $data = $user;
+      $this->view->generate('Examenes/view_con_examen_medico.php', 'template_home.php', $data);
     }
   }
 
   function crearTurno () {
-    if(is_null($_SESSION['nivel'])) {
+    $id = $_SESSION['id'];
+    $user = $this->usuario->obtenerNivelDelUsuario($id);
+    $user = json_decode($user);
+    var_dump(is_null($_SESSION['nivel']) and is_null($user->nivel));
+    if(is_null($_SESSION['nivel']) and is_null($user->nivel)) {
       $currentTime = date('Y-m-d H:i:s');
       $usuario_id = (int)$_SESSION['id'];
       $centro_id = (int)$_POST['centro_id'];
       $result = $this->turno->crearTurno($usuario_id, $centro_id ,$currentTime);
-      $examen_dado = $this->centros->otorgarPermisoMedico();
-      echo $result;
+      $this->centros->otorgarPermisoMedico($usuario_id);
+      $this->view->generate('Examenes/view_con_examen_medico.php', 'template_home.php');
     } else {
       $link =  "location:" . $this->path->getEvent('main', 'index');
       header($link);

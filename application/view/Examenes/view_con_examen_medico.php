@@ -1,3 +1,7 @@
 <div class="container">
-  <p>Hola</p>
+  <?php 
+    foreach ($data as $key => $value) {
+      echo "<p>".$key.": <strong>".$value."<strong><p>";
+    } 
+  ?>
 </div>
