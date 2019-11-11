@@ -44,20 +44,31 @@ class Vuelo
     return json_encode($result);
   }
 
+  public function eliminaVueloPorId($id){
+    $sql= "DELETE FROM Vuelo
+            WHERE id=$id;";
+    $query = $this->database->exec($sql);
+    $query = $this->database->get_affected_rows();
+    $link =  "location:" . $this->path->getEvent('admin', 'vuelos');
+    header ($link);
+}
   function obtenerVueloPorId ($id) {
-    $sql = "select v.id, v.titulo, v.precio, v.fecha_salida, v.fecha_llegada, v.descripcion as vueloDescripcion,
-    o.destino as origen, d.destino as destino, t.cantidad_de_dias, t.porcentaje, e.descripcion as equipoDescripcion
-    from Vuelo v
-    inner join Destino o on v.origen_id = o.id
-    inner join Destino d on v.destino_id = d.id
-    inner join Tarifa t on v.tarifa_id = t.id
-    inner join Equipo e on v.equipo_id = e.id
-    where v.id = '$id'";
+    $sql = "SELECT * FROM Vuelo 
+            where id = $id;";
     $query = $this->database->query($sql);
     $result = $query->fetch_all(MYSQLI_ASSOC);
-    return $result;
+    return json_encode($result);
+  }
+  function nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion){
+    $sql= "INSERT INTO Vuelo (id, titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, equipo_id, descripcion) 
+            VALUES   (NULL,'$titulo',$precio,'$fecha_salida', '$fecha_llegada',$origen_id, $destino_id, $tarifa_id, $equipo_id, '$descripcion');";
+    $query = $this->database->exec($sql);
+    $query = $this->database->get_affected_rows();
+    $link =  "location:" . $this->path->getEvent('admin', 'vuelos');
+    header ($link);
   }
 
+<<<<<<< HEAD
   function obtenerVuelosPorTipoDeVuelo ($equipo_id) {
     $sql = "select * from Vuelo where equipo_id = '$equipo_id'";
     $query = $this->database->query($sql);
@@ -72,4 +83,23 @@ class Vuelo
     return json_encode($result);
   }
 
+=======
+  function actualizaVuelo($id,$titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion){
+    $sql= " UPDATE Vuelo
+            SET titulo= '$titulo',
+                precio = $precio,
+                fecha_salida = '$fecha_salida',
+                fecha_llegada = '$fecha_llegada',
+                origen_id = $origen_id,
+                destino_id = $destino_id,
+                tarifa_id = $tarifa_id,
+                equipo_id = $equipo_id,
+                descripcion = '$descripcion'
+            WHERE id=$id";
+    $query = $this->database->exec($sql);
+    $query = $this->database->get_affected_rows();
+    $link =  "location:" . $this->path->getEvent('admin','vuelos');
+    header ($link);
+  }
+>>>>>>> b040252d29fb00fbadc500f63e8891c8c304d955
 }

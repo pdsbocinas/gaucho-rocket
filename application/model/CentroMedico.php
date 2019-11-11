@@ -40,4 +40,32 @@ class CentroMedico
         header($link);
     }
 
+    public function eliminaCentroPorId($id){
+        $sql= "DELETE FROM centroMedico
+                WHERE id=$id;";
+        $query = $this->database->exec($sql);
+        $query = $this->database->get_affected_rows();
+        $link =  "location:" . $this->path->getEvent('admin', 'centros');
+        header ($link);
+    }
+
+    public function actualizaCentro($id,$nombre,$ubicacion){
+        $sql= "UPDATE centroMedico
+                SET nombre = '$nombre' ,ubicacion = '$ubicacion'
+                WHERE id=$id;";
+        $query = $this->database->exec($sql);
+        $query = $this->database->get_affected_rows();
+        $link =  "location:" . $this->path->getEvent('admin','centros');
+        header ($link);
+    }
+
+    public function NuevoCentro($nombre,$ubicacion){
+        $sql= "INSERT INTO centroMedico
+                VALUES (NULL,'$nombre','$ubicacion')";
+        $query = $this->database->exec($sql);
+        $query = $this->database->get_affected_rows();
+        $link =  "location:" . $this->path->getEvent('admin', 'centros');
+        header ($link);
+    }
+    
 }
