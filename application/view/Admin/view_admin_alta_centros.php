@@ -1,5 +1,5 @@
 
-<form action="<?php echo $path->getEvent('admin', 'guardaCentro'); ?>" method="GET">
+<form action="<?php echo $path->getEvent('admin', 'guardaCentro'); ?>" method="POST">
 <div class="form-group">
 <div class="form-group">
      <label for="id">Numero</label>

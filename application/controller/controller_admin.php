@@ -48,40 +48,72 @@ class Controller_Admin extends Controller {
     $this->centroMedico->eliminaCentroPorId($id);
   }
 
-  
-   function altaVuelos(){
-    $this->view->generate('Admin/view_admin_alta_vuelos.php', 'template_admin.php');
-   }
-
-   
-   function guardaVuelo(){
-    $titulo=$_GET['titulo'];
-    $precio=$_GET['precio'];
-    $fecha_salida=($_GET['fecha_salida']);
-    $fecha_llegada=($_GET['fecha_llegada']);
-    $origen_id=$_GET['origen_id'];
-    $destino_id=$_GET['destino_id'];
-    $tarifa_id=$_GET['tarifa_id'];
-    $equipo_id=$_GET['equipo_id'];
-    $descripcion=$_GET['descripcion'];
-    $this->vuelo->nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion);
-   }
-
-   function altaCentro(){
+  function altaCentro(){
     $this->view->generate('Admin/view_admin_alta_centros.php', 'template_admin.php');
      }
   function guardaCentro(){
-    //$id=$_GET['id'];
-    $nombre=$_GET['nombre'];
-    $ubicacion=$_GET['ubicacion'];
+    //$id=$_POST['id'];
+    $nombre=$_POST['nombre'];
+    $ubicacion=$_POST['ubicacion'];
+    
     $this->centroMedico->nuevoCentro($nombre,$ubicacion);
    }
   
   function exito(){
-    $id=$_GET['id'];
-    $nombre=$_GET['nombre'];
-    $ubicacion=$_GET['ubicacion'];
+    $id=$_POST['id'];
+    $nombre=$_POST['nombre'];
+    $ubicacion=$_POST['ubicacion'];
     $this->centroMedico->actualizaCentro($id,$nombre,$ubicacion);
   }
+
+
+   function altaVuelos(){
+    $this->view->generate('Admin/view_admin_alta_vuelos.php', 'template_admin.php');
+   }
+
+   function eliminarVuelo(){
+    $id=$_GET['id'];
+    $this->vuelo->eliminaVueloPorId($id);
+  }
+  //presenta la vista Editar vuelo trayendo los datos de la base
+   function editarVuelo(){
+     $id=$_GET['id'];
+     echo $id;
+     $result = $this->vuelo->obtenerVueloPorId($id);
+     echo var_dump($result);
+     $data = json_decode($result,true);
+    $this->view->generate('Admin/view_admin_editar_vuelos.php', 'template_admin.php',$data);
+  }
+   function editarVuelos(){
+    $id=$_POST['id'];
+    echo $id;
+    $titulo=$_POST['titulo'];
+    $precio=$_POST['precio'];
+    $fecha_salida=$_POST['fecha_salida'];
+    $fecha_llegada=$_POST['fecha_llegada'];
+    $origen_id=$_POST['origen_id'];
+    $destino_id=$_POST['destino_id'];
+    $tarifa_id=$_POST['tarifa_id'];
+    $equipo_id=$_POST['equipo_id'];
+    $descripcion=$_POST['descripcion'];
+    $this->vuelo->actualizaVuelo($id,$titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion);
+  }
+ 
+  //inserta un nuevo vuelo y lo guarda
+   function guardaVuelo(){
+    $titulo=$_POST['titulo'];
+    $precio=$_POST['precio'];
+    $fecha_salida=$_POST['fecha_salida'];
+    $fecha_llegada=$_POST['fecha_llegada'];
+    $origen_id=$_POST['origen_id'];
+    $destino_id=$_POST['destino_id'];
+    $tarifa_id=$_POST['tarifa_id'];
+    $equipo_id=$_POST['equipo_id'];
+    $descripcion=$_POST['descripcion'];
+    $this->vuelo->nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion);
+   }
+
+
+
  
 }

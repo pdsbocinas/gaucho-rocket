@@ -6,8 +6,9 @@
     <a href="reservas?id=<?php echo $fila['id'] ?>" class="btn btn-primary">Reserva</a>
   </div>
   <?php 
-    if (isset($_SESSION['rol']) && $_SESSION['rol'] == "admin") {
-      echo "<p>Editar</p>";
-    }
-  ?>
+      if (isset($_SESSION['rol']) && $_SESSION['rol'] == "admin") { 
+        ?>
+        <a href="<?php echo  $path->getEvent('admin','editarVuelo'); ?>?id=<?php echo $fila['id'] ?>">Editar</a>     
+        <a href="<?php echo  $path->getEvent('admin','eliminarVuelo'); ?>?id=<?php echo $fila['id'] ?>">Eliminar</a>
+    <?php } ?>
 </div>

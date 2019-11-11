@@ -121,9 +121,21 @@ CREATE TABLE Vuelo (
 );
 
 INSERT INTO Vuelo (id, titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, equipo_id, descripcion) VALUES
-(1, 'Vuelo a la luna', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo'),
- (2, 'Marte', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo'),
- (3, 'Vuelo a todo el sistema solar', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'Nos vimo en disney');
+(1, 'Vuelo a la luna', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo');
+
+
+	UPDATE Vuelo
+            SET titulo= 'desde mysql',
+                precio = 2500,
+                fecha_salida = '2015-01-01',
+                fecha_llegada = '2015-01-01',
+                origen_id = 2,
+                destino_id = 1,
+                tarifa_id = 1,
+                equipo_id = 6,
+                descripcion = 'desde mysql'
+            WHERE id=1;
+SELECT * FROM Vuelo;
 
 
 -- ALTER TABLE Cabina

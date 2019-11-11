@@ -6,7 +6,7 @@
     }
   ?>
 
- <form action="<?php echo $path->getEvent('admin', 'exito'); ?>" method="GET">
+ <form action="<?php echo $path->getEvent('admin', 'exito'); ?>" method="POST">
    <div class="form-group">
      <label for="nro">Numero</label>
      <p><?php echo $fila['id']?></p>
