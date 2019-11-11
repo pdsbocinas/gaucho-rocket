@@ -58,6 +58,14 @@ class Usuario
     $this->rol = $rol;
   }
 
+  public function getNivel() {
+    return $this->nivel;
+  }
+
+  public function setNivel($nivel) {
+    $this->nivel = $nivel;
+  }
+
   public function getAllUsers() {
     $sql = "select * from Usuario";
     $query = $this->database->query($sql);
@@ -111,7 +119,12 @@ class Usuario
     $sql = "update Usuario set estado = 'activo' where id = " . $id;
     $updateUser = $this->database->exec($sql);
     $updateUser = $this->database->get_affected_rows();
-    var_dump($updateUser);
     return $updateUser;
+  }
+
+  public function obtenerNivelDelUsuario ($id) {
+    $sql = "select * from Usuario where id = '$id'";
+    $query = $this->database->query_row($sql);
+    return json_encode($query);
   }
 }

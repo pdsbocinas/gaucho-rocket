@@ -9,6 +9,7 @@ $path = Path::getInstance("config/path.ini");
 // echo "<link rel='stylesheet' href='" . $path->getLink("css","fontawesome-free-5.9.0-web/css/all.css") . "'>"; ?>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <?php echo "<link rel='stylesheet' href='" . $path->getLink("css","header.css") . "'>"; ?>
 <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -47,9 +48,11 @@ $path = Path::getInstance("config/path.ini");
       </div>
     </div>
     <!-- !END PAGE CONTENT! -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <?php echo "<script src=" . $path->getLink("js", "modal-register.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "registrarTurno.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "pagarReserva.js") . "></script>" ?>
   </body>
 </html>
 

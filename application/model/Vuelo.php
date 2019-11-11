@@ -68,6 +68,22 @@ class Vuelo
     header ($link);
   }
 
+<<<<<<< HEAD
+  function obtenerVuelosPorTipoDeVuelo ($equipo_id) {
+    $sql = "select * from Vuelo where equipo_id = '$equipo_id'";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    return json_encode($result);
+  }
+
+  function obtenerVuelosPorDestinoFechas ($origen_id, $destino_id, $desde, $hasta) {
+    $sql = "select * from Vuelo where origen_id = '$origen_id' and destino_id = '$destino_id' and fecha_salida >= '$desde' and fecha_llegada <= '$hasta'";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    return json_encode($result);
+  }
+
+=======
   function actualizaVuelo($id,$titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion){
     $sql= " UPDATE Vuelo
             SET titulo= '$titulo',
@@ -85,4 +101,5 @@ class Vuelo
     $link =  "location:" . $this->path->getEvent('admin','vuelos');
     header ($link);
   }
+>>>>>>> b040252d29fb00fbadc500f63e8891c8c304d955
 }

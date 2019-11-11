@@ -23,6 +23,8 @@
     // seria el valor del vuelo + el de la cabina + el del servicio
     private $precio_final;
     
+    private $pagada;
+
     public function __construct() {
       $this->path = Path::getInstance("config/path.ini");
       $this->database = new Database();
@@ -31,12 +33,25 @@
     function crearReserva($userEmail, $vueloId) {
       $currentTime = date('Y-m-d H:i:s');
       $result = md5($userEmail);
-      $sql = "insert into Reserva (codigo, fecha, vuelo_id, cabina_id, servicio_id, usuario_id, precio_final) 
-      values ('$result', '$currentTime', '$vueloId', 1, 1, 1, 123456)";
+      $sql = "insert into Reserva (codigo, fecha, vuelo_id, cabina_id, servicio_id, usuario_id, precio_final, pagada) 
+      values ('$result', '$currentTime', '$vueloId', 1, 1, 1, 123456, 0)";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
-      $link =  "location:" . $this->path->getEvent('main', '');
-      header($link);
+      return $insertReserva;
+    }
+
+    function obtenerReservasPorUsuario($id) {
+      $sql = "select * from Reserva where usuario_id = '$id'";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
+
+    function pagarReserva($reserva_id) {
+      $sql = "update Reserva set pagada = 1 where id = " . $reserva_id;
+      $updateReserva = $this->database->exec($sql);
+      $updateReserva = $this->database->get_affected_rows();
+      return $updateReserva;
     }
   }
   

@@ -47,6 +47,7 @@ class Router
         $controllerFile = strtolower($controllerName) . '.php';
         // esto devuelve donde se encuentra el archivo
         $controllerPath = $this->path->getPage("controller",  $controllerFile );
+
         $controller = false;
         if ( $controllerPath != null ) {
             // lo incluye y lo instancia

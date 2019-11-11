@@ -28,7 +28,21 @@ class Controller_Reservas extends Controller{
   function confirm () {
     $vueloId = $_POST['id'];
     $userEmail = $_SESSION['email'];
-    $data = $this->reserva->crearReserva($userEmail, $vueloId);
+    $userNivel = $_SESSION['nivel'];
+    $nivel = $this->usuario->obtenerNivelDelUsuario($_SESSION['id']);
+    if (is_null($userNivel) and is_null($nivel)) {
+      $this->view->generate('micuenta/view_sin_estudio_hecho.php', 'template_home.php');
+    } else {
+      $data = $this->reserva->crearReserva($userEmail, $vueloId);
+      $link =  "location:" . $this->path->getEvent('micuenta', 'reservas');
+      header($link);
+    }
+  }
+
+  function pagarReserva () {
+    $reserva_id = $_POST['reserva_id'];
+    $data = $this->reserva->pagarReserva($reserva_id);
+    echo $data;
   }
 }
 
