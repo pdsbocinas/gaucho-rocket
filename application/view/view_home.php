@@ -1,3 +1,7 @@
 <div class="container">
-  <p>Hola!!</p>
+  <?php 
+//    foreach ($data as $fila) {
+//      include($path->getPage("view", "components/card_vuelo.php"));
+//    }
+  ?>
 </div>

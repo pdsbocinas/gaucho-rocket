@@ -4,10 +4,14 @@ class Usuario
 {
 
   private $database;
+  private $id;
   private $nombre_de_usuario;
   private $email;
   private $password;
-  
+  // el nivel se setea una vez que el tipo le da reservar turno. Se le asigna un numero random (1,2,3)
+  private $nivel;
+  private $estado;
+
 
   public function __construct() {
     $this->path = Path::getInstance("config/path.ini");
@@ -20,6 +24,14 @@ class Usuario
 
   public function setNombre($nombre_de_usuario) {
     $this->nombre_de_usuario = $nombre_de_usuario;
+  }
+
+  public function getId() {
+    return $this->id;
+  }
+
+  public function setId($id){
+    $this->id = $id;
   }
 
   public function getEmail() {
@@ -36,6 +48,14 @@ class Usuario
 
   public function setPassword($password){
     $this->password = $password;
+  }
+
+  public function getRol() {
+    return $this->rol;
+  }
+
+  public function setRol($rol){
+    $this->rol = $rol;
   }
 
   public function getAllUsers() {
@@ -70,14 +90,28 @@ class Usuario
     return $message;
   }
 
-  public function createNewUser($nombre_de_usuario, $email, $password) {
+  public function createNewUser($nombre_de_usuario, $email, $password, $estado) {
     // le agrego el rol porque en la base esta con la condicion de que no puede ser null
-    $sql = "insert into Usuario (nombre_de_usuario, email, password, rol) values ('$nombre_de_usuario', '$email', '$password', 'x')";
+    $sql = "insert into Usuario (nombre_de_usuario, email, password, rol, estado) values ('$nombre_de_usuario', '$email', '$password', 'x', '$estado')";
     $insertUser = $this->database->exec($sql);
     $insertUser = $this->database->get_affected_rows();
     $this->getUserByMail($email, $password);
     // esto redirecciona
     $link =  "location:" . $this->path->getEvent('main', '');
     header($link);
+  }
+
+  public function getUserByHash($hash) {
+    $sql = "select * from Usuario where estado = '$hash'";
+    $query = $this->database->query_row($sql);
+    return json_encode($query);
+  }
+
+  public function updateUserState ($id) {
+    $sql = "update Usuario set estado = 'activo' where id = " . $id;
+    $updateUser = $this->database->exec($sql);
+    $updateUser = $this->database->get_affected_rows();
+    var_dump($updateUser);
+    return $updateUser;
   }
 }

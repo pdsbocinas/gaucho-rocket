@@ -20,7 +20,7 @@ class Router
         $_GET = $this->extractGetParams();
 
         // isset($_SESSION["log"]) && $_SESSION["log"] || true para que pase siempre
-        if(isset($_SESSION["log"]) && $_SESSION["log"]) {
+        if(true) {
             $controller = $this->createController($moduleName);
             $this->executeActionFromController($controller, $action);
         } else {
