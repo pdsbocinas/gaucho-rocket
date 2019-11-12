@@ -78,15 +78,14 @@ class Controller_Admin extends Controller {
   //presenta la vista Editar vuelo trayendo los datos de la base
    function editarVuelo(){
      $id=$_GET['id'];
-     echo $id;
      $result = $this->vuelo->obtenerVueloPorId($id);
      echo var_dump($result);
      $data = json_decode($result,true);
     $this->view->generate('Admin/view_admin_editar_vuelos.php', 'template_admin.php',$data);
   }
-   function editarVuelos(){
-    $id=$_POST['id'];
-    echo $id;
+
+   function actualizaVuelo(){
+    $id=(int)$_POST['id'];
     $titulo=$_POST['titulo'];
     $precio=$_POST['precio'];
     $fecha_salida=$_POST['fecha_salida'];
@@ -94,9 +93,10 @@ class Controller_Admin extends Controller {
     $origen_id=$_POST['origen_id'];
     $destino_id=$_POST['destino_id'];
     $tarifa_id=$_POST['tarifa_id'];
-    $equipo_id=$_POST['equipo_id'];
     $descripcion=$_POST['descripcion'];
-    $this->vuelo->actualizaVuelo($id,$titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion);
+    $avion_id=$_POST['avion_id'];
+
+    $this->vuelo->actualizaVuelo($id, $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
   }
  
   //inserta un nuevo vuelo y lo guarda
@@ -108,9 +108,10 @@ class Controller_Admin extends Controller {
     $origen_id=$_POST['origen_id'];
     $destino_id=$_POST['destino_id'];
     $tarifa_id=$_POST['tarifa_id'];
-    $equipo_id=$_POST['equipo_id'];
     $descripcion=$_POST['descripcion'];
-    $this->vuelo->nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $equipo_id, $descripcion);
+    $avion_id=$_POST['avion_id'];
+
+    $this->vuelo->nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
    }
 
 

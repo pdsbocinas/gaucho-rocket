@@ -3,11 +3,10 @@
 <?php  
     
     foreach ($data as $fila) {
-        ?>
+?>
    
-
- <form action="<?php echo $path->getEvent('admin', 'editarVuelos'); ?>" method="POST">
-<div class="form-group">
+ <form action="<?php echo $path->getEvent('admin', 'actualizaVuelo'); ?>" method="POST">
+  <div class="form-group">
      <label for="id">id</label>
      <p><?php echo $fila['id']?></p>
      <input type="hidden" class="form-control" name ="id" value="<?php echo $fila['id']?>" aria-describedby="emailHelp"  placeholder="Id viaje ">
@@ -41,8 +40,8 @@
         <input type="number" name="tarifa_id" class="form-control" id="tarifa" value="<?php echo $fila['tarifa_id']?>" required placeholder="Tarifa">
     </div>
     <div class="form-group">
-        <label for="equipo_id">Equipo</label>
-        <input type="number" name="equipo_id" class="form-control" id="equipo" value="<?php echo $fila['equipo_id']?>" required placeholder="Equipo">
+        <label for="equipo_id">Avion</label>
+        <input type="number" name="avion_id" class="form-control" id="avion_id" value="<?php echo $fila['avion_id']?>" required placeholder="Avion">
     </div>
     <div class="form-group">
         <label for="descripcion">Descripcion</label>

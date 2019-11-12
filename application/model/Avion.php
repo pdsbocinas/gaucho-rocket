@@ -1,12 +1,12 @@
 <?php
-  class Cabina {
+  class Avion {
     
     private $database;
     private $path;
 
     private $id;
-    private $descripcion;
-    private $porcentaje;
+    private $modelo;
+    private $matricula;
 
     // por ejemplo
     //id -> 1

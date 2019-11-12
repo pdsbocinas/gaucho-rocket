@@ -33,12 +33,12 @@
         <input type="number" name="tarifa_id" class="form-control" id="tarifa" value="" required placeholder="Tarifa">
     </div>
     <div class="form-group">
-        <label for="equipo_id">Equipo</label>
-        <input type="number" name="equipo_id" class="form-control" id="equipo" value="" required placeholder="Equipo">
-    </div>
-    <div class="form-group">
         <label for="descripcion">Descripcion</label>
         <input type="text" name="descripcion" class="form-control" id="descripcion"  placeholder="Descripcion">
+    </div>
+    <div class="form-group">
+        <label for="equipo_id">Avion</label>
+        <input type="number" name="avion_id" class="form-control" id="avion_id" value="" required placeholder="Avion">
     </div>
     <input type="submit" class="btn btn-primary btn-lg" value="Guardar">
  

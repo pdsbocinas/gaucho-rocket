@@ -22,7 +22,8 @@ class Controller_Reservas extends Controller{
   function index () {
     $id = $_GET['id'];
     $data = $this->vuelo->obtenerVueloPorId($id);
-    $this->view->generate('view_detalle_reserva.php', 'template_home.php', $data);
+    $result = json_decode($data);
+    $this->view->generate('view_detalle_reserva.php', 'template_home.php', $result);
   }
 
   function confirm () {
