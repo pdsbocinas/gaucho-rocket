@@ -65,4 +65,11 @@ class Controller_MiCuenta extends Controller{
     }
   }
 
+  function cerrarSession(){
+    session_start();
+    session_destroy();
+    $link =  "location:" . $this->path->getEvent('main', 'index');
+    header($link);
+  }
+
 }

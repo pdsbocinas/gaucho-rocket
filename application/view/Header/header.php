@@ -27,9 +27,9 @@
           echo "Bienvenido:" . $_SESSION['nombre_de_usuario'] . "<br>";
           echo "<a href="  . $path->getEvent('micuenta', 'reservas') . ">Mis reservas</a><br>";
           echo "<a href="  . $path->getEvent('micuenta', 'examenes') . ">Mi examenes</a><br>";
+          echo "<a href="  . $path->getEvent('micuenta', 'cerrarSession') . " class='btn btn-danger'>Cerrar sessión</a><br>";
         } else {
           include("form.php");
-          echo "<p>" . $data . "</p>";
         }
         ?>
       </div>

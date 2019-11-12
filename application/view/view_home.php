@@ -36,19 +36,19 @@
         </li>
         <li>
           <div class="form-check">
-            <input class="form-check-input tipoVuelo" type="radio" name="equipos" id="equipo-1" value="equipo-1" checked>
+            <input class="form-check-input tipoVuelo" type="radio" name="equipos" id="orbitales" value="orbitales" checked>
             <label class="form-check-label" for="equipo-1">
               Orbitales
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input tipoVuelo" type="radio" name="equipos" id="equipo-2" value="equipo-2">
+            <input class="form-check-input tipoVuelo" type="radio" name="equipos" id="baja aceleracion" value="baja aceleracion">
             <label class="form-check-label" for="equipo-2">
               Baja aceleracion
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input tipoVuelo" type="radio" name="equipos" id="equipo-3" value="equipo-3">
+            <input class="form-check-input tipoVuelo" type="radio" name="equipos" id="alta aceleracion" value="alta aceleracion">
             <label class="form-check-label" for="equipo-3">
               Alta aceleracion
             </label>

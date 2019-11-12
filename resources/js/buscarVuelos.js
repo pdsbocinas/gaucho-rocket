@@ -35,7 +35,7 @@ function obtenerVuelosPorFecha (obj) {
       }
       const html = jsonResponse.map(function(vuelo){
         return (
-          `<div class='card' style='width: 18rem'>
+          `<div class='card' style='width: 18rem; float: left;'>
           <img src='https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg' class='card-img-top'>
           <div class='card-body'>
             <h5 class='card-title'> ${vuelo.titulo} </h5>
@@ -50,8 +50,8 @@ function obtenerVuelosPorFecha (obj) {
 }
 
 function obtenerVuelosPorTipo(obj) {
-  const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
-  const equipoId = obj.id.match(regexOnlyNumber).shift();
+  const equipoId = obj.id
+  console.log(equipoId)
   $.ajax({
     type: "POST",
     url: `http://${window.location.host}/gaucho-rocket/vuelos/obtenerVuelosPorTipoDeVuelo`,
@@ -65,7 +65,7 @@ function obtenerVuelosPorTipo(obj) {
       }
       const html = jsonResponse.map(function(vuelo){
         return (
-          `<div class='card' style='width: 18rem'>
+          `<div class='card' style='width: 18rem; float: left;'>
           <img src='https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg' class='card-img-top'>
           <div class='card-body'>
             <h5 class='card-title'> ${vuelo.titulo} </h5>

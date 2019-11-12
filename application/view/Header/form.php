@@ -13,11 +13,9 @@
   </div>
   <button type="submit" class="btn btn-primary" name="ingresar" type="submit">Ingresar</button>
 </form>
-
 <div>
   <span>Olvidaste tu contraseña <a href="#"> Contrase&ntilde;a?</a></span>
 </div>
-
 <div>
   <span>No tenes cuenta todavia?<a href data-toggle="modal" data-target="#exampleModal"> Registrate</a></span>
 </div>

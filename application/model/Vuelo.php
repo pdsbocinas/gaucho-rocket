@@ -69,7 +69,8 @@ class Vuelo
   }
 
   function obtenerVuelosPorTipoDeVuelo ($equipo_id) {
-    $sql = "select * from Vuelo where equipo_id = '$equipo_id'";
+    $id = $equipo_id;
+    $sql = "select * from Vuelo v join Equipo e on e.id = v.avion_id where e.tipo = '$id'";
     $query = $this->database->query($sql);
     $result = $query->fetch_all(MYSQLI_ASSOC);
     return json_encode($result);
