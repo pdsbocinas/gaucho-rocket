@@ -9,6 +9,7 @@ $(document).ready(function(){
       success: function(response) {
         $('.pagar').removeClass('btn-primary');
         $('.pagar').addClass('btn-success disabled').text('pagado');
+        window.location.href = "http://localhost:8888/gaucho-rocket/reservas/exito"
       }
     })
   })

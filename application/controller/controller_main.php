@@ -138,7 +138,7 @@ class Controller_Main extends Controller
 			$this->mail->send();
 			echo 'Message has been sent';
 		} catch (Exception $e) {
-				echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
+			echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
 		}
 	}
 }

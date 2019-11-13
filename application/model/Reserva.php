@@ -50,7 +50,7 @@
       $sql = "update Reserva set pagada = 1 where id = " . $reserva_id;
       $updateReserva = $this->database->exec($sql);
       $updateReserva = $this->database->get_affected_rows();
-      return $updateReserva;
+      $updateReserva;
     }
   }
   
