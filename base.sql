@@ -1,276 +1,292 @@
-drop database gauchorocket;
-create database gauchorocket;
+drop schema gauchorocket;
+create schema gauchorocket;
 use gauchorocket;
 
-create table centroMedico(
-							id int primary key not null AUTO_INCREMENT,
-                            nombre varchar(60),
-                            ubicacion varchar(60)
-							);
-                            
-insert into centroMedico(id,nombre,ubicacion)
-				values	(1,'Santa Rosa','Buenos Aires'),
-						(2,'Los Cedros','Cordoba'),
-                        (3,'Ferreti','Santa Fe');
---        UPDATE centroMedico
---          SET id = 4, nombre = "la casa da Ann",ubicacion = "la matanza"
---        	WHERE id=1;
-                
-		
-select * from centroMedico;
+--
+-- Base de datos: `gauchoRocket`
+--
 
+-- --------------------------------------------------------
 
+--
+-- Estructura de tabla para la tabla `Avion`
+--
 
-
-CREATE TABLE Cabina (
-  id int(11) NOT NULL primary key,
-  descripcion varchar(255) DEFAULT NULL,
-  porcentaje int(255) NOT NULL
+CREATE TABLE Avion (
+  id int(11)  PRIMARY KEY ,
+  modelo varchar(255) DEFAULT NULL,
+  matricula varchar(255) DEFAULT NULL
 );
 
-CREATE TABLE Usuario (
-  nombre_de_usuario varchar(255) NOT NULL primary key,
-  email varchar(255) NOT NULL,
-  password varchar(255) NOT NULL,
-  rol varchar(255) NOT NULL,
-  id int(255) NOT NULL,
-  nivel int(11) DEFAULT NULL
+--
+-- Volcado de datos para la tabla `Avion`
+--
+ALTER TABLE Avion
+  MODIFY id int(11) AUTO_INCREMENT, AUTO_INCREMENT=2;
+  
+INSERT INTO  Avion  ( id ,  modelo ,  matricula ) VALUES
+(1, 'gol', 'ac256');
+
+SELECT * FROM aVION;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla  centroMedico 
+--
+
+CREATE TABLE  centroMedico  (
+   id  int(11)  PRIMARY KEY,
+   nombre  varchar(255) DEFAULT NULL,
+   ubicacion  varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE   centroMedico  
+MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Volcado de datos para la tabla  centroMedico 
+--
+
+INSERT INTO  centroMedico  ( id ,  nombre ,  ubicacion ) VALUES
+(1, 'Centro Medico Buenos Aires', 'CABA'),
+
+(2, 'Centro Medico Ankara', 'Mordor');
+
+INSERT INTO  centroMedico  ( id ,  nombre ,  ubicacion ) VALUES
+(null, 'Centro Medico Buenos Aires', 'tu vieja'),
+(null, 'Centro Medico Buenos Aires', 'tu vieja2'),
+(null, 'Centro Medico Buenos Aires', 'tu vieja3');
+
+SELECT * FROM centroMedico;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla  Destino 
+--
+
+CREATE TABLE  Destino  (
+   id  int(255) PRIMARY KEY,
+   destino  varchar(255) DEFAULT NULL
 );
 
-INSERT INTO Usuario (nombre_de_usuario, email, password, rol, id, nivel) VALUES
-('pepe', 'pds.gomez@gmail.com', '123456', 'admin', 1, 1);
+ALTER TABLE   Destino  
+  MODIFY   id   int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
-INSERT INTO Cabina (id, descripcion, porcentaje) VALUES
-(1, 'general', 5),
-(2, 'general', 5),
-(3, 'familiar', 7),
-(4, 'suite', 12);
+--
+-- Volcado de datos para la tabla  Destino 
+--
 
-CREATE TABLE Destino (
-  id int(255) NOT NULL /*AUTO_INCREMENT*/ primary key,
-  destino varchar(255) DEFAULT NULL
-);
-
-
-INSERT INTO Destino (id, destino) VALUES
+INSERT INTO  Destino  ( id ,  destino ) VALUES
 (1, 'Luna'),
 (2, 'Marte');
 
 
-CREATE TABLE Equipo (
-  id int(11) NOT NULL primary key,
-  descripcion varchar(255) NOT NULL
-);
 
-INSERT INTO Equipo (id, descripcion) VALUES
-(1, 'orbitales'),
-(2, 'baja aceleracion'),
-(3, 'alta aceleracion');
+-- --------------------------------------------------------
 
-CREATE TABLE Reserva (
-  id int(11) NOT NULL primary key,
-  codigo varchar(255) DEFAULT NULL,
-  fecha timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  vuelo_id int(11) NOT NULL,
-  cabina_id int(11) DEFAULT NULL,
-  servicio_id int(11) NOT NULL,
-  usuario_id int(11) NOT NULL,
-  precio_final int(11) DEFAULT NULL
-);
+--
+-- Estructura de tabla para la tabla  Equipo 
+--
 
-INSERT INTO Reserva (id, codigo, fecha, vuelo_id, cabina_id, servicio_id, usuario_id, precio_final) VALUES
-(7, 'fse4634b', '2019-12-12 23:57:08', 1, 1, 1, 1, 123456),
-(8, 'fse4634b', '2019-10-22 00:00:14', 1, 1, 1, 1, 123456),
-(9, 'fse4634b', '2019-10-22 00:00:35', 1, 1, 1, 1, 123456),
-(10, 'fse4634b', '2019-10-25 20:09:06', 1, 1, 1, 1, 123456),
-(11, '3b05c626688e7f68336dad4e43fb7ee3', '2019-10-25 20:54:54', 1, 1, 1, 1, 123456);
+CREATE TABLE  Equipo  (
+   id  int(11) PRIMARY KEY,
+   tipo  varchar(255) NOT NULL,
+   general  int(11) DEFAULT NULL,
+   familiar  int(11) DEFAULT NULL,
+   suite  int(11) DEFAULT NULL,
+   avion_id  int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE Servicio (
-  id int(11) NOT NULL primary key,
-  descripcion varchar(255) NOT NULL,
-  porcentaje int(11) NOT NULL
-);
+ALTER TABLE   Equipo  
+  MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- Volcado de datos para la tabla  Equipo 
+--
 
-INSERT INTO Servicio (id, descripcion, porcentaje) VALUES
+INSERT INTO  Equipo  ( id ,  tipo ,  general ,  familiar ,  suite ,  avion_id ) VALUES
+(1, 'orbitales', 20, 30, 50, NULL),
+(2, 'baja aceleracion', NULL, NULL, NULL, NULL),
+(3, 'alta aceleracion', NULL, NULL, NULL, NULL),
+(4, 'orbitales', NULL, NULL, NULL, NULL),
+(5, 'baja aceleracion', NULL, NULL, NULL, NULL),
+(6, 'alta aceleracion', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla  Reserva 
+-- 
+
+CREATE TABLE  Reserva  (
+   id  int(11) PRIMARY KEY,
+   codigo  varchar(255) DEFAULT NULL,
+   fecha  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   vuelo_id  int(11) NOT NULL,
+   servicio_id  int(11) NOT NULL,
+   usuario_id  int(11) NOT NULL,
+   precio_final  int(11) DEFAULT NULL,
+   pagada  tinyint(1) DEFAULT NULL,
+   tipo_de_cabina  varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE   Reserva  
+  MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla  Servicio 
+--
+
+CREATE TABLE  Servicio  (
+   id  int(11) PRIMARY KEY,
+   descripcion  varchar(255) NOT NULL,
+   porcentaje  int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE   Servicio  
+  MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Volcado de datos para la tabla  Servicio 
+--
+
+INSERT INTO  Servicio  ( id ,  descripcion ,  porcentaje ) VALUES
 (1, 'base', 10),
 (2, 'suite', 15);
 
+-- --------------------------------------------------------
 
-CREATE TABLE Tarifa (
-  id int(11) NOT NULL primary key,
-  cantidad_de_dias int(11) NOT NULL,
-  porcentaje int(11) NOT NULL
-);
+--
+-- Estructura de tabla para la tabla  Tarifa 
+--
 
+CREATE TABLE    Tarifa    (
+   id int(11) PRIMARY KEY,
+   cantidad_de_dias  int(11) NOT NULL,
+   porcentaje  int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO Tarifa (id, cantidad_de_dias, porcentaje) VALUES
+ALTER TABLE   Tarifa  
+  MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Volcado de datos para la tabla  Tarifa 
+--
+
+INSERT INTO  Tarifa  ( id ,  cantidad_de_dias ,  porcentaje ) VALUES
 (1, 5, 10),
 (2, 10, 15);
 
-CREATE TABLE Vuelo (
-  id int(11) NOT NULL AUTO_INCREMENT primary key,
-  titulo varchar(255) DEFAULT NULL,
-  precio int(11) DEFAULT NULL,
-  fecha_salida date DEFAULT NULL,
-  fecha_llegada date DEFAULT NULL,
-  origen_id int(11) DEFAULT NULL,
-  destino_id int(11) DEFAULT NULL,
-  tarifa_id int(11) DEFAULT NULL,
-  equipo_id int(11) DEFAULT NULL,
-  descripcion varchar(255) DEFAULT NULL
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla  Turno 
+--
+
+CREATE TABLE  Turno  (
+   usuario_id  int(11) NOT NULL ,
+   centro_id  int(11) NOT NULL,
+   horario  timestamp NULL DEFAULT NULL,
+   id  int(11) PRIMARY KEY
 );
 
-INSERT INTO Vuelo (id, titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, equipo_id, descripcion) VALUES
-(1, 'Vuelo a la luna', 1200, '2019-10-01', '2019-10-09', 2, 1, 1, 6, 'El vuelo mas groso del universo');
+ALTER TABLE   Turno  
+  MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+--
+-- Volcado de datos para la tabla  Turno 
+-- 
+INSERT INTO  Turno  ( usuario_id ,  centro_id ,  horario ,  id ) VALUES
+(1, 2, '2019-11-09 17:55:56', 25);
 
-
-	UPDATE Vuelo
-            SET titulo= 'desde mysql',
-                precio = 2500,
-                fecha_salida = '2015-01-01',
-                fecha_llegada = '2015-01-01',
-                origen_id = 2,
-                destino_id = 1,
-                tarifa_id = 1,
-                equipo_id = 6,
-                descripcion = 'desde mysql'
-            WHERE id=1;
-SELECT * FROM Vuelo;
-
-
--- ALTER TABLE Cabina
--- ADD PRIMARY KEY (id);
-
--- ALTER TABLE Destino
--- ADD PRIMARY KEY (id);
-
-/*ALTER TABLE Equipo
-  ADD PRIMARY KEY (id);
-
-ALTER TABLE Reserva
-  ADD PRIMARY KEY (id);
-
-ALTER TABLE Usuario
-  ADD PRIMARY KEY (id);
-
-ALTER TABLE Reserva
-  ADD PRIMARY KEY (cabina_id);
-*/
-ALTER TABLE Reserva
-  -- ADD PRIMARY KEY (id),  
-  ADD KEY vuelo_id (vuelo_id),
-  ADD KEY cabina_id (cabina_id),
-  ADD KEY servicio_id (servicio_id);
+-- --------------------------------------------------------
 
 --
--- Indices de la tabla Servicio
---
--- ALTER TABLE Servicio
--- ADD PRIMARY KEY (id);
-
---
--- Indices de la tabla Tarifa
---
--- ALTER TABLE Tarifa
---  ADD PRIMARY KEY (id);
-
---
--- Indices de la tabla Usuario
---
--- ALTER TABLE Usuario
--- ADD PRIMARY KEY (id);
-
---
--- Indices de la tabla Vuelo
---
-ALTER TABLE Vuelo
-  -- ADD PRIMARY KEY (id),
-  ADD KEY origen_id (origen_id),
-  ADD KEY destino_id (destino_id),
-  ADD KEY tarifa_id (tarifa_id),
-  ADD KEY equipo_id (equipo_id);
-
---
--- AUTO_INCREMENT de las tablas volcadas
+-- Estructura de tabla para la tabla  Usuario 
 --
 
---
--- AUTO_INCREMENT de la tabla Cabina
---
-ALTER TABLE Cabina
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+CREATE TABLE  Usuario  (
+   nombre_de_usuario  varchar(255) NOT NULL ,
+   email  varchar(255) NOT NULL,
+   password  varchar(255) NOT NULL,
+   rol  varchar(255) NOT NULL,
+   id  int(255)  PRIMARY KEY,
+   nivel  varchar(255) DEFAULT NULL,
+   estado  varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE   Usuario  
+  MODIFY   id   int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT de la tabla Destino
---
-ALTER TABLE Destino
-  MODIFY id int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla Equipo
---
-ALTER TABLE Equipo
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla Reserva
---
-ALTER TABLE Reserva
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT de la tabla Servicio
---
-ALTER TABLE Servicio
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla Tarifa
---
-ALTER TABLE Tarifa
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla Usuario
---
-ALTER TABLE Usuario
-  MODIFY id int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla Vuelo
---
-ALTER TABLE Vuelo
-  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Restricciones para tablas volcadas
+-- Volcado de datos para la tabla  Usuario 
 --
 
---
--- Filtros para la tabla Reserva
---
-ALTER TABLE Reserva
-  ADD CONSTRAINT reserva_ibfk_1 FOREIGN KEY (vuelo_id) REFERENCES Vuelo (id),
-  ADD CONSTRAINT reserva_ibfk_2 FOREIGN KEY (cabina_id) REFERENCES Cabina (id),
-  ADD CONSTRAINT reserva_ibfk_3 FOREIGN KEY (cabina_id) REFERENCES Cabina (id),
-  ADD CONSTRAINT reserva_ibfk_4 FOREIGN KEY (servicio_id) REFERENCES Servicio (id),
-  ADD CONSTRAINT reserva_ibfk_5 FOREIGN KEY (usuario_id) REFERENCES Usuario (id);
+INSERT INTO  Usuario  ( nombre_de_usuario ,  email ,  password ,  rol ,  id ,  nivel ,  estado ) VALUES
+('pablo', 'pds.gomez@gmail.com', '123456', 'admin', 1, '2', 'activo'),
+('nico', 'nico@gmail.com', '123456', 'x', 5, NULL, '5983d85c15deda0eca25d78218a4fde7');
+
+-- --------------------------------------------------------
 
 --
--- Filtros para la tabla Vuelo
+-- Estructura de tabla para la tabla  Vuelo 
 --
-ALTER TABLE Vuelo
-  ADD CONSTRAINT vuelo_ibfk_1 FOREIGN KEY (origen_id) REFERENCES Destino (id),
-  ADD CONSTRAINT vuelo_ibfk_2 FOREIGN KEY (destino_id) REFERENCES Destino (id),
-  ADD CONSTRAINT vuelo_ibfk_3 FOREIGN KEY (tarifa_id) REFERENCES Tarifa (id),
-  ADD CONSTRAINT vuelo_ibfk_4 FOREIGN KEY (equipo_id) REFERENCES Equipo (id);
-  
-  select * from vuelo;
-  select v.id, v.titulo, v.precio, v.fecha_salida, v.fecha_llegada, v.descripcion as vueloDescripcion,
-    o.destino as origen, d.destino as destino, t.cantidad_de_dias, t.porcentaje, e.descripcion as equipoDescripcion
-    from Vuelo v
-    inner join Destino o on v.origen_id = o.id
-    inner join Destino d on v.destino_id = d.id
-    inner join Tarifa t on v.tarifa_id = t.id
-    inner join Equipo e on v.equipo_id = e.id
-    where v.id = 7;
+
+CREATE TABLE  Vuelo  (
+   id  int(11) PRIMARY KEY,
+   titulo  varchar(255) DEFAULT NULL,
+   precio  int(11) DEFAULT NULL,
+   fecha_salida  date DEFAULT NULL,
+   fecha_llegada  date DEFAULT NULL,
+   origen_id  int(11) DEFAULT NULL,
+   destino_id  int(11) DEFAULT NULL,
+   tarifa_id  int(11) DEFAULT NULL,
+   descripcion  varchar(255) DEFAULT NULL,
+   avion_id  int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE   Vuelo  
+  MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Volcado de datos para la tabla  Vuelo 
+--
+
+INSERT INTO   Vuelo  ( id ,  titulo ,  precio ,  fecha_salida ,  fecha_llegada ,  origen_id ,  destino_id ,  tarifa_id ,  descripcion ,  avion_id ) VALUES
+(1, 'Vuelo a la luna', 1200, '2020-01-01', '2020-02-02', 2, 1, 1, 'El vuelo mas groso del universo', NULL),
+(2, 'sarasa', 1200000, '2019-11-01', '2019-11-30', 1, 2, 1, 'blablbala', 1);
+
+
+-- ALTER TABLE Orders ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+
+-- ----------------------- AGREGADO DE CLAVES FORANEAS ----------------------------------------------
+
+-- TURNO
+ALTER TABLE Turno ADD FOREIGN KEY (usuario_id) REFERENCES Usuario(id);
+ALTER TABLE Turno ADD FOREIGN KEY (centro_id) REFERENCES centroMedico(id);
+
+-- VUELO
+
+ALTER TABLE Vuelo ADD FOREIGN KEY (origen_id) REFERENCES Destino(id);
+ALTER TABLE Vuelo ADD FOREIGN KEY (destino_id) REFERENCES Destino(id);
+ALTER TABLE Vuelo ADD FOREIGN KEY (tarifa_id) REFERENCES Tarifa(id);
+ALTER TABLE Vuelo ADD FOREIGN KEY (avion_id) REFERENCES Avion(id);
+
+	
+
+
+ALTER TABLE   Reserva ADD FOREIGN KEY (vuelo_id) REFERENCES Vuelo(id);
+ALTER TABLE   Reserva ADD FOREIGN KEY (servicio_id) REFERENCES Servicio(id);
+ALTER TABLE   Reserva ADD FOREIGN KEY (usuario_id) REFERENCES Usuario(id);
+
+--
+-- Filtros para la tabla   Turno  
+--
+ALTER TABLE Turno ADD FOREIGN KEY (  usuario_id  ) REFERENCES Usuario(id);
+ALTER TABLE Turno ADD FOREIGN KEY (centro_id) REFERENCES centroMedico(  id  );
+
+--
+-- Filtros para la tabla   Vuelo  
+--
+
+ALTER TABLE Vuelo ADD FOREIGN KEY (avion_id) REFERENCES Avion (id);
+ALTER TABLE   Vuelo ADD FOREIGN KEY (origen_id) REFERENCES Destino (id);
+ALTER TABLE   Vuelo ADD FOREIGN KEY (destino_id) REFERENCES Destino (id);
+ALTER TABLE   Vuelo ADD FOREIGN KEY (tarifa_id) REFERENCES Tarifa (id);
