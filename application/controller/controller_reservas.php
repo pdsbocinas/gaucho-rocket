@@ -71,7 +71,6 @@ class Controller_Reservas extends Controller{
 		$time = date(DATE_RFC2822);
     $nombre_de_usuario = $_SESSION['nombre_de_usuario'];
     $data = $reserva;
-    //var_dump($data);die();
     $link =  "location:" . $this->path->getEvent('main', '');
     header($link);
 
@@ -115,11 +114,12 @@ class Controller_Reservas extends Controller{
   function agregarAListaDeEspera () {
     $usuario_id = (int)$_POST['usuario'];
     $vuelo_id = (int)$_POST['vuelo'];
-    $exists = $this->lista->obtenerDeListaDeEspera($usuario_id, $vuelo_id);
-    if(empty($exists)) {
+    $usuarioEnEspera = $this->lista->obtenerDeListaDeEspera($usuario_id, $vuelo_id);
+    $isEmpty = empty(json_decode($usuarioEnEspera, true));
+    if($isEmpty) {
       $this->lista->agregarAListaDeEspera($usuario_id, $vuelo_id);
     } else {
-      return json_decode($exists);
+      echo $usuarioEnEspera;
     }
   }
 }

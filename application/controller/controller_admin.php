@@ -79,7 +79,6 @@ class Controller_Admin extends Controller {
    function editarVuelo(){
      $id=$_GET['id'];
      $result = $this->vuelo->obtenerVueloPorId($id);
-     echo var_dump($result);
      $data = json_decode($result,true);
     $this->view->generate('Admin/view_admin_editar_vuelos.php', 'template_admin.php',$data);
   }

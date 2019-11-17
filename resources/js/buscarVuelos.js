@@ -57,13 +57,13 @@ function obtenerVuelosPorTipo(obj) {
     url: `http://${window.location.host}/gaucho-rocket/vuelos/obtenerVuelosPorTipoDeVuelo`,
     data: { equipo_id: equipoId },
     success: function(response) {
-      const jsonResponse = JSON.parse(response);
+      const responseParse = JSON.parse(response);
       const notFound = `<p>No se encontro ningun vuelo</p>`;
-      if (jsonResponse.length === 0) {
+      if (responseParse.length === 0) {
         $('.server').remove();
         return $("#vuelos").html(notFound);
       }
-      const html = jsonResponse.map(function(vuelo){
+      const html = responseParse.map(function(vuelo){
         return (
           `<div class='card' style='width: 18rem; float: left;'>
           <img src='https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg' class='card-img-top'>

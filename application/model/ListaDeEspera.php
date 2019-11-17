@@ -18,7 +18,6 @@
       $sql = "select * from ListaDeEspera where vuelo_id = '$vuelo_id' and usuario_id = '$usuario_id'";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
-      var_dump($result);die();
       return json_encode($result);
     }
     
@@ -27,7 +26,7 @@
       $sql= "insert into ListaDeEspera (fecha, vuelo_id, usuario_id) values ('$currentTime', '$vuelo_id', '$usuario_id')";
       $query = $this->database->exec($sql);
       $query = $this->database->get_affected_rows();
-      return $query;
+      echo $query;
     }
 
   }

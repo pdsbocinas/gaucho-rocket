@@ -21,8 +21,13 @@ function anotarListaEspera(data) {
     url: `http://${window.location.host}/gaucho-rocket/reservas/agregarAListaDeEspera`,
     data: data,
     success: function(response) {
-      console.log(response)
-      $(".toast").css('opacity', 1);  
+      const responseParse = JSON.parse(response);
+      if (typeof responseParse === 'number') {
+        $(".toast").css('opacity', 1);  
+      } else {
+        $(".toast-body").text("Ya estas en la lista de espera");
+        $(".toast").css('opacity', 1);  
+      }
     }
   })
 }
