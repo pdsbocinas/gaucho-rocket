@@ -22,18 +22,22 @@ class Controller_Reservas extends Controller{
     require_once( $this->path->getPage("model", "Usuario.php") );
     require_once( $this->path->getPage("model", "Vuelo.php") );
     require_once( $this->path->getPage("model", "Reserva.php") );
+    require_once( $this->path->getPage("model", "ListaDeEspera.php") );
     $this->vuelo = new Vuelo();
     $this->usuario = new Usuario();
     $this->reserva = new Reserva();
     $this->view = new View();
+    $this->lista = new ListaDeEspera();
     $this->mail = new PHPMailer(true);
   }
 
   function index () {
     $id = $_GET['id'];
     $data = $this->vuelo->obtenerVueloPorId($id);
-    $result = json_decode($data);
-    $this->view->generate('view_detalle_reserva.php', 'template_home.php', $result);
+    $result = json_decode($data, true);
+    $disponibilidad = $this->reserva->obtenerDisponibilidad($result);
+    $data_mergeada = array_merge($disponibilidad, $result);
+    $this->view->generate('view_detalle_reserva.php', 'template_home.php', $data_mergeada);
   }
 
   function confirm () {
@@ -104,9 +108,20 @@ class Controller_Reservas extends Controller{
 			$this->mail->send();
 			echo 'Message has been sent';
 		} catch (Exception $e) {
-				echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
+			echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
 		}
-	}
+  }
+  
+  function agregarAListaDeEspera () {
+    $usuario_id = (int)$_POST['usuario'];
+    $vuelo_id = (int)$_POST['vuelo'];
+    $exists = $this->lista->obtenerDeListaDeEspera($usuario_id, $vuelo_id);
+    if(empty($exists)) {
+      $this->lista->agregarAListaDeEspera($usuario_id, $vuelo_id);
+    } else {
+      return json_decode($exists);
+    }
+  }
 }
 
 ?>
