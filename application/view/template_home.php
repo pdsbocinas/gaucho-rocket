@@ -52,7 +52,7 @@ $path = Path::getInstance("config/path.ini");
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <?php echo "<script src=" . $path->getLink("js", "modalRegistrar.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "registrarTurno.js") . "></script>" ?>
-    <?php echo "<script src=" . $path->getLink("js", "pagarReserva.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "gestionarReserva.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "buscarVuelos.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "anotarListaEspera.js") . "></script>" ?>
   </body>

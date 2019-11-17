@@ -28,11 +28,11 @@
       $this->equipo = new Equipo();
     }
 
-    function crearReserva($userEmail, $vueloId) {
+    function crearReserva($user_id, $userEmail, $vueloId, $cabina) {
       $currentTime = date('Y-m-d H:i:s');
       $result = md5($userEmail);
       $sql = "insert into Reserva (codigo, fecha, vuelo_id, servicio_id, usuario_id, precio_final, pagada, tipo_de_cabina) 
-      values ('$result', '$currentTime', '$vueloId', 1, 1, 123456, 0, 'general')";
+      values ('$result', '$currentTime', '$vueloId', 1, '$user_id', 123456, 0, '$cabina')";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
       return $insertReserva;
