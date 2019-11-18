@@ -13,5 +13,41 @@ $(document).ready(function(){
       }
     })
   })
-
+  const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
+  const precio = $('.precioBase').text();
+  const precioInt = parseInt(precio.match(regexOnlyNumber).shift());
+  $('#precioFinal').val(precioInt);
+  obtenerTodosLosServicios();
+  precioFinalSegunServicio();
 });
+
+function obtenerTodosLosServicios () {
+  $.ajax({
+    type: "GET",
+    url: `http://${window.location.host}/gaucho-rocket/reservas/obtenerTodosLosServicios`,
+    success: function(response) {
+      const responseParse = JSON.parse(response);
+      const html = responseParse.map(function(servicio){
+        return (
+          `<option value=${servicio.id}>
+            ${servicio.descripcion}
+            <span>(${servicio.porcentaje}%)</span>
+          </option>`
+        )})
+      $("#servicios").html(html)
+    }
+  })
+}
+
+function precioFinalSegunServicio () {
+  $('#servicios').on('change', function (e) {
+    const text = $("#servicios option:selected").text();
+    const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
+    const getPorcentaje = parseInt(text.match(regexOnlyNumber).shift());
+    const precio = $('.precioBase').text();
+    const precioInt = parseInt(precio.match(regexOnlyNumber).shift());
+    const precioFinal = precioInt + precioInt * getPorcentaje / 100;
+    $('#precioFinal').val(precioFinal);
+    $('.precioFinal').text(`$ ${precioFinal}`);
+  })
+}

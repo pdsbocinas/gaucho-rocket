@@ -51,7 +51,6 @@ function obtenerVuelosPorFecha (obj) {
 
 function obtenerVuelosPorTipo(obj) {
   const equipoId = obj.id
-  console.log(equipoId)
   $.ajax({
     type: "POST",
     url: `http://${window.location.host}/gaucho-rocket/vuelos/obtenerVuelosPorTipoDeVuelo`,

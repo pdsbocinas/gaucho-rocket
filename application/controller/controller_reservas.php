@@ -23,12 +23,14 @@ class Controller_Reservas extends Controller{
     require_once( $this->path->getPage("model", "Vuelo.php") );
     require_once( $this->path->getPage("model", "Reserva.php") );
     require_once( $this->path->getPage("model", "ListaDeEspera.php") );
+    require_once( $this->path->getPage("model", "Servicio.php") );
     $this->vuelo = new Vuelo();
     $this->usuario = new Usuario();
     $this->reserva = new Reserva();
     $this->view = new View();
     $this->lista = new ListaDeEspera();
     $this->mail = new PHPMailer(true);
+    $this->servicio = new Servicio();
   }
 
   function index () {
@@ -41,16 +43,20 @@ class Controller_Reservas extends Controller{
   }
 
   function confirm () {
+    $precioFinal = $_POST['precioFinal'];
     $vueloId = $_POST['id'];
-    $cabina = $_POST['servicio'];
+    $servicio = $_POST['servicio'];
     $user_id = $_SESSION['id'];
     $userEmail = $_SESSION['email'];
     $userNivel = $_SESSION['nivel'];
     $nivel = $this->usuario->obtenerNivelDelUsuario($_SESSION['id']);
+    $servicioPorId = json_decode($this->servicio->obtenerServicioPorId($servicio), true);
+    $cabina = $servicioPorId[0]['descripcion'];
+
     if (is_null($userNivel) and is_null($nivel)) {
       $this->view->generate('micuenta/view_sin_estudio_hecho.php', 'template_home.php');
     } else {
-      $data = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $cabina);
+      $data = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina);
       $link =  "location:" . $this->path->getEvent('micuenta', 'reservas');
       header($link);
     }
@@ -123,6 +129,11 @@ class Controller_Reservas extends Controller{
     } else {
       echo $usuarioEnEspera;
     }
+  }
+
+  function obtenerTodosLosServicios () {
+    $data = $this->servicio->obtenerTodosLosServicios();
+    echo $data;
   }
 }
 
