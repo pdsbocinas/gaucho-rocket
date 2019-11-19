@@ -99,4 +99,11 @@ class Vuelo
     $link =  "location:" . $this->path->getEvent('admin','vuelos');
     header ($link);
   }
+
+  function obtenerVuelosPorPrecio($min, $max) {
+    $sql = "select * from Vuelo where precio >= '$min' and precio <= '$max'";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    return json_encode($result);
+  }
 }

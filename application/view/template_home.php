@@ -12,6 +12,8 @@ $path = Path::getInstance("config/path.ini");
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <?php echo "<link rel='stylesheet' href='" . $path->getLink("css","header.css") . "'>"; ?>
 <?php echo "<link rel='stylesheet' href='" . $path->getLink("css","reservas.css") . "'>"; ?>
+<?php echo "<link rel='stylesheet' href='" . $path->getLink("css","buscador.css") . "'>"; ?>
+
 <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
