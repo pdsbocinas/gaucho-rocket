@@ -1,4 +1,15 @@
 $(document).ready(function(){
+  pagarReserva();
+  cancelarReserva();
+  const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
+  const precio = $('.precioBase').text();
+  const precioInt = parseInt(precio.match(regexOnlyNumber).shift());
+  $('#precioFinal').val(precioInt);
+  obtenerTodosLosServicios();
+  precioFinalSegunServicio();
+});
+
+function pagarReserva () {
   $('.pagar').on('click', function(e) {
     const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
     const getId = this.id.match(regexOnlyNumber).shift();
@@ -9,17 +20,10 @@ $(document).ready(function(){
       success: function(response) {
         $('.pagar').removeClass('btn-primary');
         $('.pagar').addClass('btn-success disabled').text('pagado');
-        window.location.href = "http://localhost:8888/gaucho-rocket/reservas/exito"
       }
     })
   })
-  const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
-  const precio = $('.precioBase').text();
-  const precioInt = parseInt(precio.match(regexOnlyNumber).shift());
-  $('#precioFinal').val(precioInt);
-  obtenerTodosLosServicios();
-  precioFinalSegunServicio();
-});
+}
 
 function obtenerTodosLosServicios () {
   $.ajax({
@@ -49,5 +53,23 @@ function precioFinalSegunServicio () {
     const precioFinal = precioInt + precioInt * getPorcentaje / 100;
     $('#precioFinal').val(precioFinal);
     $('.precioFinal').text(`$ ${precioFinal}`);
+  })
+}
+
+function cancelarReserva () {
+  $('.cancelar').on('click', function(e) {
+    const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
+    const getId = this.id.match(regexOnlyNumber).shift();
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8888/gaucho-rocket/reservas/cancelarReserva",
+      data: { reserva_id: getId },
+      success: function(response) {
+        console.log(response);
+        // $('.pagar').removeClass('btn-primary');
+        // $('.pagar').addClass('btn-success disabled').text('pagado');
+        window.location.href = "./gaucho-rocket/micuenta/reservas"
+      }
+    })
   })
 }

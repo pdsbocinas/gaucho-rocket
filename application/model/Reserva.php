@@ -30,7 +30,7 @@
 
     function crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina) {
       $currentTime = date('Y-m-d H:i:s');
-      $codigo = md5($userEmail);
+      $codigo = md5($currentTime);
       $sql = "insert into Reserva (codigo, fecha, vuelo_id, servicio_id, usuario_id, precio_final, pagada, tipo_de_cabina) 
       values ('$codigo', '$currentTime', '$vueloId', $servicio, '$user_id', $precioFinal, 0, '$cabina')";
       $insertReserva = $this->database->exec($sql);
@@ -39,7 +39,7 @@
     }
 
     function obtenerReservasPorUsuario($id) {
-      $sql = "select r.codigo, r.fecha, v.titulo, s.descripcion, u.email, r.tipo_de_cabina, r.precio_final from Reserva r 
+      $sql = "select r.id, r.codigo, r.fecha, v.titulo, s.descripcion, u.email, r.tipo_de_cabina, r.precio_final, r.pagada from Reserva r 
       join Servicio s on s.id = r.servicio_id
       join Usuario u on u.id = r.usuario_id
       join Vuelo v on v.id = r.vuelo_id
@@ -87,6 +87,12 @@
       } else {
         return $disponibilidad;
       }
+    }
+
+    function cancelarReserva ($reserva_id) {
+      $sql = "delete from Reserva where id = '$reserva_id'";
+      $deleteReserva = $this->database->exec($sql);
+      $deleteReserva = $this->database->get_affected_rows();
     }
   }
   

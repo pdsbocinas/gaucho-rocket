@@ -55,7 +55,7 @@
           </div>
         </li>
         <li>
-          <h2>Tipo de vuelo</h2>
+          <h2>Precio</h2>
         </li>
         <li class="price">
           <input id="minPrecio" type="number" placeholder="Min" name="minPrice" value="">

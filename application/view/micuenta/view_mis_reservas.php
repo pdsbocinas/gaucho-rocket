@@ -1,4 +1,4 @@
-<div class="container">
+<div class="containe-fluid">
   <?php
     if (isset($data)) {
       echo "<h2>Mis Reservas</h2>";

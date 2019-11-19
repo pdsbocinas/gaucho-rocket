@@ -135,6 +135,13 @@ class Controller_Reservas extends Controller{
     $data = $this->servicio->obtenerTodosLosServicios();
     echo $data;
   }
+
+  function cancelarReserva () {
+    $reserva_id = $_POST['reserva_id'];
+    $data = $this->reserva->cancelarReserva($reserva_id);
+    $link =  "location:" . $this->path->getEvent('reservas', 'exito');
+    header($link);
+  }
 }
 
 ?>
