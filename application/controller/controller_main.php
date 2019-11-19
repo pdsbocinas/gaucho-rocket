@@ -92,7 +92,6 @@ class Controller_Main extends Controller
 	}
 
 	function register ($nombre_de_usuario = "", $email= "", $password= "") {
-		//var_dump("entro");die();
 		// en este paso registro al usuario con estado pendiente y le agrego en el get
 		// le guardo el password, todo los datos
 		// el email y un hash del current date

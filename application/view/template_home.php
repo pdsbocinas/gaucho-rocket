@@ -11,6 +11,9 @@ $path = Path::getInstance("config/path.ini");
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <?php echo "<link rel='stylesheet' href='" . $path->getLink("css","header.css") . "'>"; ?>
+<?php echo "<link rel='stylesheet' href='" . $path->getLink("css","reservas.css") . "'>"; ?>
+<?php echo "<link rel='stylesheet' href='" . $path->getLink("css","buscador.css") . "'>"; ?>
+
 <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
@@ -50,10 +53,11 @@ $path = Path::getInstance("config/path.ini");
     <!-- !END PAGE CONTENT! -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <?php echo "<script src=" . $path->getLink("js", "modal-register.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "modalRegistrar.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "registrarTurno.js") . "></script>" ?>
-    <?php echo "<script src=" . $path->getLink("js", "pagarReserva.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "gestionarReserva.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "buscarVuelos.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "anotarListaEspera.js") . "></script>" ?>
   </body>
 </html>
 
