@@ -30,16 +30,20 @@
 
     function crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina) {
       $currentTime = date('Y-m-d H:i:s');
-      $result = md5($userEmail);
+      $codigo = md5($userEmail);
       $sql = "insert into Reserva (codigo, fecha, vuelo_id, servicio_id, usuario_id, precio_final, pagada, tipo_de_cabina) 
-      values ('$result', '$currentTime', '$vueloId', $servicio, '$user_id', $precioFinal, 0, '$cabina')";
+      values ('$codigo', '$currentTime', '$vueloId', $servicio, '$user_id', $precioFinal, 0, '$cabina')";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
       return $insertReserva;
     }
 
     function obtenerReservasPorUsuario($id) {
-      $sql = "select * from Reserva where usuario_id = '$id'";
+      $sql = "select r.codigo, r.fecha, v.titulo, s.descripcion, u.email, r.tipo_de_cabina, r.precio_final from Reserva r 
+      join Servicio s on s.id = r.servicio_id
+      join Usuario u on u.id = r.usuario_id
+      join Vuelo v on v.id = r.vuelo_id
+      where usuario_id = '$id'";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
