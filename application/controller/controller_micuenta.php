@@ -72,4 +72,26 @@ class Controller_MiCuenta extends Controller{
     header($link);
   }
 
+  function checkin(){
+      $this->view->generate('micuenta/view_checkin.php', 'template_home.php');
+  }
+  function checkinPaso2(){
+    $this->view->generate('micuenta/checkin_paso2.php', 'template_home.php');
+  }
+
+  function traeReservasParaRealizarCheckin(){
+    $id = (int)$_GET['id'];
+    $codigo = $_GET['codigo'];
+    //var_dump($id);
+    //var_dump($codigo);
+    $result=$this->reserva->ConsultaPorCodigoDeReservaPagaUsuario($codigo,$id);
+    $data=json_decode($result, true);
+    $this->view->generate('micuenta/checkin_paso1.php', 'template_home.php',$data);
+
+  }
+
+  // function consultarCheckin($codigo,$usuarioid){
+    
+
+  // }
 }

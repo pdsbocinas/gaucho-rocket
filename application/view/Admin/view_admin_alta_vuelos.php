@@ -37,7 +37,7 @@
         <input type="text" name="descripcion" class="form-control" id="descripcion"  placeholder="Descripcion">
     </div>
     <div class="form-group">
-        <label for="equipo_id">Avion</label>
+        <label for="avion_id">Avion</label>
         <input type="number" name="avion_id" class="form-control" id="avion_id" value="" required placeholder="Avion">
     </div>
     <input type="submit" class="btn btn-primary btn-lg" value="Guardar">

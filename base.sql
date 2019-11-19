@@ -25,7 +25,17 @@ ALTER TABLE Avion
   MODIFY id int(11) AUTO_INCREMENT, AUTO_INCREMENT=2;
   
 INSERT INTO  Avion  ( id ,  modelo ,  matricula ) VALUES
-(1, 'gol', 'ac256');
+(1, 'Aguila','AA1'),
+(2, 'Aguilucho','BA8'),
+(3, 'Calandria','O1'),
+(4, 'Canario','BA13'),
+(5, 'Carancho','BA4'),
+(6, 'Colibri','O3'),
+(7, 'Condor','AA2'),
+(8, 'Guanaco','AA4'),
+(9, 'Halcon','AA3'),
+(10, 'Zorzal','BA1');
+
 
 SELECT * FROM aVION;
 
@@ -105,8 +115,8 @@ ALTER TABLE   Equipo
 --
 
 INSERT INTO  Equipo  ( id ,  tipo ,  general ,  familiar ,  suite ,  avion_id ) VALUES
-(1, 'orbitales', 20, 30, 50, NULL),
-(2, 'baja aceleracion', NULL, NULL, NULL, NULL),
+(1, 'Orbital', 20, 30, 50, 1),
+(2, 'baja aceleracion', 25	, 50, 125, 1),
 (3, 'alta aceleracion', NULL, NULL, NULL, NULL),
 (4, 'orbitales', NULL, NULL, NULL, NULL),
 (5, 'baja aceleracion', NULL, NULL, NULL, NULL),
@@ -132,6 +142,8 @@ CREATE TABLE  Reserva  (
 
 ALTER TABLE   Reserva  
   MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  
+
 
 -- --------------------------------------------------------
 
@@ -147,13 +159,15 @@ CREATE TABLE  Servicio  (
 
 ALTER TABLE   Servicio  
   MODIFY   id   int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+   
 --
 -- Volcado de datos para la tabla  Servicio 
 --
 
 INSERT INTO  Servicio  ( id ,  descripcion ,  porcentaje ) VALUES
 (1, 'base', 10),
-(2, 'suite', 15);
+(2, 'suite', 15),
+(3,'auriculares',3);
 
 -- --------------------------------------------------------
 
@@ -222,7 +236,7 @@ ALTER TABLE   Usuario
 
 INSERT INTO  Usuario  ( nombre_de_usuario ,  email ,  password ,  rol ,  id ,  nivel ,  estado ) VALUES
 ('pablo', 'pds.gomez@gmail.com', '123456', 'admin', 1, '2', 'activo'),
-('nico', 'nico@gmail.com', '123456', 'x', 5, NULL, '5983d85c15deda0eca25d78218a4fde7');
+('nico', 'nico@gmail.com', '123456', 'x', 5, 2, '5983d85c15deda0eca25d78218a4fde7');
 
 -- --------------------------------------------------------
 
@@ -250,9 +264,8 @@ ALTER TABLE   Vuelo
 --
 
 INSERT INTO   Vuelo  ( id ,  titulo ,  precio ,  fecha_salida ,  fecha_llegada ,  origen_id ,  destino_id ,  tarifa_id ,  descripcion ,  avion_id ) VALUES
-(1, 'Vuelo a la luna', 1200, '2020-01-01', '2020-02-02', 2, 1, 1, 'El vuelo mas groso del universo', NULL),
-(2, 'sarasa', 1200000, '2019-11-01', '2019-11-30', 1, 2, 1, 'blablbala', 1);
-
+(1, 'Vuelo a la luna', 1200, '2019-11-15', '2020-02-02', 2, 1, 1, 'El vuelo mas groso del universo', 1),
+(2, 'sarasa', 1200000, '2019-11-15', '2019-11-30', 1, 2, 1, 'blablbala', 1);
 
 -- ALTER TABLE Orders ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
 
@@ -290,3 +303,83 @@ ALTER TABLE Vuelo ADD FOREIGN KEY (avion_id) REFERENCES Avion (id);
 ALTER TABLE   Vuelo ADD FOREIGN KEY (origen_id) REFERENCES Destino (id);
 ALTER TABLE   Vuelo ADD FOREIGN KEY (destino_id) REFERENCES Destino (id);
 ALTER TABLE   Vuelo ADD FOREIGN KEY (tarifa_id) REFERENCES Tarifa (id);
+
+
+
+
+/*-----------------------------------------------	INSERCION DE ALGUNOS DATOS	----------------------------------------------------------*/
+-- paso1 buscar la reserva
+	select * 
+    from reserva 
+	where codigo='QWERTY'  & usuario_id=5;
+-- paso1.1 si no está paga,mostrar un modal que le indique que tiene que abonar la reserva
+
+-- paso 2 esta reserva esta " PAGA "...por lo tanto se puede ir al paso 
+INSERT INTO reserva(id,codigo,fecha,vuelo_id,servicio_id,usuario_id,precio_final,pagada,tipo_de_cabina)
+		VALUES (1,'QWERTY','2019-11-20',1,1,5,25000,1,'G'),
+        (2,'QWERTY','2015-01-01',1,1,5,25000,0,'G'),
+        (3,'QWERTY','2015-01-01',1,1,5,25000,0,'G'),
+        (5,'ABM','2015-01-01',1,1,5,25000,0,'F'),
+        (4,'QWERTY','2015-01-01',1,1,5,25000,1,'G');
+
+select * from reserva;
+-- paso 3
+
+
+/*-----------------------------------------------	CONSULTA DE ASIENTOS	----------------------------------------------------------*/
+-- le pasamos el vuelo_id asociado al codigo ---ejemplo 1
+SELECT tipo_de_cabina,count(*)
+FROM reserva
+WHERE vuelo_id=1 && tipo_de_cabina = 'G'
+GROUP BY tipo_de_cabina;
+-- para ese vuelo,hay 4 asientos ocupados en general
+-- ahora debemos traer el general del avion o del equipo
+
+SELECT e.general
+FROM  avion a join equipo e on a.id=e.avion_id
+			  join vuelo v on v.avion_id=a.id;
+-- insert en la tabla pasandole el id del avion
+
+-- linea importante si no no me deja actualizar la tabla s
+SET SQL_SAFE_UPDATES = 0;
+
+-- esta sentencia me va a actualizar la tabla de generales para un tipo de avion 
+-- el 21 va a ser la variable que me van a mandar desde php con autoincremental o algo asi 
+update equipo
+	join avion ON equipo.avion_id= avion.id
+    join vuelo ON vuelo.avion_id=avion.id
+set equipo.general=21 -- acà iria un valor que lo generamos en php,sumando 
+where avion.id=1;
+
+-- para pasarle los numeros,lo que haremos es ,realizar un switch en php que realice una consulta para las suites,otra
+-- para las generales y otra para las familiares...de acuerdo al idvuelo,codigo rever, id_reserva
+-- agarramos ese codigo_de_cabina y lo sumamos a ese valor de la consulta que me trae los disponibles (boton final de checkin) 
+
+select *
+from equipo
+where equipo.avion_id=1;
+
+
+-- antes de este paso tendria que elegir los asientos 
+-- de manera individual
+
+/*-----------------------------------------------RESTAR EN LA CAPACIDAD DEL equipo para ese avion----------------------------------------------------------------------------*/
+SET @cant_cabinaG_porReserva = 	(	SELECT /*tipo_de_cabina,*/count(*)
+									FROM reserva
+									WHERE vuelo_id=1 && tipo_de_cabina = 'G'
+									GROUP BY tipo_de_cabina
+                                    );
+
+select @cant_cabinaG_porReserva;
+
+
+
+create table checkin(
+							asiento_id varchar(10) primary key,
+							vuelo_id  int(11) NOT NULL
+						);
+                        
+INSERT INTO checkin(asiento_id,vuelo_id)
+		VALUES ('G2',1);
+
+        

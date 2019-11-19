@@ -12,6 +12,8 @@ class Usuario
   private $nivel;
   private $estado;
 
+  private $reserva;
+
 
   public function __construct() {
     $this->path = Path::getInstance("config/path.ini");
@@ -127,4 +129,10 @@ class Usuario
     $query = $this->database->query_row($sql);
     return json_encode($query);
   }
+
 }
+
+
+
+
+
