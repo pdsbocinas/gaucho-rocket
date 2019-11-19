@@ -54,6 +54,7 @@ $path = Path::getInstance("config/path.ini");
     <?php echo "<script src=" . $path->getLink("js", "registrarTurno.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "pagarReserva.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "buscarVuelos.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "traerAsientosOcupadosYDisponibles.js") . "></script>" ?>
   </body>
 </html>
 

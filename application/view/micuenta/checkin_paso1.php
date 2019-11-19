@@ -31,7 +31,7 @@
         elseif($fecha_hora_actual > $fecha_viaje_menos2hs){
             echo "<div class='alert alert-danger' role='alert'>Vencìo el tiempo para realizar el Checkin</div>";
             }else{
-                echo "<div class='alert alert-info' role='alert'>Todavia no se habilito el checkin,estate atento</div>";
+            echo "<div class='alert alert-info' role='alert'>Todavia no se habilito el checkin,estate atento</div>";
         }
     }
 ?>
