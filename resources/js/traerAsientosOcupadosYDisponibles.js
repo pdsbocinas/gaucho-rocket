@@ -1,18 +1,12 @@
 
 $(document).ready(function(){
   let params = (new URL(document.location)).searchParams;
-  let vuelo_id = params.get('vuelo_id'); // is the string "Jonathan Smith".
   let id = parseInt(params.get('vuelo_id'));
+  manejarAsiento(id);
   obtenerTotalidadDeAsientos(id);
-  obtenerTodosLosAsientosOcupados(id);
-  manejarAsiento();
+  obtenerDisponibilidad(id);
+  console.log(obtenerTodosLosAsientosOcupados(id));
 });
-
-function manejarAsiento () {
-  $('.content-asiento').on('click', function (e) {
-    console.log(e)
-  })
-}
 
 function obtenerTotalidadDeAsientos(id) {
   $.ajax({
@@ -41,10 +35,10 @@ function obtenerTotalidadDeAsientos(id) {
       const html = reduce.map(function(asiento){
       return (
         `
-        <div class="content-asiento">
-          <div id="manejarAsiento" style="width: 15px; height: 15px;" class=${obtenerDisponibilidad(asiento, id)}></div>
+        <button id=${asiento} class="content-asiento">
+          <div style="width: 15px; height: 15px;" class=${obtenerDisponibilidad(asiento, id)}></div>
           <span class='asiento'>${asiento}</span>
-        </div>`
+        </button>`
       )})
 
       $("#asientos").html(html)
@@ -53,8 +47,43 @@ function obtenerTotalidadDeAsientos(id) {
 }
 
 function obtenerDisponibilidad(asiento, id) {
-  // let listaOcupada = obtenerTodosLosAsientosOcupados(id);
+  let listaOcupada = obtenerTodosLosAsientosOcupados(id);
+  console.log(obtenerTodosLosAsientosOcupados(id))
   return ['1a'].includes(asiento) ? 'ocupado' : 'disponible';
+}
+
+function manejarAsiento (id) {
+  $(document).on('click', '.content-asiento', function(e) {
+    const asiento = this.id;
+    $.ajax({
+      type: "POST",
+      url: `http://${window.location.host}/gaucho-rocket/micuenta/guardarAsiento`,
+      data: { 
+        vuelo_id: id,
+        asiento,
+      },
+      success: function(response) {
+        const jsonResponse = JSON.parse(response)
+        window.location.href = "./gaucho-rocket/micuenta/checkin"
+      }
+    })
+  });
+}
+
+async function obtenerTodosLosAsientosOcupados (id) {
+  let asientos = []
+  $.ajax({
+    type: "GET",
+    url: `http://${window.location.host}/gaucho-rocket/micuenta/obtenerAsientosOcupados`,
+    data: { 
+      vuelo_id: id
+    },
+    success: function(response) {
+      const jsonResponse = JSON.parse(response)
+      asientos = jsonResponse
+    }
+  })
+  return asientos
 }
 
 Object.defineProperty(Array.prototype, 'chunk', {
@@ -66,6 +95,3 @@ Object.defineProperty(Array.prototype, 'chunk', {
   }
 });
 
-function obtenerTodosLosAsientosOcupados (id) {
-  console.log(id)
-}

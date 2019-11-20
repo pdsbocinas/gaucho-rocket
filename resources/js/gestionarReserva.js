@@ -3,7 +3,7 @@ $(document).ready(function(){
   cancelarReserva();
   const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
   const precio = $('.precioBase').text();
-  const precioInt = parseInt(precio.match(regexOnlyNumber).shift());
+  const precioInt = precio !== 'undefined' ? parseInt(precio.match(regexOnlyNumber).shift()) : null;
   $('#precioFinal').val(precioInt);
   obtenerTodosLosServicios();
   precioFinalSegunServicio();

@@ -8,5 +8,5 @@
     }
     ?>
 
-    <a href="<?php  echo $path->getEvent('micuenta', 'checkin');?>">Realizar Checkin</a>;
+    <a href="<?php echo $path->getEvent('micuenta', 'checkin') ?>">Realizar Checkin</a>;
 </div>

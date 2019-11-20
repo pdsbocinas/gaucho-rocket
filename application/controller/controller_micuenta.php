@@ -10,9 +10,9 @@ class Controller_MiCuenta extends Controller{
   private $reserva;
   private $vuelo;
   private $equipo;
+  private $asiento;
 
   function __construct() {
-    // Incluyo todos los modelos a utilizar
     $this->path = Path::getInstance("config/path.ini");
     require_once( $this->path->getPage("model", "Usuario.php") );
     require_once( $this->path->getPage("model", "CentroMedico.php") );
@@ -20,6 +20,7 @@ class Controller_MiCuenta extends Controller{
     require_once( $this->path->getPage("model", "Reserva.php") );
     require_once( $this->path->getPage("model", "Vuelo.php") );
     require_once( $this->path->getPage("model", "Equipo.php") );
+    require_once( $this->path->getPage("model", "Asiento.php") );
 
     $this->view = new View();
     $this->usuario = new Usuario();
@@ -28,6 +29,7 @@ class Controller_MiCuenta extends Controller{
     $this->reserva = new Reserva();
     $this->vuelo = new Vuelo();
     $this->equipo = new Equipo();
+    $this->asiento = new Asiento();
   }
 
   function index () {
@@ -80,7 +82,7 @@ class Controller_MiCuenta extends Controller{
   }
 
   function checkin(){
-      $this->view->generate('micuenta/view_checkin.php', 'template_home.php');
+    $this->view->generate('micuenta/view_checkin.php', 'template_home.php');
   }
 
   function traeReservasParaRealizarCheckin(){
@@ -101,5 +103,19 @@ class Controller_MiCuenta extends Controller{
     $avion_id = json_decode($vuelo, true)[0]['avion_id'];
     $capacidad = $this->equipo->obtenerCapacidad($avion_id);
     echo $capacidad;
+  }
+
+  function obtenerAsientosOcupados () {
+    $vuelo_id = $_GET['vuelo_id'];
+    $data = $this->asiento->obtenerAsientosOcupados($vuelo_id);
+    echo $data;
+  }
+
+  function guardarAsiento () {
+    $asiento = $_POST['asiento'];
+    $vuelo_id = $_POST['vuelo_id'];
+    $usuario_id = $_SESSION['id'];
+    $data = $this->asiento->guardarAsiento($asiento, $vuelo_id, $usuario_id);
+    echo $data;
   }
 }
