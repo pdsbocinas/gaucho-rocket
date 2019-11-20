@@ -8,12 +8,8 @@ class Usuario
   private $nombre_de_usuario;
   private $email;
   private $password;
-  // el nivel se setea una vez que el tipo le da reservar turno. Se le asigna un numero random (1,2,3)
   private $nivel;
   private $estado;
-
-  private $reserva;
-
 
   public function __construct() {
     $this->path = Path::getInstance("config/path.ini");
