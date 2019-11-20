@@ -1,3 +1,15 @@
+#asientos {
+  display: grid;
+  grid-template-columns: repeat(6, 42px);
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
+.content-asiento {
+  margin: 0 20px;
+}
+
 .content-asiento .disponible {
   background: green;
 }

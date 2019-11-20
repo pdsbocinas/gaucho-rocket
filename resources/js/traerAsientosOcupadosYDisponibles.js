@@ -5,8 +5,14 @@ $(document).ready(function(){
   let id = parseInt(params.get('vuelo_id'));
   obtenerTotalidadDeAsientos(id);
   obtenerTodosLosAsientosOcupados(id);
+  manejarAsiento();
 });
 
+function manejarAsiento () {
+  $('.content-asiento').on('click', function (e) {
+    console.log(e)
+  })
+}
 
 function obtenerTotalidadDeAsientos(id) {
   $.ajax({
@@ -36,7 +42,7 @@ function obtenerTotalidadDeAsientos(id) {
       return (
         `
         <div class="content-asiento">
-          <div style="width: 15px; height: 15px;" class=${obtenerDisponibilidad(asiento, id)}></div>
+          <div id="manejarAsiento" style="width: 15px; height: 15px;" class=${obtenerDisponibilidad(asiento, id)}></div>
           <span class='asiento'>${asiento}</span>
         </div>`
       )})
@@ -47,8 +53,8 @@ function obtenerTotalidadDeAsientos(id) {
 }
 
 function obtenerDisponibilidad(asiento, id) {
-  let listaOcupada = obtenerTodosLosAsientosOcupados(id);
-  return listaOcupada.includes(asiento) ? 'ocupado' : 'disponible';
+  // let listaOcupada = obtenerTodosLosAsientosOcupados(id);
+  return ['1a'].includes(asiento) ? 'ocupado' : 'disponible';
 }
 
 Object.defineProperty(Array.prototype, 'chunk', {
