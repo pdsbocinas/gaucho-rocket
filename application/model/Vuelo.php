@@ -91,12 +91,12 @@ class Vuelo
                 origen_id = $origen_id,
                 destino_id = $destino_id,
                 tarifa_id = $tarifa_id,
-                descripcion = '$descripcion'
+                descripcion = '$descripcion',
                 avion_id = $avion_id
-            WHERE id = '$id'";
+            WHERE id = $id;";
     $query = $this->database->exec($sql);
     $query = $this->database->get_affected_rows();
-    $link =  "location:" . $this->path->getEvent('admin','vuelos');
+    $link = "location:" . $this->path->getEvent('admin','vuelos');
     header ($link);
   }
 

@@ -13,6 +13,8 @@ $path = Path::getInstance("config/path.ini");
 <?php echo "<link rel='stylesheet' href='" . $path->getLink("css","header.css") . "'>"; ?>
 <?php echo "<link rel='stylesheet' href='" . $path->getLink("css","reservas.css") . "'>"; ?>
 <?php echo "<link rel='stylesheet' href='" . $path->getLink("css","buscador.css") . "'>"; ?>
+<?php echo "<link rel='stylesheet' href='" . $path->getLink("css","checkin.css") . "'>"; ?>
+
 
 <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
@@ -57,6 +59,7 @@ $path = Path::getInstance("config/path.ini");
     <?php echo "<script src=" . $path->getLink("js", "registrarTurno.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "gestionarReserva.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "buscarVuelos.js") . "></script>" ?>
+    <?php echo "<script src=" . $path->getLink("js", "traerAsientosOcupadosYDisponibles.js") . "></script>" ?>
     <?php echo "<script src=" . $path->getLink("js", "anotarListaEspera.js") . "></script>" ?>
   </body>
 </html>

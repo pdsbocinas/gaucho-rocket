@@ -1,0 +1,23 @@
+#asientos {
+  display: grid;
+  grid-template-columns: repeat(6, 42px);
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  grid-gap: 12px;
+  justify-items: center;
+}
+
+.content-asiento {
+  background: none;
+  border: none;
+  margin: 0 20px;
+}
+
+.content-asiento .disponible {
+  background: green;
+}
+
+.content-asiento .ocupado {
+  background: red;
+}
