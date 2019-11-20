@@ -1,0 +1,58 @@
+ul {
+  list-style: none;
+  margin: 1.5rem!important;
+}
+
+.price {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.price input {
+  background-color: white;
+  color: rgb(74, 74, 74);
+  border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(218, 218, 218);
+  border-image: initial;
+
+  width: 55px;
+  height: 30px;
+  font-size: 15px;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: rgb(0, 0, 0);
+  text-align: left;
+  padding-left: 10px;
+}
+
+.price button {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(68, 0, 153);
+  cursor: pointer;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  border-radius: 2px;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+}
+
+.price button i {
+  color: white;
+  font-size: 14px;
+}
+

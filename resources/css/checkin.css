@@ -1,0 +1,7 @@
+.content-asiento .disponible {
+  background: green;
+}
+
+.content-asiento .ocupado {
+  background: red;
+}

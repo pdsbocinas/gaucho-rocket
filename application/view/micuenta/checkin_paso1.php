@@ -2,10 +2,12 @@
 <?php
     foreach ($data as $key => $fila) {
         $myIdFecha=$fila['fecha'];
+        echo "<form method='GET' action=". $path->getEvent('micuenta','checkinPaso2') .">";
         echo "<div>id: $fila[id]</div>";
         echo "<div>codigo reserva :$fila[codigo]</div>";
         echo "<div> fecha de salida: $fila[fecha]</div>";
         echo "<div>id vuelo :$fila[vuelo_id]</div>";
+        echo "<input type='hidden' name='vuelo_id' value='$fila[vuelo_id]' />";
         echo "<div>id de servicio: $fila[servicio_id]</div>";
         echo "<div>id de usuario: $fila[usuario_id]</div>";
         echo "<div>precio final: $fila[precio_final]</div>";
@@ -25,7 +27,7 @@
         //echo $fecha_salida_vuelo;   
         if ($fecha_hora_actual >= $fecha_viaje_menos1dia && $fecha_hora_actual <= $fecha_viaje_menos2hs) {
              ?>
-            <a class='btn btn-success' href='<?php echo  $path->getEvent('micuenta','checkinPaso2')?>'>Puede realizar el checkin</a>
+            <button type="submit" class='btn btn-success'>Puede realizar el checkin</a>
             <?php
         }
         elseif($fecha_hora_actual > $fecha_viaje_menos2hs){
@@ -33,6 +35,7 @@
             }else{
             echo "<div class='alert alert-info' role='alert'>Todavia no se habilito el checkin,estate atento</div>";
         }
+        echo "</form>";
     }
 ?>
 </div>

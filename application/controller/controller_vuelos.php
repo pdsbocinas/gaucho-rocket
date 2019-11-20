@@ -39,4 +39,11 @@ class Controller_Vuelos extends Controller{
     echo $data;
   }
 
+  function obtenerVuelosPorPrecio () {
+    $min = $_POST['min'];
+    $max = $_POST['max'];
+    $data = $this->vuelo->obtenerVuelosPorPrecio($min, $max);
+    echo $data;
+  }
+
 }

@@ -22,29 +22,41 @@ class Controller_Reservas extends Controller{
     require_once( $this->path->getPage("model", "Usuario.php") );
     require_once( $this->path->getPage("model", "Vuelo.php") );
     require_once( $this->path->getPage("model", "Reserva.php") );
+    require_once( $this->path->getPage("model", "ListaDeEspera.php") );
+    require_once( $this->path->getPage("model", "Servicio.php") );
     $this->vuelo = new Vuelo();
     $this->usuario = new Usuario();
     $this->reserva = new Reserva();
     $this->view = new View();
+    $this->lista = new ListaDeEspera();
     $this->mail = new PHPMailer(true);
+    $this->servicio = new Servicio();
   }
 
   function index () {
     $id = $_GET['id'];
     $data = $this->vuelo->obtenerVueloPorId($id);
-    $result = json_decode($data);
-    $this->view->generate('view_detalle_reserva.php', 'template_home.php', $result);
+    $result = json_decode($data, true);
+    $disponibilidad = $this->reserva->obtenerDisponibilidad($result);
+    $data_mergeada = array_merge($disponibilidad, $result);
+    $this->view->generate('view_detalle_reserva.php', 'template_home.php', $data_mergeada);
   }
 
   function confirm () {
+    $precioFinal = $_POST['precioFinal'];
     $vueloId = $_POST['id'];
+    $servicio = $_POST['servicio'];
+    $user_id = $_SESSION['id'];
     $userEmail = $_SESSION['email'];
     $userNivel = $_SESSION['nivel'];
     $nivel = $this->usuario->obtenerNivelDelUsuario($_SESSION['id']);
+    $servicioPorId = json_decode($this->servicio->obtenerServicioPorId($servicio), true);
+    $cabina = $servicioPorId[0]['descripcion'];
+
     if (is_null($userNivel) and is_null($nivel)) {
       $this->view->generate('micuenta/view_sin_estudio_hecho.php', 'template_home.php');
     } else {
-      $data = $this->reserva->crearReserva($userEmail, $vueloId);
+      $data = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina);
       $link =  "location:" . $this->path->getEvent('micuenta', 'reservas');
       header($link);
     }
@@ -67,7 +79,6 @@ class Controller_Reservas extends Controller{
 		$time = date(DATE_RFC2822);
     $nombre_de_usuario = $_SESSION['nombre_de_usuario'];
     $data = $reserva;
-    //var_dump($data);die();
     $link =  "location:" . $this->path->getEvent('main', '');
     header($link);
 
@@ -104,9 +115,33 @@ class Controller_Reservas extends Controller{
 			$this->mail->send();
 			echo 'Message has been sent';
 		} catch (Exception $e) {
-				echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
+			echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
 		}
-	}
+  }
+  
+  function agregarAListaDeEspera () {
+    $usuario_id = (int)$_POST['usuario'];
+    $vuelo_id = (int)$_POST['vuelo'];
+    $usuarioEnEspera = $this->lista->obtenerDeListaDeEspera($usuario_id, $vuelo_id);
+    $isEmpty = empty(json_decode($usuarioEnEspera, true));
+    if($isEmpty) {
+      $this->lista->agregarAListaDeEspera($usuario_id, $vuelo_id);
+    } else {
+      echo $usuarioEnEspera;
+    }
+  }
+
+  function obtenerTodosLosServicios () {
+    $data = $this->servicio->obtenerTodosLosServicios();
+    echo $data;
+  }
+
+  function cancelarReserva () {
+    $reserva_id = $_POST['reserva_id'];
+    $data = $this->reserva->cancelarReserva($reserva_id);
+    $link =  "location:" . $this->path->getEvent('reservas', 'exito');
+    header($link);
+  }
 }
 
 ?>
