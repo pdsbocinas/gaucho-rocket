@@ -20,6 +20,7 @@ function pagarReserva () {
       success: function(response) {
         $('.pagar').removeClass('btn-primary');
         $('.pagar').addClass('btn-success disabled').text('pagado');
+        window.location.href = `http://${window.location.host}/gaucho-rocket/micuenta/reservas`
       }
     })
   })
@@ -62,13 +63,17 @@ function cancelarReserva () {
     const getId = this.id.match(regexOnlyNumber).shift();
     $.ajax({
       type: "POST",
-      url: "http://localhost:8888/gaucho-rocket/reservas/cancelarReserva",
+      url: `http://${window.location.host}/gaucho-rocket/reservas/cancelarReserva`,
       data: { reserva_id: getId },
       success: function(response) {
-        console.log(response);
-        // $('.pagar').removeClass('btn-primary');
-        // $('.pagar').addClass('btn-success disabled').text('pagado');
-        window.location.href = "./gaucho-rocket/micuenta/reservas"
+        if (typeof responseParse === 'number') {
+          $(".toast").css('opacity', 1);
+          $(".toast-body").text("Cancelacion exitosa");
+        } else {
+          $(".toast-body").text("Cancelacion exitosa");
+          $(".toast").css('opacity', 1);  
+        }
+        window.location.href = `http://${window.location.host}/gaucho-rocket/micuenta/reservas`
       }
     })
   })

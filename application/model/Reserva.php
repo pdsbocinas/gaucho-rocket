@@ -20,7 +20,6 @@
     private $pagada;
 
     private $tipo_de_cabina;
-    //private $checkin;
 
     public function __construct() {
       $this->path = Path::getInstance("config/path.ini");
@@ -58,7 +57,7 @@
     }
 
     function ConsultaPorCodigoDeReservaPagaUsuario($codigo,$usuario_id){
-      $sql="SELECT * FROM reserva WHERE codigo = '$codigo' & usuario_id = $usuario_id & pagada = 1;";
+      $sql="SELECT * FROM reserva WHERE codigo = '$codigo' and usuario_id = '$usuario_id' and pagada = 1";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
@@ -100,6 +99,8 @@
       $sql = "delete from Reserva where id = '$reserva_id'";
       $deleteReserva = $this->database->exec($sql);
       $deleteReserva = $this->database->get_affected_rows();
+      $link =  "location:" . $this->path->getEvent('reservas', 'exito');
+      header($link);
     }
   }
 

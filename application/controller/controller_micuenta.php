@@ -40,7 +40,11 @@ class Controller_MiCuenta extends Controller{
     $id = $_SESSION['id'];
     $data = $this->reserva->obtenerReservasPorUsuario($id);
     $data = json_decode($data);
-    $this->view->generate('micuenta/view_mis_reservas.php', 'template_home.php', $data);
+    if (empty($data)) {
+      $this->view->generate('micuenta/view_sin_reservas_hechas.php', 'template_home.php', $data);
+    } else {
+      $this->view->generate('micuenta/view_mis_reservas.php', 'template_home.php', $data);
+    }
   }
 
   function examenes () {
@@ -77,7 +81,7 @@ class Controller_MiCuenta extends Controller{
   function cerrarSession(){
     session_start();
     session_destroy();
-    $link =  "location:" . $this->path->getEvent('main', 'index');
+    $link = "location:" . $this->path->getEvent('main', 'index');
     header($link);
   }
 
@@ -86,10 +90,10 @@ class Controller_MiCuenta extends Controller{
   }
 
   function traeReservasParaRealizarCheckin(){
-    $id = (int)$_GET['id'];
+    $id = (int)$_SESSION['id'];
     $codigo = $_GET['codigo'];
-    $result=$this->reserva->ConsultaPorCodigoDeReservaPagaUsuario($codigo,$id);
-    $data=json_decode($result, true);
+    $result = $this->reserva->ConsultaPorCodigoDeReservaPagaUsuario($codigo, $id);
+    $data = json_decode($result, true);
     $this->view->generate('micuenta/checkin_paso1.php', 'template_home.php', $data);
   }
 

@@ -139,8 +139,6 @@ class Controller_Reservas extends Controller{
   function cancelarReserva () {
     $reserva_id = $_POST['reserva_id'];
     $data = $this->reserva->cancelarReserva($reserva_id);
-    $link =  "location:" . $this->path->getEvent('reservas', 'exito');
-    header($link);
   }
 }
 
