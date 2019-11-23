@@ -3,7 +3,7 @@ $(document).ready(function(){
   let params = (new URL(document.location)).searchParams;
   let id = parseInt(params.get('vuelo_id'));
   obtenerDisponibilidad(id);
-  manejarAsiento(id);
+  guardarAsiento(id);
 });
 
 function obtenerTotalidadDeAsientos (id) {
@@ -67,21 +67,25 @@ async function obtenerDisponibilidad(id) {
   $("#asientos").html(disponibilidad)
 }
 
-function manejarAsiento (id) {
+async function guardarAsiento (id) {
+  const ocupados = await obtenerTodosLosAsientosOcupados(id)
+  const ocupadosJson = JSON.parse(ocupados).map(function(v){ return v.asiento })
   $(document).on('click', '.content-asiento', function(e) {
     const asiento = this.id;
-    $.ajax({
-      type: "POST",
-      url: `http://${window.location.host}/gaucho-rocket/micuenta/guardarAsiento`,
-      data: { 
-        vuelo_id: id,
-        asiento,
-      },
-      success: function(response) {
-        const jsonResponse = JSON.parse(response)
-        window.location.href = "./gaucho-rocket/micuenta/checkin"
-      }
-    })
+    if(!ocupadosJson.includes(asiento)){
+      $.ajax({
+        type: "POST",
+        url: `http://${window.location.host}/gaucho-rocket/micuenta/guardarAsiento`,
+        data: { 
+          vuelo_id: id,
+          asiento,
+        },
+        success: function(response) {
+          const jsonResponse = JSON.parse(response)
+          window.location.href = `http://${window.location.host}/gaucho-rocket/micuenta/reservas`
+        }
+      })
+    }
   });
 }
 
