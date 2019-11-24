@@ -1,15 +1,17 @@
-<div class="card m-4 server" style="width: 18rem; float:left;">
+<div class="card m-3 server" style="width: 18rem; float:left;">
   <img class="card-img-top" src="https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
+  <div class="d-flex flex-column card-body">
     <h5 class="card-title"><?php echo $fila['titulo'] ?></h5>
     <p class="card-text"><?php echo $fila['descripcion'] ?></p>
-    <strong>$ <?php echo $fila['precio'] ?></strong>
+    <strong class="mb-2">$ <?php echo $fila['precio'] ?></strong>
     <a href="reservas?id=<?php echo $fila['id'] ?>" class="btn btn-primary">Reserva</a>
+    <?php 
+    if (isset($_SESSION['rol']) && $_SESSION['rol'] == "admin") { 
+      echo "<div class='d-flex flex-row justify-content-start mt-2'>";
+      echo "<a class='btn btn-primary mr-2' href=".$path->getEvent('admin','editarVuelo')."?id=".$fila['id'].">Editar</a>";
+      echo "<a class='btn btn-danger' href=".$path->getEvent('admin','eliminarVuelo')."?id=".$fila['id'].">Eliminar</a>";
+      echo "</div>";
+    }
+  ?>
   </div>
-  <?php 
-      if (isset($_SESSION['rol']) && $_SESSION['rol'] == "admin") { 
-        ?>
-        <a href="<?php echo  $path->getEvent('admin','editarVuelo'); ?>?id=<?php echo $fila['id'] ?>">Editar</a>     
-        <a href="<?php echo  $path->getEvent('admin','eliminarVuelo'); ?>?id=<?php echo $fila['id'] ?>">Eliminar</a>
-    <?php } ?>
 </div>

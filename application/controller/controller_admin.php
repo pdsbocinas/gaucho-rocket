@@ -114,7 +114,7 @@ class Controller_Admin extends Controller {
     $descripcion=$_POST['descripcion'];
     $avion_id=$_POST['avion_id'];
 
-    $this->vuelo->nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
+    $this->vuelo->nuevoVuelo($titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
   }
 
   function listas(){
