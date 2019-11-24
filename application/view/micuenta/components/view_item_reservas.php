@@ -14,5 +14,5 @@
       echo "<a class='btn btn-primary' href=". $path->getEvent('micuenta', 'checkin') .">Realizar Checkin</a>";
     }
   ?>
-  <a href="javascript:void(0)" id="reserva-<?php echo $fila->id ?>" class='btn btn-danger cancelar'>Cancelar reserva</a>
+  <a href="javascript:void(0)" id="reserva-<?php echo $fila->id ?>" class='btn btn-danger eliminar-reserva'>Cancelar reserva</a>
 </div>

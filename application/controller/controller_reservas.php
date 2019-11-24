@@ -52,13 +52,18 @@ class Controller_Reservas extends Controller{
     $nivel = $this->usuario->obtenerNivelDelUsuario($_SESSION['id']);
     $servicioPorId = json_decode($this->servicio->obtenerServicioPorId($servicio), true);
     $cabina = $servicioPorId[0]['descripcion'];
+    $disponibilidad = $this->reserva->obtenerDisponibilidad($vueloId);
 
     if (is_null($userNivel) and is_null($nivel)) {
       $this->view->generate('micuenta/view_sin_estudio_hecho.php', 'template_home.php');
-    } else {
+    }
+
+    if ($disponibilidad['disponibilidad']) {
       $data = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina);
       $link =  "location:" . $this->path->getEvent('micuenta', 'reservas');
       header($link);
+    } else {
+      echo "No hay lugar para este vuelo";
     }
   }
 
@@ -122,7 +127,7 @@ class Controller_Reservas extends Controller{
   function agregarAListaDeEspera () {
     $usuario_id = (int)$_POST['usuario'];
     $vuelo_id = (int)$_POST['vuelo'];
-    $usuarioEnEspera = $this->lista->obtenerDeListaDeEspera($usuario_id, $vuelo_id);
+    $usuarioEnEspera = $this->lista->obtenerUsuarioDeListaDeEspera($usuario_id, $vuelo_id);
     $isEmpty = empty(json_decode($usuarioEnEspera, true));
     if($isEmpty) {
       $this->lista->agregarAListaDeEspera($usuario_id, $vuelo_id);
@@ -136,9 +141,9 @@ class Controller_Reservas extends Controller{
     echo $data;
   }
 
-  function cancelarReserva () {
+  function eliminarReserva () {
     $reserva_id = $_POST['reserva_id'];
-    $data = $this->reserva->cancelarReserva($reserva_id);
+    $data = $this->reserva->eliminarReserva($reserva_id);
   }
 }
 

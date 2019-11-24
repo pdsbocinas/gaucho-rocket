@@ -66,7 +66,7 @@
     function obtenerDisponibilidad($result) {
       $vuelo_id = $result[0]['id'];
       $avion_id = (int)$result[0]['avion_id'];
-      
+
       $sql = "select count(*) from Reserva r 
       join Vuelo v on v.id = r.vuelo_id
       join Avion av on av.id = v.avion_id
@@ -95,12 +95,26 @@
       }
     }
 
-    function cancelarReserva ($reserva_id) {
+    function eliminarReserva ($reserva_id) {
       $sql = "delete from Reserva where id = '$reserva_id'";
       $deleteReserva = $this->database->exec($sql);
       $deleteReserva = $this->database->get_affected_rows();
       $link =  "location:" . $this->path->getEvent('reservas', 'exito');
       header($link);
+    }
+
+    function obtenerReservasPagas () {
+      $sql = "select * from Reserva where pagada = 1";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
+
+    function obtenerReservasNoPagas () {
+      $sql = "select * from Reserva where pagada = 0";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
     }
   }
 
