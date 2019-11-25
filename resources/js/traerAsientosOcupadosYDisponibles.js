@@ -2,8 +2,9 @@
 $(document).ready(function(){
   let params = (new URL(document.location)).searchParams;
   let id = parseInt(params.get('vuelo_id'));
+  let reserva_id = parseInt(params.get('reserva_id'));
   obtenerDisponibilidad(id);
-  guardarAsiento(id);
+  guardarAsiento(id, reserva_id);
 });
 
 function obtenerTotalidadDeAsientos (id) {
@@ -67,7 +68,7 @@ async function obtenerDisponibilidad(id) {
   $("#asientos").html(disponibilidad)
 }
 
-async function guardarAsiento (id) {
+async function guardarAsiento (id, reserva_id) {
   const ocupados = await obtenerTodosLosAsientosOcupados(id)
   const ocupadosJson = JSON.parse(ocupados).map(function(v){ return v.asiento })
   $(document).on('click', '.content-asiento', function(e) {
@@ -78,6 +79,7 @@ async function guardarAsiento (id) {
         url: `http://${window.location.host}/gaucho-rocket/micuenta/guardarAsiento`,
         data: { 
           vuelo_id: id,
+          reserva_id: reserva_id,
           asiento,
         },
         success: function(response) {

@@ -39,7 +39,18 @@ class Controller_MiCuenta extends Controller{
   function reservas () {
     $id = $_SESSION['id'];
     $data = $this->reserva->obtenerReservasPorUsuario($id);
-    $data = json_decode($data);
+    $checkin = $this->asiento->obtenerTodosLosAsientosPorUsuario($id);
+    $data = json_decode($data, true);
+    $checkin = json_decode($checkin, true);
+    $values = array_values($checkin[0]);
+    foreach ($data as $key => $value) {
+      $exists = in_array($value['id'], $values);
+      if ($exists) {
+        $data[$key]['checkin'] = true;
+      } else {
+        $data[$key]['checkin'] = false;
+      }
+    }
     if (empty($data)) {
       $this->view->generate('micuenta/view_sin_reservas_hechas.php', 'template_home.php', $data);
     } else {
@@ -118,8 +129,9 @@ class Controller_MiCuenta extends Controller{
   function guardarAsiento () {
     $asiento = $_POST['asiento'];
     $vuelo_id = $_POST['vuelo_id'];
+    $reserva_id = $_POST['reserva_id'];
     $usuario_id = $_SESSION['id'];
-    $data = $this->asiento->guardarAsiento($asiento, $vuelo_id, $usuario_id);
+    $data = $this->asiento->guardarAsiento($asiento, $vuelo_id, $usuario_id, $reserva_id);
     echo $data;
   }
 }
