@@ -116,6 +116,27 @@
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
     }
+
+    function obtenerFacturacionPorMes ($desde, $hasta) {
+      $sql = "select sum(precio_final) as total from Reserva where fecha >= '$desde' and fecha <= '$hasta'";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
+
+    function obtenerCabinaMasVendida () {
+      $sql = "select tipo_de_cabina, count(tipo_de_cabina) FROM Reserva where pagada = 1 GROUP BY tipo_de_cabina";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
+
+    function obtenerFacturacionPorUsuario () {
+      $sql = "select usuario_id, sum(precio_final) from Reserva where pagada = 1 group by usuario_id";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
   }
 
 ?>
