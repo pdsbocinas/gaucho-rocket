@@ -1,6 +1,10 @@
 $(document).ready(function(){
   pagarReserva();
-  cancelarReserva();
+  eliminarReserva();
+  agregarAlVuelo();
+  $('.close-toast').on('click', function(){
+    $(".toast").css('opacity', 0);  
+  })
   const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
   const precio = $('.precioBase').text();
   const precioInt = precio !== 'undefined' ? parseInt(precio.match(regexOnlyNumber).shift()) : null;
@@ -20,6 +24,7 @@ function pagarReserva () {
       success: function(response) {
         $('.pagar').removeClass('btn-primary');
         $('.pagar').addClass('btn-success disabled').text('pagado');
+        window.location.href = `http://${window.location.host}/gaucho-rocket/micuenta/reservas`
       }
     })
   })
@@ -56,20 +61,46 @@ function precioFinalSegunServicio () {
   })
 }
 
-function cancelarReserva () {
-  $('.cancelar').on('click', function(e) {
+function eliminarReserva () {
+  $('.eliminar-reserva').on('click', function(e) {
     const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
     const getId = this.id.match(regexOnlyNumber).shift();
     $.ajax({
       type: "POST",
-      url: "http://localhost:8888/gaucho-rocket/reservas/cancelarReserva",
+      url: `http://${window.location.host}/gaucho-rocket/reservas/eliminarReserva`,
       data: { reserva_id: getId },
       success: function(response) {
-        console.log(response);
-        // $('.pagar').removeClass('btn-primary');
-        // $('.pagar').addClass('btn-success disabled').text('pagado');
-        window.location.href = "./gaucho-rocket/micuenta/reservas"
+        if (typeof responseParse === 'number') {
+          $(".toast").css('opacity', 1);
+          $(".toast-body").text("Cancelacion exitosa");
+        } else {
+          $(".toast-body").text("Cancelacion exitosa");
+          $(".toast").css('opacity', 1);  
+        }
+        window.location.href = `http://${window.location.host}/gaucho-rocket/`
       }
     })
   })
+}
+
+function agregarAlVuelo () {
+  $('.form-lista-de-espera').on('click', function(e) {
+    e.preventDefault();
+    const data = $(this).serializeArray();
+    $.ajax({
+      type: "POST",
+      url: `http://${window.location.host}/gaucho-rocket/reservas/confirm`,
+      data: { id: data[0].value, precioFinal: data[2].value, servicio: 1 },
+      success: function(response) {
+        if (response === 'No hay lugar para este vuelo') {
+          $(".toast").css('opacity', 1);
+          $(".toast-body").text(response);
+        } else {
+          $('.generar-reserva').removeClass('btn-primary');
+          $('.generar-reserva').addClass('btn-success disabled').text('Agregado');
+          window.location.href = `http://${window.location.host}/gaucho-rocket/admin/`
+        }
+      }
+    })
+  });
 }

@@ -5,6 +5,7 @@
         echo "<form method='GET' action=". $path->getEvent('micuenta','checkinPaso2') .">";
         echo "<div>id: $fila[id]</div>";
         echo "<div>codigo reserva :$fila[codigo]</div>";
+        echo "<input type='hidden' name='reserva_id' value='$fila[id]' />";
         echo "<div> fecha de salida: $fila[fecha]</div>";
         echo "<div>id vuelo :$fila[vuelo_id]</div>";
         echo "<input type='hidden' name='vuelo_id' value='$fila[vuelo_id]' />";
