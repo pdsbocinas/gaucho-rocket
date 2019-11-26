@@ -12,6 +12,7 @@ $(document).ready(function(){
     e.preventDefault();
     obtenerVuelosPorPrecio(this)
   })
+  obtenerDestinos();
 });
 
 function obtenerVuelosPorFecha (obj) {
@@ -114,4 +115,15 @@ function obtenerVuelosPorPrecio () {
       $("#vuelos").html(html)
     }
   })
+}
+
+function obtenerDestinos () {
+  $.ajax({
+    type: "GET",
+    url: `http://${window.location.host}/gaucho-rocket/vuelos/obtenerTodosLosDestinoPorCircuito`,
+    success: function(response) {
+      console.log(response)
+      return response
+    }
+  });
 }

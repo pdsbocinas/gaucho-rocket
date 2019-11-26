@@ -5,13 +5,17 @@ class Controller_Vuelos extends Controller{
   private $path;
   private $view;
   private $vuelo;
+  private $circuitoDestino;
 
   function __construct() {
     // Incluyo todos los modelos a utilizar
     $this->path = Path::getInstance("config/path.ini");
     require_once( $this->path->getPage("model", "Usuario.php") );
     require_once( $this->path->getPage("model", "Vuelo.php") );
+    require_once( $this->path->getPage("model", "CircuitoDestino.php") );
+
     $this->vuelo = new Vuelo();
+    $this->circuitoDestino = new CircuitoDestino();
     $this->view = new View();
   }
 
@@ -43,6 +47,12 @@ class Controller_Vuelos extends Controller{
     $min = $_POST['min'];
     $max = $_POST['max'];
     $data = $this->vuelo->obtenerVuelosPorPrecio($min, $max);
+    echo $data;
+  }
+
+  function obtenerTodosLosDestinoPorCircuito () {
+    $data = $this->circuitoDestino->circuitoDestino();
+    $result = json_decode($data, true);
     echo $data;
   }
 
