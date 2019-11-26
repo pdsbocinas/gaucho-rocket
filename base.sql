@@ -316,15 +316,20 @@ ALTER TABLE   Vuelo ADD FOREIGN KEY (tarifa_id) REFERENCES Tarifa (id);
 
 -- paso 2 esta reserva esta " PAGA "...por lo tanto se puede ir al paso 
 INSERT INTO reserva(id,codigo,fecha,vuelo_id,servicio_id,usuario_id,precio_final,pagada,tipo_de_cabina)
-		VALUES (1,'QWERTY','2019-11-20',1,1,5,25000,1,'G'),
+		VALUES  (1,'QWERTY','2019-11-20',1,1,5,25000,1,'G'),
         (2,'QWERTY','2015-01-01',1,1,5,25000,0,'G'),
         (3,'QWERTY','2015-01-01',1,1,5,25000,0,'G'),
-        (5,'ABM','2015-01-01',1,1,5,25000,0,'F'),
-        (4,'QWERTY','2015-01-01',1,1,5,25000,1,'G');
+        (5,'ABM','2015-01-01',1,1,5,25000,1,'F'),
+        (4,'QWE5RTY','2015-01-01',1,1,5,25000,1,'G');
+
+update reserva
+set fecha='2019-11-22' -- acà iria un valor que lo generamos en php,sumando 
+where id=1;
 
 select * from reserva;
 -- paso 3
-
+ 
+ 
 
 /*-----------------------------------------------	CONSULTA DE ASIENTOS	----------------------------------------------------------*/
 -- le pasamos el vuelo_id asociado al codigo ---ejemplo 1
@@ -374,12 +379,45 @@ select @cant_cabinaG_porReserva;
 
 
 
-create table checkin(
-							asiento_id varchar(10) primary key,
-							vuelo_id  int(11) NOT NULL
+create table asiento(		
+							id int (11) primary key,
+							asiento varchar(10),
+							vuelo_id  int(11) NOT NULL,
+                            usuario_id int(11)                            
 						);
-                        
-INSERT INTO checkin(asiento_id,vuelo_id)
-		VALUES ('G2',1);
 
+ALTER TABLE   asiento ADD FOREIGN KEY (vuelo_id) REFERENCES Vuelo(id);
+ALTER TABLE   asiento ADD FOREIGN KEY (usuario_id) REFERENCES Usuario(id);
+
+-- insert de registros                         
+INSERT INTO asiento(id,asiento,vuelo_id,usuario_id)
+		VALUES (5,'G2',1,5);
+
+-- update asiento 
+-- set asiento='g8',vuelo_id=2 
+-- where vuelo_id=1 && asiento='g2';
+        
+	
+--  borrado de registros 
+ delete from asiento
+ where asiento ='G8'&& vuelo_id=2;
+
+select * from asiento;
+
+
+
+-- desde la pestaña donde se elige el asiento me tienen que mandar el vuelo,la reserva y el usuario---pero mas importante es el usuario y la reserva lo verificamos en el where
+select u.estado,v.fecha_salida,u.nombre_de_usuario,u.id,r.tipo_de_cabina,a.asiento,O.destino as Origen,D.destino as Destino,v.id as vuelo_id
+from usuario u join reserva r on u.id=r.usuario_id
+join asiento a on a.vuelo_id=r.vuelo_id 
+join vuelo v on a.vuelo_id=v.id
+join Destino O on O.id = v.origen_id
+join Destino D on D.id = v.destino_id
+where r.pagada=1 && r.id=1;
+
+
+select max((select count(*)
+from reserva
+where pagada=1 
+group by tipo_de_cabina ));
         

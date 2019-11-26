@@ -132,5 +132,17 @@ class Controller_Admin extends Controller {
     ];
     $this->view->generate('Admin/reservas/view_admin_reservas.php', 'template_admin.php', $data);
   }
- 
+  
+  function reportes () {
+    $this->view->generate('Admin/reportes/view_admin_reportes.php', 'template_admin.php');
+  }
+
+  function obtenerFacturacionPorMes () {
+    $inicio = "2019-01-01";
+    $fin = "2020-01-01";
+    $data = $this->reserva->obtenerFacturacionPorMes($inicio, $fin);
+    $data = json_decode($data, true);
+    $this->view->generate('Admin/reportes/view_admin_facturacion_por_mes.php', 'template_admin.php', $data);
+  }
+
 }
