@@ -114,6 +114,7 @@ class Controller_Admin extends Controller {
     $descripcion=$_POST['descripcion'];
     $avion_id=$_POST['avion_id'];
 
+<<<<<<< HEAD
     $this->vuelo->nuevoVuelo($titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
   }
 
@@ -144,4 +145,9 @@ class Controller_Admin extends Controller {
     $data = json_decode($data, true);
     $this->view->generate('Admin/reportes/view_admin_facturacion_por_mes.php', 'template_admin.php', $data);
   }
+
+    $this->vuelo->nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
+   }
+ 
+
 }

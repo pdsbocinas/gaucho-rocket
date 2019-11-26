@@ -137,6 +137,19 @@
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
     }
+
+    function traeDatosGeneraPase($id){
+      $sql = "select u.estado,v.fecha_salida,u.nombre_de_usuario,u.id,r.tipo_de_cabina,a.asiento,O.destino as Origen,D.destino as Destino,v.id as vuelo_id
+              from usuario u join reserva r on u.id=r.usuario_id
+              join asiento a on a.vuelo_id=r.vuelo_id 
+              join vuelo v on a.vuelo_id=v.id
+              join Destino O on O.id = v.origen_id
+              join Destino D on D.id = v.destino_id
+              where r.pagada=1 && r.id=$id ";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
   }
 
 ?>

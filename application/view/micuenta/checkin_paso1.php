@@ -28,7 +28,7 @@
         //echo $fecha_salida_vuelo;   
         if ($fecha_hora_actual >= $fecha_viaje_menos1dia && $fecha_hora_actual <= $fecha_viaje_menos2hs) {
              ?>
-            <button type="submit" class='btn btn-success'>Puede realizar el checkin</a>
+            <button type="submit" class='btn btn-success'>Puede realizar el checkin</button>
             <?php
         }
         elseif($fecha_hora_actual > $fecha_viaje_menos2hs){
@@ -39,4 +39,5 @@
         echo "</form>";
     }
 ?>
+
 </div>
