@@ -12,7 +12,10 @@ $(document).ready(function(){
     e.preventDefault();
     obtenerVuelosPorPrecio(this)
   })
-  obtenerDestinos();
+
+  $('.origen').on('change', function(e) {
+    armarComboOrigenDestino(e, destinos)
+  });
 });
 
 function obtenerVuelosPorFecha (obj) {
@@ -118,12 +121,14 @@ function obtenerVuelosPorPrecio () {
 }
 
 function obtenerDestinos () {
-  $.ajax({
+  return $.ajax({
     type: "GET",
-    url: `http://${window.location.host}/gaucho-rocket/vuelos/obtenerTodosLosDestinoPorCircuito`,
-    success: function(response) {
-      console.log(response)
-      return response
-    }
+    url: `http://${window.location.host}/gaucho-rocket/vuelos/obtenerTodosLosDestinoPorCircuito`
   });
+}
+
+async function armarComboOrigenDestino (e, destinos) {
+  const destinos = await obtenerDestinos();
+  const destinosJson = JSON.parse(destinos);
+  console.log(destinosJson)
 }

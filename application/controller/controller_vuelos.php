@@ -51,7 +51,7 @@ class Controller_Vuelos extends Controller{
   }
 
   function obtenerTodosLosDestinoPorCircuito () {
-    $data = $this->circuitoDestino->circuitoDestino();
+    $data = $this->circuitoDestino->obtenerTodosLosDestinoPorCircuito();
     $result = json_decode($data, true);
     echo $data;
   }
