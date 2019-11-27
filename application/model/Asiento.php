@@ -19,6 +19,11 @@
 
     function obtenerAsientosOcupados ($vuelo_id) {
       $sql = "select asiento from Asiento where vuelo_id = '$vuelo_id'";
+      $sql = "select a.asiento from Asiento a
+      join Vuelo v on v.id = a.vuelo_id
+      join Reserva r on r.id = a.reserva_id;
+      join ReservaTrayecto rt on rt.vuelo_id = '$vuelo_id'";
+
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
