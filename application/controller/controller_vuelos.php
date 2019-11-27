@@ -39,7 +39,9 @@ class Controller_Vuelos extends Controller{
     $hasta = $_POST['hasta'];
     $origen_id = $_POST['origen_id'];
     $destino_id = $_POST['destino_id'];
-    $data = $this->vuelo->obtenerVuelosPorDestinoFechas($origen_id, $destino_id, $desde, $hasta);
+    $circuito_id = $_POST['circuito_id'];
+
+    $data = $this->vuelo->obtenerVuelosPorDestinoFechas($origen_id, $destino_id, $desde, $hasta, $circuito_id);
     echo $data;
   }
 

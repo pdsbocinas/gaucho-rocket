@@ -135,16 +135,15 @@ class Controller_MiCuenta extends Controller{
     echo $data;
   }
 
-   
-function armaPase(){
-  $reserva_id= 1;
-  $result = $this->reserva->traeDatosGeneraPase($reserva_id);
-  echo $result;
-  $data = json_decode($result,true);
-  $this->view->generate('micuenta/checkin_paso3.php', 'template_home.php', $data);
-}
+  function armaPase () {
+    $reserva_id= 1;
+    $result = $this->reserva->traeDatosGeneraPase($reserva_id);
+    echo $result;
+    $data = json_decode($result,true);
+    $this->view->generate('micuenta/checkin_paso3.php', 'template_home.php', $data);
+  }
 
-function generapdf(){
-  $this->view->generate('micuenta/checkin_paso4_pdf.php', 'template_home.php');
-}
+  function generapdf(){
+    $this->view->generate('micuenta/checkin_paso4_pdf.php', 'template_home.php');
+  }
 }

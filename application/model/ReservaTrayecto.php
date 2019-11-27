@@ -18,6 +18,10 @@ class ReservaTrayecto
     $this->vuelo = new Vuelo();
     $this->database = new Database();
   }
+
+  function guardarTrayectos ($vuelo_id, $reserva_id, $destinos_id) {
+    
+  }
 }
 
 ?>

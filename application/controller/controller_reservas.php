@@ -15,6 +15,7 @@ class Controller_Reservas extends Controller{
   private $usuario;
   private $reserva;
   private $mail;
+  private $circuitoDestino;
 
   function __construct() {
     // Incluyo todos los modelos a utilizar
@@ -24,6 +25,7 @@ class Controller_Reservas extends Controller{
     require_once( $this->path->getPage("model", "Reserva.php") );
     require_once( $this->path->getPage("model", "ListaDeEspera.php") );
     require_once( $this->path->getPage("model", "Servicio.php") );
+    require_once( $this->path->getPage("model", "CircuitoDestino.php") );
     $this->vuelo = new Vuelo();
     $this->usuario = new Usuario();
     $this->reserva = new Reserva();
@@ -31,6 +33,7 @@ class Controller_Reservas extends Controller{
     $this->lista = new ListaDeEspera();
     $this->mail = new PHPMailer(true);
     $this->servicio = new Servicio();
+    $this->circuitoDestino = new CircuitoDestino();
   }
 
   function index () {
@@ -42,9 +45,9 @@ class Controller_Reservas extends Controller{
     $this->view->generate('view_detalle_reserva.php', 'template_home.php', $data_mergeada);
   }
 
-  function confirm () {
+  function confirmarReserva () {
     $precioFinal = $_POST['precioFinal'];
-    $vueloId = $_POST['id'];
+    $vueloId = (int)$_POST['vuelo_id'];
     $servicio = $_POST['servicio'];
     $user_id = $_SESSION['id'];
     $userEmail = $_SESSION['email'];
@@ -52,14 +55,27 @@ class Controller_Reservas extends Controller{
     $nivel = $this->usuario->obtenerNivelDelUsuario($_SESSION['id']);
     $servicioPorId = json_decode($this->servicio->obtenerServicioPorId($servicio), true);
     $cabina = $servicioPorId[0]['descripcion'];
-    $disponibilidad = $this->reserva->obtenerDisponibilidad($vueloId);
+    $data = $this->vuelo->obtenerVueloPorId($vueloId);
+    $result = json_decode($data, true);
+   
+    $disponibilidad = $this->reserva->obtenerDisponibilidad($result);
 
     if (is_null($userNivel) and is_null($nivel)) {
       $this->view->generate('micuenta/view_sin_estudio_hecho.php', 'template_home.php');
     }
 
     if ($disponibilidad['disponibilidad']) {
+      $circuito_id = (int)$result[0]['circuito_id'];
+      $origen_id = (int)$result[0]['origen_id'];
+      $destino_id = (int)$result[0]['destino_id'];
+
       $data = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina);
+      $circuitosPorId = $this->circuitoDestino->obtenerDestinosPorCircuito($circuito_id);
+      $jsonCircuitos = json_decode($circuitosPorId, true);
+
+      $indexOrigen = array_search($destino_id, array_column($jsonCircuitos, 'origen_id'));
+      $indexDestino = array_search($destino_id, array_column($jsonCircuitos, 'destino_id'));
+
       $link =  "location:" . $this->path->getEvent('micuenta', 'reservas');
       header($link);
     } else {
