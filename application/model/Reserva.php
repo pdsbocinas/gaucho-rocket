@@ -150,6 +150,13 @@
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
     }
+
+    function obtenerReservaPorCodigo($codigo){
+      $sql="select * from Reserva where codigo = '$codigo'";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
   }
 
 ?>

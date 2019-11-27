@@ -20,7 +20,11 @@ class ReservaTrayecto
   }
 
   function guardarTrayectos ($vuelo_id, $reserva_id, $destinos_id) {
-    
+    $sql = "insert into ReservaTrayecto (reserva_id, vuelo_id, destino_id) 
+    values ('$reserva_id', '$vuelo_id', '$destinos_id')";
+    $insertTrayecto = $this->database->exec($sql);
+    $insertTrayecto = $this->database->get_affected_rows();
+    return $insertTrayecto;
   }
 }
 

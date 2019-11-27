@@ -16,9 +16,9 @@ class Controller_Reservas extends Controller{
   private $reserva;
   private $mail;
   private $circuitoDestino;
+  private $trayectos;
 
   function __construct() {
-    // Incluyo todos los modelos a utilizar
     $this->path = Path::getInstance("config/path.ini");
     require_once( $this->path->getPage("model", "Usuario.php") );
     require_once( $this->path->getPage("model", "Vuelo.php") );
@@ -26,6 +26,7 @@ class Controller_Reservas extends Controller{
     require_once( $this->path->getPage("model", "ListaDeEspera.php") );
     require_once( $this->path->getPage("model", "Servicio.php") );
     require_once( $this->path->getPage("model", "CircuitoDestino.php") );
+    require_once( $this->path->getPage("model", "ReservaTrayecto.php") );
     $this->vuelo = new Vuelo();
     $this->usuario = new Usuario();
     $this->reserva = new Reserva();
@@ -34,6 +35,7 @@ class Controller_Reservas extends Controller{
     $this->mail = new PHPMailer(true);
     $this->servicio = new Servicio();
     $this->circuitoDestino = new CircuitoDestino();
+    $this->trayectos = new ReservaTrayecto();
   }
 
   function index () {
@@ -69,12 +71,32 @@ class Controller_Reservas extends Controller{
       $origen_id = (int)$result[0]['origen_id'];
       $destino_id = (int)$result[0]['destino_id'];
 
-      $data = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina);
+      $codigoReserva = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina);
       $circuitosPorId = $this->circuitoDestino->obtenerDestinosPorCircuito($circuito_id);
       $jsonCircuitos = json_decode($circuitosPorId, true);
 
-      $indexOrigen = array_search($destino_id, array_column($jsonCircuitos, 'origen_id'));
+      foreach ($jsonCircuitos as $key => $value) {
+        if ($value['destino_id'] === '17' and $origen_id === 17 ) {
+          $index = array_search(18, array_column($jsonCircuitos, 'destino_id'));
+          unset($jsonCircuitos[$index]);
+        }
+        if ($value['destino_id'] === '18' and $origen_id === 18 ) {
+          $index = array_search(17, array_column($jsonCircuitos, 'destino_id'));
+          unset($jsonCircuitos[$index]);
+        }
+      }
+
+      $indexOrigen = array_search($origen_id, array_column($jsonCircuitos, 'destino_id'));
       $indexDestino = array_search($destino_id, array_column($jsonCircuitos, 'destino_id'));
+
+      $dataReservaTrayectos = array_slice($jsonCircuitos, $indexOrigen, $indexDestino);
+      $codigoReserva = json_decode($this->reserva->obtenerReservaPorCodigo($codigoReserva), true);
+      $reserva_id = (int)$codigoReserva[0]['id'];
+      
+      foreach ($dataReservaTrayectos as $key => $value) {
+        $destinoId = (int)$value['destino_id'];
+        $this->trayectos->guardarTrayectos($vueloId, $reserva_id, $destinoId);
+      }
 
       $link =  "location:" . $this->path->getEvent('micuenta', 'reservas');
       header($link);
