@@ -167,6 +167,6 @@ class Controller_Admin extends Controller {
     $this->view->generate('Admin/reportes/view_admin_tasa_ocupacion_viaje_equipo.php', 'template_admin.php', $data);
   } 
 
-   
+  #comentaario de prueba
 
 }
