@@ -139,7 +139,7 @@
     }
 
     function traeDatosGeneraPase($id){
-      $sql = "select u.estado,v.fecha_salida,u.nombre_de_usuario,u.id,r.tipo_de_cabina,a.asiento,O.destino as Origen,D.destino as Destino,v.id as vuelo_id
+      $sql = "select u.estado,v.fecha_salida,u.nombre_de_usuario,u.id,r.tipo_de_cabina,a.asiento,O.destino as Origen,D.destino as Destino,v.id as vuelo_id,u.email,r.id as reserva_id
               from usuario u join reserva r on u.id=r.usuario_id
               join asiento a on a.vuelo_id=r.vuelo_id 
               join vuelo v on a.vuelo_id=v.id
@@ -154,6 +154,18 @@
     function tasaOcupacionPorViajeyEquipo(){
       
     }
+
+
+
+
+
+
+
+
+
+
+
+ 
 ?>
 
 

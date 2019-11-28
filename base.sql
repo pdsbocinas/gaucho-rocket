@@ -453,3 +453,12 @@ select sum(cantidad),count(cantidad) from(
                 join equipo on  vuelo.avion_id=equipo.avion_id
 				 group by vuelo_id
                  having count(*);
+                 
+                 
+                 select u.estado,v.fecha_salida,u.nombre_de_usuario,u.id,r.tipo_de_cabina,a.asiento,O.destino as Origen,D.destino as Destino,v.id as vuelo_id,u.email,r.id as reserva_id
+              from usuario u join reserva r on u.id=r.usuario_id
+              join asiento a on a.vuelo_id=r.vuelo_id 
+              join vuelo v on a.vuelo_id=v.id
+              join Destino O on O.id = v.origen_id
+              join Destino D on D.id = v.destino_id
+              where r.pagada=1 && r.id=1; 
