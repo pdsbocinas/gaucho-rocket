@@ -122,7 +122,8 @@ class Controller_MiCuenta extends Controller{
 
   function obtenerAsientosOcupados () {
     $vuelo_id = $_GET['vuelo_id'];
-    $data = $this->asiento->obtenerAsientosOcupados($vuelo_id);
+    $vuelo = json_decode($this->vuelo->obtenerVueloPorId($vuelo_id), true);
+    $data = $this->asiento->obtenerAsientosOcupados($vuelo);
     echo $data;
   }
 
