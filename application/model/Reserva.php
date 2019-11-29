@@ -35,7 +35,7 @@
       values ('$codigo', '$currentTime', '$vueloId', $servicio, '$user_id', $precioFinal, 0, '$cabina')";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
-      return $insertReserva;
+      return $codigo;
     }
 
     function obtenerReservasPorUsuario($id) {
@@ -64,17 +64,17 @@
     }
     
     function obtenerDisponibilidad($result) {
-      $vuelo_id = $result[0]['id'];
+      $vuelo_id = $result[0]['vuelo_id'];
       $avion_id = (int)$result[0]['avion_id'];
 
-      $sql = "select count(*) from Reserva r 
+      $sql = "select count(*) as total from Reserva r 
       join Vuelo v on v.id = r.vuelo_id
       join Avion av on av.id = v.avion_id
       where r.vuelo_id = '$vuelo_id' and v.avion_id = '$avion_id'";
       $query = $this->database->query($sql);
       $data = $query->fetch_all(MYSQLI_ASSOC);
-      $cantidad_de_reservas = (int)$data[0]['count(*)'];
-      
+      $cantidad_de_reservas = (int)$data[0]['total'];
+
       $capacidad = json_decode($this->equipo->obtenerCapacidad($avion_id), true);
       $capacidad = (int)$capacidad[0]['familiar'] + (int)$capacidad[0]['general'] + (int)$capacidad[0]['suite'];
       $lugares_disponibles = $capacidad - $cantidad_de_reservas;
@@ -146,6 +146,13 @@
               join Destino O on O.id = v.origen_id
               join Destino D on D.id = v.destino_id
               where r.pagada=1 && r.id=$id ";
+      $query = $this->database->query($sql);
+      $result = $query->fetch_all(MYSQLI_ASSOC);
+      return json_encode($result);
+    }
+
+    function obtenerReservaPorCodigo($codigo){
+      $sql="select * from Reserva where codigo = '$codigo'";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);

@@ -10,15 +10,11 @@
         <div class="col-md-4 col-sm-4">
           <label>Origen:</label>
           <select class="form-control origen">
-            <option value="1">Buenos Aires</option>
-            <option value="2">Ankara</option>
           </select>
         </div>
         <div class="col-md-4 col-sm-4">
           <label>Destinos:</label>
           <select class="form-control destino">
-            <option value="1">Marte</option>
-            <option value="2">Luna</option>
           </select>
         </div>
       </div>
@@ -37,6 +33,7 @@
           <button class="btn btn-primary submit mt-3" name="submit">Buscar</button>
         </div>
       </div>
+      <div id="error" style="color: red;"></div>
     </form>
   </div>
   <ul class="banner-consejos">

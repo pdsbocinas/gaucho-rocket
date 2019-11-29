@@ -116,7 +116,6 @@ class Controller_Admin extends Controller {
     $descripcion=$_POST['descripcion'];
     $avion_id=$_POST['avion_id'];
 
-
     $this->vuelo->nuevoVuelo($titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
   }
 
@@ -160,13 +159,9 @@ class Controller_Admin extends Controller {
     $this->view->generate('Admin/reportes/view_admin_facturacion_por_usuario.php', 'template_admin.php', $data);
   }
 
-    
   function tasaOcupacionPorViajeyEquipo(){
     $data = $this->equipo->obtenerVuelosPorEquipoyCapacidad();
     $data = json_decode($data, true);
     $this->view->generate('Admin/reportes/view_admin_tasa_ocupacion_viaje_equipo.php', 'template_admin.php', $data);
   } 
-
-  #comentaario de prueba
-
 }
