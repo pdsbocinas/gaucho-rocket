@@ -91,8 +91,7 @@
                 <label class='font-weight-bold'>Asiento</label>
                 <div> {$value['asiento']}</div>    
               </div>
-              <img src='recourcesqr/$nombreqr>
-            <img src='../resources/qr/nico15983d85c15deda0eca25d78218a4fde7.jpeg'>  
+            <img src='../resources/qr/nico11.jpeg'>  
               </div>
         </div>";
     }//llave del foreach
@@ -108,4 +107,4 @@
   ?>
   </div>
 
-  <img src='recources/qr/$nombreqr'>
+
