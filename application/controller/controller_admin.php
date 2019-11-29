@@ -65,6 +65,7 @@ class Controller_Admin extends Controller {
     $ubicacion=$_POST['ubicacion'];
     
     $this->centroMedico->nuevoCentro($nombre,$ubicacion);
+
   }
   
   function exito(){
@@ -81,6 +82,7 @@ class Controller_Admin extends Controller {
   function eliminarVuelo(){
     $id=$_GET['id'];
     $this->vuelo->eliminaVueloPorId($id);
+    
   }
 
   function editarVuelo(){

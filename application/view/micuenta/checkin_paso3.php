@@ -94,10 +94,9 @@
             <img src='../resources/qr/nico11.jpeg'>  
               </div>
         </div>";
-    }//llave del foreach
+    }
 
     echo $contenidoPagina;
-  
     ?>
   <div class="container">
   <div class="alert alert-primary" role="alert">

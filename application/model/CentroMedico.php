@@ -54,9 +54,19 @@ class CentroMedico
                 SET nombre = '$nombre' ,ubicacion = '$ubicacion'
                 WHERE id=$id;";
         $query = $this->database->exec($sql);
+        echo $this->database->get_affected_rows();
         $query = $this->database->get_affected_rows();
-        $link =  "location:" . $this->path->getEvent('admin','centros');
-        header ($link);
+        if ($this->database->get_affected_rows()>0) {
+            $link =  "location:" . $this->path->getEvent('admin','centros');
+            header ($link);
+                    
+
+
+        } else {
+            echo 'no se pudo actualizar';
+        }
+        
+       
     }
 
     public function NuevoCentro($nombre,$ubicacion){
