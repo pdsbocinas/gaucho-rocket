@@ -84,7 +84,7 @@ async function guardarAsiento (id, reserva_id) {
         },
         success: function(response) {
           const jsonResponse = JSON.parse(response)
-          window.location.href = `http://${window.location.host}/gaucho-rocket/micuenta/reservas`
+          window.location.href = `http://${window.location.host}/gaucho-rocket/micuenta/pasajeDeAbordo?reserva_id=${reserva_id}`
         }
       })
     }

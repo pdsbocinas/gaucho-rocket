@@ -146,10 +146,9 @@ class Controller_MiCuenta extends Controller{
     echo $data;
   }
 
-  function armaPase(){
-    $reserva_id= 1;
+  function pasajeDeAbordo(){
+    $reserva_id= (int)$_GET['reserva_id'];
     $result = $this->reserva->traeDatosGeneraPase($reserva_id);
-    echo $result;
     $data = json_decode($result,true);
     $this->view->generate('micuenta/checkin_paso3.php', 'template_home.php', $data);
   }
@@ -168,8 +167,8 @@ class Controller_MiCuenta extends Controller{
       $this->mail->Port       = 587;                                    // TCP port to connect to
 
       //Recipients
-      $this->mail->setFrom('aa2736502@gmail.com', 'GauchoRocket');
-      $this->mail->addAddress('aa2736502@gmail.com', $nombre_de_usuario);     // Add a recipient
+			$this->mail->setFrom('twtesttest5@gmail.com', 'Confirma tu cuenta');
+			$this->mail->addAddress('pds.gomez@gmail.com', $nombre_de_usuario);     // Add a recipient
       //$this->mail->addAddress('ellen@example.com');               // Name is optional
       //$this->mail->addReplyTo('info@example.com', 'Information');
       //$this->mail->addCC('cc@example.com');
