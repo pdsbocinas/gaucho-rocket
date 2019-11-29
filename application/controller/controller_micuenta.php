@@ -155,6 +155,10 @@ class Controller_MiCuenta extends Controller{
 
   function EnviarCodigoaMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email){
     $time = date(DATE_RFC2822);
+
+    $link =  "location:" . $this->path->getEvent('micuenta', 'finalizar') . "?reserva_id=" . $reserva_id;
+    header($link);
+
     try {
         //Server settings
       $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
@@ -167,7 +171,7 @@ class Controller_MiCuenta extends Controller{
       $this->mail->Port       = 587;                                    // TCP port to connect to
 
       //Recipients
-			$this->mail->setFrom('twtesttest5@gmail.com', 'Confirma tu cuenta');
+			$this->mail->setFrom('twtesttest5@gmail.com', 'Datos del pasaje');
 			$this->mail->addAddress('pds.gomez@gmail.com', $nombre_de_usuario);     // Add a recipient
       //$this->mail->addAddress('ellen@example.com');               // Name is optional
       //$this->mail->addReplyTo('info@example.com', 'Information');
@@ -190,7 +194,11 @@ class Controller_MiCuenta extends Controller{
     } catch (Exception $e) {
       echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
     }
-    //$this->view->generate('micuenta/checkin_paso4_pdf.php', 'template_home.php');
+  }
+
+  function finalizar () {
+    // var_dump($_GET['reserva_id']); die();
+    $this->view->generate('micuenta/checkin_paso4_pdf.php', 'template_home.php');
   }
 
   function EnviarCodigo(){
@@ -203,6 +211,5 @@ class Controller_MiCuenta extends Controller{
 
   function generaFactura(){
     $this->view->generate('micuenta/view_factura.php', 'template_home.php');
-
   }
 }
