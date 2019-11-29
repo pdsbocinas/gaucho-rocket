@@ -21,9 +21,11 @@
                   ' Origen : '. $value['Origen'].
                   ' Destino: '. $value['Destino'].
                   ' tipo cabina : '. $value['vuelo_id'];
-      $filename=$dir.$value['nombre_de_usuario']. $value['vuelo_id']. $value['estado'].'.jpeg';
-      $nombreqr=$value['nombre_de_usuario']. $value['vuelo_id']. $value['estado'].'.jpeg';
-      echo "nombre del archivo QR: ".$nombreqr;
+
+                  //direccion donde se guarda el archivo 
+      $filename=$dir.$value['nombre_de_usuario']. $value['vuelo_id'].$value['reserva_id'].'.jpeg';
+      $nombreqr=$value['nombre_de_usuario']. $value['vuelo_id'].$value['reserva_id'].'.jpeg';
+      //echo "nombre del archivo QR: ".$nombreqr;
       QRcode::png($contenido,$filename,$level,$tamanio,$frameSize);
 
 
@@ -89,17 +91,20 @@
                 <label class='font-weight-bold'>Asiento</label>
                 <div> {$value['asiento']}</div>    
               </div>
-              
-            <img src='../resources/qr/nico15983d85c15deda0eca25d78218a4fde7.jpeg'>  
+            <img src='../resources/qr/nico11.jpeg'>  
               </div>
         </div>";
     }//llave del foreach
 
     echo $contenidoPagina;
-
+  
     ?>
-<div class="container">
-  <a href="<?php echo  $path->getEvent('micuenta','generapdf'); ?>" target="_blank" >Imprimir pdf</a> 
-</div>
+  <div class="container">
+  <div class="alert alert-primary" role="alert">
+    Le enviaremos el codigo de Reserva a su mail.
+  </div>
+    <?php echo "<a class='btn btn-primary mr-2' href=".$path->getEvent('micuenta','EnviarCodigo')."?id=".$value['id']."&nombre_de_usuario=".$value['nombre_de_usuario']."&email=".$value['email']."&vuelo_id=".$value['vuelo_id']."&reserva_id=".$value['reserva_id'].">Finalizar</a>";
+  ?>
+  </div>
 
 
