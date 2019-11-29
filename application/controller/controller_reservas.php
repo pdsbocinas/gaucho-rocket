@@ -77,7 +77,7 @@ class Controller_Reservas extends Controller{
 
   function exito () {
     $user_id = $_SESSION['id'];
-    $reserva = $this->reserva->obtenerReservasPorUsuario($user_id);
+    $reserva = json_encode($this->reserva->obtenerReservasPorUsuario($user_id), true);
     $this->enviarMailConDatosDelVuelo($reserva);
   }
 
@@ -146,10 +146,6 @@ class Controller_Reservas extends Controller{
     $reserva_id = $_POST['reserva_id'];
     $data = $this->reserva->eliminarReserva($reserva_id);
   }
-
-
-
-  
 
 }
 
