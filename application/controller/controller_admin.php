@@ -17,12 +17,14 @@ class Controller_Admin extends Controller {
     require_once($this->path->getPage("model", "CentroMedico.php"));
     require_once($this->path->getPage("model", "ListaDeEspera.php"));
     require_once($this->path->getPage("model", "Reserva.php"));
+    require_once($this->path->getPage("model", "Equipo.php"));
 
     $this->vuelo = new Vuelo();
     $this->view = new View();
     $this->centroMedico = new CentroMedico();
     $this->listaDeEspera = new ListaDeEspera();
     $this->reserva = new Reserva();
+    $this->equipo = new Equipo();
   }
   
   function index () {
@@ -114,6 +116,7 @@ class Controller_Admin extends Controller {
     $descripcion=$_POST['descripcion'];
     $avion_id=$_POST['avion_id'];
 
+
     $this->vuelo->nuevoVuelo($titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
   }
 
@@ -132,5 +135,38 @@ class Controller_Admin extends Controller {
     ];
     $this->view->generate('Admin/reservas/view_admin_reservas.php', 'template_admin.php', $data);
   }
- 
+  
+  function reportes () {
+    $this->view->generate('Admin/reportes/view_admin_reportes.php', 'template_admin.php');
+  }
+
+  function obtenerFacturacionPorMes () {
+    $inicio = "2019-01-01";
+    $fin = "2020-01-01";
+    $data = $this->reserva->obtenerFacturacionPorMes($inicio, $fin);
+    $data = json_decode($data, true);
+    $this->view->generate('Admin/reportes/view_admin_facturacion_por_mes.php', 'template_admin.php', $data);
+  }
+
+  function cabinaMasVendida () {
+    $data = $this->reserva->obtenerCabinaMasVendida();
+    $data = json_decode($data, true);
+    $this->view->generate('Admin/reportes/view_admin_cabina mas vendida.php', 'template_admin.php', $data);
+  }
+
+  function facturacionPorUsuario () {
+    $data = $this->reserva->obtenerFacturacionPorUsuario();
+    $data = json_decode($data, true);
+    $this->view->generate('Admin/reportes/view_admin_facturacion_por_usuario.php', 'template_admin.php', $data);
+  }
+
+    
+  function tasaOcupacionPorViajeyEquipo(){
+    $data = $this->equipo->obtenerVuelosPorEquipoyCapacidad();
+    $data = json_decode($data, true);
+    $this->view->generate('Admin/reportes/view_admin_tasa_ocupacion_viaje_equipo.php', 'template_admin.php', $data);
+  } 
+
+  #comentaario de prueba
+
 }

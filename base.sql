@@ -116,8 +116,8 @@ ALTER TABLE   Equipo
 
 INSERT INTO  Equipo  ( id ,  tipo ,  general ,  familiar ,  suite ,  avion_id ) VALUES
 (1, 'Orbital', 20, 30, 50, 1),
-(2, 'baja aceleracion', 25	, 50, 125, 1),
-(3, 'alta aceleracion', NULL, NULL, NULL, NULL),
+(2, 'baja aceleracion', 25	, 50, 125, 2),
+(3, 'alta aceleracion', NULL, 88, NULL, 5),
 (4, 'orbitales', NULL, NULL, NULL, NULL),
 (5, 'baja aceleracion', NULL, NULL, NULL, NULL),
 (6, 'alta aceleracion', NULL, NULL, NULL, NULL);
@@ -265,10 +265,11 @@ ALTER TABLE   Vuelo
 
 INSERT INTO   Vuelo  ( id ,  titulo ,  precio ,  fecha_salida ,  fecha_llegada ,  origen_id ,  destino_id ,  tarifa_id ,  descripcion ,  avion_id ) VALUES
 (1, 'Vuelo a la luna', 1200, '2019-11-15', '2020-02-02', 2, 1, 1, 'El vuelo mas groso del universo', 1),
-(2, 'sarasa', 1200000, '2019-11-15', '2019-11-30', 1, 2, 1, 'blablbala', 1);
+(3, 'Vuelo a la luna', 1200, '2019-11-15', '2020-02-02', 2, 1, 1, 'El vuelo mas groso del universo',5),
+(2, 'sarasa', 1200000, '2019-11-15', '2019-11-30', 1, 2, 1, 'blablbala', 2);
 
 -- ALTER TABLE Orders ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
-
+ 
 -- ----------------------- AGREGADO DE CLAVES FORANEAS ----------------------------------------------
 
 -- TURNO
@@ -316,15 +317,20 @@ ALTER TABLE   Vuelo ADD FOREIGN KEY (tarifa_id) REFERENCES Tarifa (id);
 
 -- paso 2 esta reserva esta " PAGA "...por lo tanto se puede ir al paso 
 INSERT INTO reserva(id,codigo,fecha,vuelo_id,servicio_id,usuario_id,precio_final,pagada,tipo_de_cabina)
-		VALUES (1,'QWERTY','2019-11-20',1,1,5,25000,1,'G'),
+		VALUES  (1,'QWERTY','2019-11-20',1,1,5,25000,1,'G'),
         (2,'QWERTY','2015-01-01',1,1,5,25000,0,'G'),
         (3,'QWERTY','2015-01-01',1,1,5,25000,0,'G'),
-        (5,'ABM','2015-01-01',1,1,5,25000,0,'F'),
-        (4,'QWERTY','2015-01-01',1,1,5,25000,1,'G');
+        (5,'ABM','2015-01-01',1,1,5,25000,1,'F'),
+        (4,'QWE5RTY','2015-01-01',1,1,5,25000,1,'G');
+
+update reserva
+set fecha='2019-11-22' -- acà iria un valor que lo generamos en php,sumando 
+where id=1;
 
 select * from reserva;
 -- paso 3
-
+ 
+ 
 
 /*-----------------------------------------------	CONSULTA DE ASIENTOS	----------------------------------------------------------*/
 -- le pasamos el vuelo_id asociado al codigo ---ejemplo 1
@@ -374,12 +380,85 @@ select @cant_cabinaG_porReserva;
 
 
 
-create table checkin(
-							asiento_id varchar(10) primary key,
-							vuelo_id  int(11) NOT NULL
+create table asiento(		
+							id int (11) primary key,
+							asiento varchar(10),
+							vuelo_id  int(11) NOT NULL,
+                            usuario_id int(11)                            
 						);
-                        
-INSERT INTO checkin(asiento_id,vuelo_id)
-		VALUES ('G2',1);
 
+ALTER TABLE   asiento ADD FOREIGN KEY (vuelo_id) REFERENCES Vuelo(id);
+-- ALTER TABLE   asiento ADD FOREIGN KEY (usuario_id) REFERENCES Usuario(id);
+
+-- insert de registros                         
+INSERT INTO asiento(id,asiento,vuelo_id,usuario_id)
+		VALUES (5,'G2',1,5),
+				(6,'G2',1,6),
+                (4,'G2',3,8),
+                (2,'G2',1,9),
+                (8,'G2',2,8),
+                (10,'G2',2,8);
+
+-- update asiento 
+-- set asiento='g8',vuelo_id=2 
+-- where vuelo_id=1 && asiento='g2';
         
+	
+--  borrado de registros 
+
+ delete from asiento
+ where asiento ='G8'&& vuelo_id=2;
+
+select * from asiento;
+
+
+
+-- desde la pestaña donde se elige el asiento me tienen que mandar el vuelo,la reserva y el usuario---pero mas importante es el usuario y la reserva lo verificamos en el where
+select u.estado,v.fecha_salida,u.nombre_de_usuario,u.id,r.tipo_de_cabina,a.asiento,O.destino as Origen,D.destino as Destino,v.id as vuelo_id
+from usuario u join reserva r on u.id=r.usuario_id
+join asiento a on a.vuelo_id=r.vuelo_id 
+join vuelo v on a.vuelo_id=v.id
+join Destino O on O.id = v.origen_id
+join Destino D on D.id = v.destino_id
+where r.pagada=1 && r.id=1;
+
+select MAX(cantidad) from
+	(
+	select count(*) cantidad
+	from reserva
+	where pagada=1 
+	group by tipo_de_cabina 
+	order by cantidad desc
+    )as grande ;
+        
+        -- tasa de ocupacion por viaje significa que cuantos asientos ocupados hay ,un porcentaje sobre la cantidad de vuelo
+	select sum(cantidad),count(vuelo_id) from(
+				select vuelo_id,count(*) cantidad
+				from asiento
+				group by vuelo_id)as cantidad;
+
+select sum(cantidad),count(cantidad) from(
+				select count(vuelo_id) cantidad,vuelo.avion_id,equipo.id equipo
+				from asiento join vuelo on asiento.vuelo_id=vuelo.id
+                join equipo on  vuelo.avion_id=equipo.avion_id
+				 group by vuelo_id)as cantidad;
+                 
+                 select vuelo_id,count(vuelo_id) cantidad,vuelo.avion_id as id_avion,equipo.id equipo,equipo.general,equipo.familiar,equipo.suite,(equipo.general+equipo.familiar+equipo.suite) as totalEquipo
+				from asiento join vuelo on asiento.vuelo_id=vuelo.id
+                join equipo on  vuelo.avion_id=equipo.avion_id
+				 group by vuelo_id;
+
+				 select *
+				from asiento join vuelo on asiento.vuelo_id=vuelo.id
+                join equipo on  vuelo.avion_id=equipo.avion_id
+				 group by vuelo_id
+                 having count(*);
+                 
+                 
+                 select u.estado,v.fecha_salida,u.nombre_de_usuario,u.id,r.tipo_de_cabina,a.asiento,O.destino as Origen,D.destino as Destino,v.id as vuelo_id,u.email,r.id as reserva_id
+              from usuario u join reserva r on u.id=r.usuario_id
+              join asiento a on a.vuelo_id=r.vuelo_id 
+              join vuelo v on a.vuelo_id=v.id
+              join Destino O on O.id = v.origen_id
+              join Destino D on D.id = v.destino_id
+              where r.pagada=1 && r.id=1; 

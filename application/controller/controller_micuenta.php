@@ -1,7 +1,14 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
+
+require_once($this->path->getPage("phpmailer", "Exception.php"));
+require_once($this->path->getPage("phpmailer", "PHPMailer.php"));
+require_once($this->path->getPage("phpmailer", "SMTP.php"));
 class Controller_MiCuenta extends Controller{
-
+  
   private $path;
   private $view;
   private $turno;
@@ -11,7 +18,8 @@ class Controller_MiCuenta extends Controller{
   private $vuelo;
   private $equipo;
   private $asiento;
-
+  private $mail;
+  
   function __construct() {
     $this->path = Path::getInstance("config/path.ini");
     require_once( $this->path->getPage("model", "Usuario.php") );
@@ -30,8 +38,10 @@ class Controller_MiCuenta extends Controller{
     $this->vuelo = new Vuelo();
     $this->equipo = new Equipo();
     $this->asiento = new Asiento();
+    $this->mail = new PHPMailer(true);
+  
   }
-
+  
   function index () {
     $this->view->generate('view_home.php', 'template_home.php');
   }
@@ -134,4 +144,70 @@ class Controller_MiCuenta extends Controller{
     $data = $this->asiento->guardarAsiento($asiento, $vuelo_id, $usuario_id, $reserva_id);
     echo $data;
   }
+
+   
+  function armaPase(){
+    $reserva_id= 1;
+    $result = $this->reserva->traeDatosGeneraPase($reserva_id);
+    echo $result;
+    $data = json_decode($result,true);
+    $this->view->generate('micuenta/checkin_paso3.php', 'template_home.php', $data);
+  }
+
+
+  function EnviarCodigoaMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email){
+    $time = date(DATE_RFC2822);
+  try {
+      //Server settings
+    $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+    $this->mail->isSMTP();                                            // Send using SMTP
+    $this->mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+    $this->mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+    $this->mail->Username   = 'aa2736502@gmail.com';                     // SMTP username
+    $this->mail->Password   = '324aguamistica';                               // SMTP password
+    $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+    $this->mail->Port       = 587;                                    // TCP port to connect to
+
+    //Recipients
+    $this->mail->setFrom('aa2736502@gmail.com', 'GauchoRocket');
+    $this->mail->addAddress('aa2736502@gmail.com', $nombre_de_usuario);     // Add a recipient
+    //$this->mail->addAddress('ellen@example.com');               // Name is optional
+    //$this->mail->addReplyTo('info@example.com', 'Information');
+    //$this->mail->addCC('cc@example.com');
+    //$this->mail->addBCC('bcc@example.com');
+
+    // Attachments
+    $this->mail->addAttachment('resources/qr/'.$nombre_de_usuario.$vuelo_id.$reserva_id.'.jpeg');         // Add attachments
+    //$this->mail->addAttachment('resources/qr/'.$nombre_de_usuario.$vuelo_id.'.jpeg', 'new.jepg');    // Optional name
+
+    // Content
+    $this->mail->isHTML(true);                                  // Set email format to HTML
+    $this->mail->Subject = 'Datos de la reserva';
+    $this->mail->Body    = "Te adjuntamos a continuacion el QR";
+    $this->mail->AltBody = 'este es un mensaje de la empresa de viajes';
+
+
+    $this->mail->send();
+    echo 'Message has been sent';
+  } catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
+  }
+  //$this->view->generate('micuenta/checkin_paso4_pdf.php', 'template_home.php');
+  }
+
+  function EnviarCodigo(){
+    $vuelo_id = $_GET['vuelo_id'];
+      $reserva_id = $_GET['reserva_id'];
+      $nombre_de_usuario = $_GET['nombre_de_usuario'];
+      $email = $_GET['email'];
+      $this->EnviarCodigoaMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email);
+      //$this->view->generate('micuenta/checkin_paso4_pdf.php', 'template_home.php');
+
+  }
+
+  function generaFactura(){
+    $this->view->generate('micuenta/view_factura.php', 'template_home.php');
+
+  }
 }
+
