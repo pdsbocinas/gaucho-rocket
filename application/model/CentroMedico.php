@@ -63,6 +63,7 @@ class CentroMedico
         $sql= "INSERT INTO centroMedico
                 VALUES (NULL,'$nombre','$ubicacion')";
         $query = $this->database->exec($sql);
+        
         $query = $this->database->get_affected_rows();
         $link =  "location:" . $this->path->getEvent('admin', 'centros');
         header ($link);
