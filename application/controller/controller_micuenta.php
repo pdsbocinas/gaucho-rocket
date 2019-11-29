@@ -204,5 +204,10 @@ function EnviarCodigo(){
     //$this->view->generate('micuenta/checkin_paso4_pdf.php', 'template_home.php');
 
 }
+
+  function generaFactura(){
+    $this->view->generate('micuenta/view_factura.php', 'template_home.php');
+
+  }
 }
 
