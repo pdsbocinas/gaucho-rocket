@@ -18,7 +18,7 @@
 </div>
 <?php
 ob_start();
-require('core\helpers\fpdf\html_table.php');
+require_once($this->path->getPage("fpdf", "html_table.php"));
 $pdf=new PDF();
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
