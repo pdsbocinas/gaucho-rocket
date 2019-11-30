@@ -1,10 +1,10 @@
 <div class="container">
   <?php
-    if ($data['disponibilidad'] and !is_null($session_null)) {
+    if ($data['disponibilidad'] and is_null($session_null)) {
       include($path->getPage("view", "components/form_reservas.php"));
+      echo "<p class='mt-2'>Ingresa o registrate para podes reservar</p>";
     } else {
       include($path->getPage("view", "components/form_reservas.php"));
-      echo "<p>Ingresa o registrate para podes reservar</p>";
     }
 
     if (!$data['disponibilidad']) {

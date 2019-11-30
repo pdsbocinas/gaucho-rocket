@@ -39,7 +39,7 @@ class CentroMedico
     }
 
     public function eliminaCentroPorId($id){
-        $sql= "DELETE FROM centroMedico
+        $sql = "DELETE FROM centroMedico
                 WHERE id=$id;";
         $query = $this->database->exec($sql);
         $query = $this->database->get_affected_rows();
@@ -48,7 +48,7 @@ class CentroMedico
     }
 
     public function actualizaCentro($id,$nombre,$ubicacion){
-        $sql= "UPDATE centroMedico
+        $sql = "UPDATE centroMedico
                 SET nombre = '$nombre' ,ubicacion = '$ubicacion'
                 WHERE id=$id;";
         $query = $this->database->exec($sql);
@@ -57,18 +57,13 @@ class CentroMedico
         if ($this->database->get_affected_rows()>0) {
             $link =  "location:" . $this->path->getEvent('admin','centros');
             header ($link);
-                    
-
-
         } else {
             echo 'no se pudo actualizar';
         }
-        
-       
     }
 
     public function NuevoCentro($nombre,$ubicacion){
-        $sql= "INSERT INTO centroMedico
+        $sql = "INSERT INTO centroMedico
                 VALUES (NULL,'$nombre','$ubicacion')";
         $query = $this->database->exec($sql);
         

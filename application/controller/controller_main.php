@@ -43,17 +43,12 @@ class Controller_Main extends Controller
 		$array = json_decode($result, true);
 
 		foreach ($array as $fila) {
-			$this->usuario->setId($fila['id']);
-			$this->usuario->setEmail($fila['email']);
-			$this->usuario->setNombre($fila['nombre_de_usuario']);
-			$this->usuario->setRol($fila['rol']);
-			$this->usuario->setNivel($fila['nivel']);
-			$_SESSION['id'] = $this->usuario->getId();
-			$_SESSION['nombre_de_usuario'] = $this->usuario->getNombre();
-			$_SESSION['email'] = $this->usuario->getEmail();
-			$_SESSION['userId'] = $this->usuario->getId();
-			$_SESSION['rol'] = $this->usuario->getRol();
-			$_SESSION['nivel'] = $this->usuario->getNivel();
+			$_SESSION['id'] = $fila['id'];
+			$_SESSION['nombre_de_usuario'] = $fila['nombre_de_usuario'];
+			$_SESSION['email'] = $fila['email'];
+			$_SESSION['userId'] = $fila['id'];
+			$_SESSION['rol'] = $fila['rol'];
+			$_SESSION['nivel'] = $fila['nivel'];
 		}
 		
 		if (is_array($array)) {
