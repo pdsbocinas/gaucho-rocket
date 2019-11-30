@@ -1,8 +1,12 @@
 <div class="container">
   <?php
-    if ($data['disponibilidad']) {
+    if ($data['disponibilidad'] and !is_null($session_null)) {
       include($path->getPage("view", "components/form_reservas.php"));
+    } else {
+      include($path->getPage("view", "components/form_reservas.php"));
+      echo "<p>Ingresa o registrate para podes reservar</p>";
     }
+
     if (!$data['disponibilidad']) {
       echo $data['mensaje'];
       echo 

@@ -1,3 +1,17 @@
+body {
+  min-height: 100vh; 
+}
+
+footer {
+  padding: 40px 0;
+  background: #ccc;
+}
+
+.container {
+  flex: 1;
+  min-height: 95vh;
+}
+
 ul {
   list-style: none;
   margin: 0;

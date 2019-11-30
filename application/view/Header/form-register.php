@@ -4,7 +4,7 @@
     <input type="text" class="form-control" placeholder='Ingrese su Usuario' name='nombre_de_usuario' required>
   </div>
   <div class="form-group">
-    <label><b>Usuario</b></label>
+    <label><b>Mail</b></label>
     <input type="email" class="form-control" pattern='(?!^\d+$)^.+$' placeholder='Ingrese su Usuario' name='email' required>
   </div>
   <div class="form-group">

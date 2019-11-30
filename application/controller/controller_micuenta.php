@@ -208,5 +208,5 @@ class Controller_MiCuenta extends Controller{
     $email = $_GET['email'];
     $this->EnviarCodigoaMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email);
   }
-  
+
 }

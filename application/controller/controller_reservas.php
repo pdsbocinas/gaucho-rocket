@@ -53,6 +53,10 @@ class Controller_Reservas extends Controller{
   }
 
   function confirmarReserva () {
+    if (is_null($_SESSION['id'])) {
+      $session_null = $_SESSION['id'];
+      $this->view->generate('view_detalle_reserva.php', 'template_home.php', $session_null);
+    }
     $precioFinal = $_POST['precioFinal'];
     $vueloId = (int)$_POST['vuelo_id'];
     $servicio = $_POST['servicio'];
