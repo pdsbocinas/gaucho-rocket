@@ -124,8 +124,8 @@ function obtenerVuelosPorPrecio () {
           `<div class='card m-3' style='width: 18rem; float: left;'>
           <img src='https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg' class='card-img-top'>
           <div class='card-body'>
-            <h5 class='card-title'> ${vuelo.titulo} </h5>
-            <p class='card-text'> ${vuelo.descripcion} </p>
+            <h5 class='card-title'>${vuelo.titulo}</h5>
+            <p class='card-text'>${vuelo.descripcion}</p>
             <a href='reservas?id=${vuelo.id}' class='btn btn-primary'>Reserva</a>
           </div>`
         )})
@@ -158,7 +158,7 @@ function armarComboDestino (value, origenSeleccionado) {
   const circuito = origenSeleccionado.indexOf("circuito 1") > -1 ? 'circuito 1' : 'circuito 2';
   const porCircuito = destinos.filter(function(v){ return v.tipo === circuito});
   const seleccionado = destinos.filter(function(v){ return v.destino_id === value && v.tipo === circuito }).shift();
-  const reduce = porCircuito.reduce(function(acc, v, i){
+  const circuitoIndex = porCircuito.reduce(function(acc, v, i){
     if(v.destino === seleccionado.destino){
       acc = i;
       return acc;
@@ -166,6 +166,6 @@ function armarComboDestino (value, origenSeleccionado) {
     return acc
   }, 0)
   // console.log(reduce, porCircuito.slice(reduce, porCircuito.length))
-  const destinosFinales = porCircuito.slice(reduce, porCircuito.length).map(function(v){ return ( `<option value="${v.destino_id}">${v.destino} - ${v.tipo}</option>`) })
+  const destinosFinales = porCircuito.slice(circuitoIndex, porCircuito.length).map(function(v){ return ( `<option value="${v.destino_id}">${v.destino} - ${v.tipo}</option>`) })
   $(".destino").html(destinosFinales)
 }

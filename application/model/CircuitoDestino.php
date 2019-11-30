@@ -16,9 +16,9 @@ class CircuitoDestino
   }
 
   function obtenerTodosLosDestinoPorCircuito () {
-    $sql = "select d.id as destino_id, cd.id, d.destino, c.tipo from CircuitoDestino cd
-    join Destino d on d.id = cd.destino_id
-    join Circuito c on c.id = cd.circuito_id";
+    $sql = "SELECT d.id as destino_id, cd.id, d.destino, c.tipo FROM CircuitoDestino cd
+    JOIN Destino d ON d.id = cd.destino_id
+    JOIN Circuito c ON c.id = cd.circuito_id";
     $query = $this->database->query($sql);
     $result = $query->fetch_all(MYSQLI_ASSOC);
     return json_encode($result);

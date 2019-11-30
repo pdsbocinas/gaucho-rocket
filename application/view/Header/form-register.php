@@ -11,5 +11,8 @@
     <label><b>Contrase&ntilde;a</b></label>
     <input type="password" class="form-control" placeholder="Ingrese su Contrase&ntilde;a" name="password" required>
   </div>
-  <button type="submit" class="btn btn-primary" name="ingresar" type="submit">Ingresar</button>
+  <div class="d-flex">
+    <button type="submit" class="btn btn-primary mr-2" name="ingresar" type="submit">Ingresar</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+  </div>
 </form>
