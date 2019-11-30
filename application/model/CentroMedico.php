@@ -1,6 +1,4 @@
 <?php
-
-
 class CentroMedico
 {
     private $database;

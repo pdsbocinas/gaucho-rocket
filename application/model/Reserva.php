@@ -158,8 +158,7 @@
       return json_encode($result);
     }
   }
-  
-?>
+
 
 
 

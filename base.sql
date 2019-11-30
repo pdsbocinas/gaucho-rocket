@@ -1,5 +1,5 @@
 drop schema gauchorocket;
-create schema gauchorocket;
+create database gauchorocket;
 use gauchorocket;
 
 --
@@ -22,7 +22,7 @@ CREATE TABLE Avion (
 -- Volcado de datos para la tabla `Avion`
 --
 ALTER TABLE Avion
-  MODIFY id int(11) AUTO_INCREMENT, AUTO_INCREMENT=2;
+  ADD id int(11) AUTO_INCREMENT, AUTO_INCREMENT=2;
   
 INSERT INTO  Avion  ( id ,  modelo ,  matricula ) VALUES
 (1, 'Aguila','AA1'),

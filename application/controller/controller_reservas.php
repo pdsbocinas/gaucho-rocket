@@ -18,6 +18,7 @@ class Controller_Reservas extends Controller{
   private $mail;
   private $circuitoDestino;
   private $trayectos;
+  private $pdf;
 
   function __construct() {
     $this->path = Path::getInstance("config/path.ini");
@@ -28,6 +29,8 @@ class Controller_Reservas extends Controller{
     require_once( $this->path->getPage("model", "Servicio.php") );
     require_once( $this->path->getPage("model", "CircuitoDestino.php") );
     require_once( $this->path->getPage("model", "ReservaTrayecto.php") );
+    require_once( $this->path->getPage("model", "Pdf.php") );
+
     $this->vuelo = new Vuelo();
     $this->usuario = new Usuario();
     $this->reserva = new Reserva();
@@ -37,6 +40,7 @@ class Controller_Reservas extends Controller{
     $this->servicio = new Servicio();
     $this->circuitoDestino = new CircuitoDestino();
     $this->trayectos = new ReservaTrayecto();
+    $this->pdf = new Pdf();
   }
 
   function index () {
@@ -114,8 +118,8 @@ class Controller_Reservas extends Controller{
   }
 
   function exito () {
-    $user_id = $_SESSION['id'];
-    $reserva = json_encode($this->reserva->obtenerReservasPorUsuario($user_id), true);
+    $user_id = 1;
+    $reserva = json_decode($this->reserva->obtenerReservasPorUsuario($user_id), true);
     $this->enviarMailConDatosDelVuelo($reserva);
   }
 
@@ -127,7 +131,6 @@ class Controller_Reservas extends Controller{
     header($link);
 
 		try {
-				//Server settings
 			$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
 			$this->mail->isSMTP();                                            // Send using SMTP
 			$this->mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
@@ -148,14 +151,16 @@ class Controller_Reservas extends Controller{
 			// Attachments
 			//$this->mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
 			//$this->mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-	
 			// Content
 			$this->mail->isHTML(true);                                  // Set email format to HTML
 			$this->mail->Subject = 'Datos de la reserva';
-			$this->mail->Body    = $data;
+      $this->mail->Body    = "
+        <h1>Datos de la reserva</h1>
+        <strong>Codigo: </strong><p>" . $data[0]['codigo'] . "</p>
+        <strong>Vuelo: </strong><p>" . $data[0]['titulo'] . "</p>
+        <strong>Tipo de cabina: </strong><p>" . $data[0]['tipo_de_cabina'] . "</p>
+        <strong>Valor: </strong><p> $" . $data[0]['precio_final'] . "</p>";
 			$this->mail->AltBody = 'This is the body in plain text for non-HTML this->mail clients';
-
-
 			$this->mail->send();
 			echo 'Message has been sent';
 		} catch (Exception $e) {
@@ -184,7 +189,24 @@ class Controller_Reservas extends Controller{
     $reserva_id = $_POST['reserva_id'];
     $data = $this->reserva->eliminarReserva($reserva_id);
   }
+  
+  function generaFactura () {
+    $reserva_codigo = $_GET['codigo'];
+    $result = $this->reserva->obtenerReservaPorCodigo($reserva_codigo);
+    $data = json_decode($result, true);
+    $this->pdf->AliasNbPages();
+    $this->pdf->AddPage();
+    $this->pdf->SetFont('Times','',12);
+    
+    foreach ($data as $fila) {
+      $this->pdf->Cell(0,10,'Reserva ID: '.$data[0]['id'],0,1);
+      $this->pdf->Cell(0,10,'Codigo: '.$data[0]['codigo'],0,1);
+      $this->pdf->Cell(0,10,'Cabina: '.$data[0]['tipo_de_cabina'],0,1);
+      $this->pdf->Cell(0,10,'Precio Final: '.$data[0]['precio_final'],0,1);
+    }
 
+    $this->pdf->Output();
+  }
 }
 
 ?>

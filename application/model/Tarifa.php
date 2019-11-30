@@ -14,5 +14,3 @@ class Tarifa
     $this->database = new Database();
   }
 }
-
-?>

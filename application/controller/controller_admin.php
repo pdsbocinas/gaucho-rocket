@@ -10,7 +10,6 @@ class Controller_Admin extends Controller {
   private $reserva;
 
   function __construct() {
-    // Incluyo todos los modelos a utilizar
     $this->path = Path::getInstance("config/path.ini");
     require_once($this->path->getPage("model", "Usuario.php") );
     require_once($this->path->getPage("model", "Vuelo.php"));
@@ -60,12 +59,9 @@ class Controller_Admin extends Controller {
   }
 
   function guardaCentro(){
-    //$id=$_POST['id'];
     $nombre=$_POST['nombre'];
     $ubicacion=$_POST['ubicacion'];
-    
     $this->centroMedico->nuevoCentro($nombre,$ubicacion);
-
   }
   
   function exito(){
@@ -165,5 +161,5 @@ class Controller_Admin extends Controller {
     $data = $this->equipo->obtenerVuelosPorEquipoyCapacidad();
     $data = json_decode($data, true);
     $this->view->generate('Admin/reportes/view_admin_tasa_ocupacion_viaje_equipo.php', 'template_admin.php', $data);
-  } 
+  }
 }

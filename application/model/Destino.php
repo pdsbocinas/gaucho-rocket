@@ -11,7 +11,4 @@ class Destino {
     $this->path = Path::getInstance("config/path.ini");
     $this->database = new Database();
   }
-  
 }
-
-?>

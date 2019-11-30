@@ -1,5 +1,4 @@
 <?php
-
 class CircuitoDestino
 {
   private $database;
@@ -35,5 +34,3 @@ class CircuitoDestino
     return json_encode($result);
   }
 }
-
-?>

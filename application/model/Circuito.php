@@ -11,5 +11,3 @@ class Circuito
       $this->database = new Database();
     }
 }
-
-?>

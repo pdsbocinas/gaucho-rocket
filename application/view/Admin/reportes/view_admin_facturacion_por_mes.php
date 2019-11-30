@@ -23,6 +23,6 @@ $pdf=new PDF();
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $pdf->WriteHTML($tabla);
-$pdf->Output();
+$pdf->Output("D");
 ob_end_flush();
 ?>

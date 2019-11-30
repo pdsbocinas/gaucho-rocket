@@ -1,5 +1,4 @@
 <?php
-
 class Usuario
 {
 
@@ -125,10 +124,4 @@ class Usuario
     $query = $this->database->query_row($sql);
     return json_encode($query);
   }
-
 }
-
-
-
-
-
