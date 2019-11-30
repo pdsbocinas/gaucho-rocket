@@ -6,3 +6,19 @@
   margin: 30px 0 10px;
 }
 
+.form-reserva {
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  margin: 60px auto;
+  padding: 20px 0;
+}
+
+.precioFinal {
+  font-size: 28px;
+  font-weight: 900;
+} 
+
+.select-width {
+  width: 280px;
+}

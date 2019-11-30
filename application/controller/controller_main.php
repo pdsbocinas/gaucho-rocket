@@ -36,7 +36,6 @@ class Controller_Main extends Controller
 	}
 
 	function login () {
-
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		$result = $this->usuario->getUserByMail($email, $password);
@@ -70,6 +69,7 @@ class Controller_Main extends Controller
 			$data = json_decode($result, true);
 			$query = $this->usuario->updateUserState($data['id']);
 
+			$this->usuario->setId($data['id']);
 			$this->usuario->setEmail($data['email']);
 			$this->usuario->setNombre($data['nombre_de_usuario']);
 			$this->usuario->setRol($data['rol']);

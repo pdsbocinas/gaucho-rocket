@@ -91,4 +91,14 @@ class Vuelo
     $result = $query->fetch_all(MYSQLI_ASSOC);
     return json_encode($result);
   }
+
+  function obtenerEscalasDelVuelo ($vuelo_id) {
+    $sql = "select v.id as escala, v.titulo as titulo, o.destino as origen, d.destino as destino from Vuelo v
+            join Destino o on o.id = v.origen_id
+            join Destino d on D.id = v.destino_id
+            where v.referencia_vuelo = '$vuelo_id'";
+    $query = $this->database->query($sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    return json_encode($result);
+  }
 }

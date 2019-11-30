@@ -23,7 +23,8 @@
       $reserva_id = (int)$vuelo[0]['reserva_id'];
       // $sql = "select asiento from Asiento where vuelo_id = '$vuelo_id'";
       $sql = "select rt.vuelo_id, rt.destino_id, a.asiento from Asiento a
-      join ReservaTrayecto rt on rt.vuelo_id
+      join Vuelo v on v.id = a.vuelo_id
+      join ReservaTrayecto rt on rt.vuelo_id = v.id
       where rt.vuelo_id = '$vuelo_id' or rt.vuelo_id = '$vuelo_referencia'";
       
       $query = $this->database->query($sql);
