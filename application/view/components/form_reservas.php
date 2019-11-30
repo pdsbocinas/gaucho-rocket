@@ -10,7 +10,7 @@
   </div>
   <input type="hidden" value='<?php echo $data[0]['id'] ?>' name='vuelo_id' />
   <?php
-    if (is_null($session_null)) {
+    if (is_null($_SESSION['id'])) {
       echo "<button type='reset' data-toggle='modal' data-target='#exampleModal' class='btn btn-primary white trigger-modal'>Reserva</button>";
     } else {
       echo "<button type='submit' class='btn btn-primary'>Reserva</button>";

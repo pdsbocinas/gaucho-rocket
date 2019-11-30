@@ -41,7 +41,7 @@ class Controller_Main extends Controller
 		$password = $_POST['password'];
 		$result = $this->usuario->getUserByMail($email, $password);
 		$array = json_decode($result, true);
-
+		session_start();
 		foreach ($array as $fila) {
 			$_SESSION['id'] = $fila['id'];
 			$_SESSION['nombre_de_usuario'] = $fila['nombre_de_usuario'];
@@ -56,11 +56,9 @@ class Controller_Main extends Controller
 		} else {
 			$data = $result;
 			session_start();
-			session_destroy();
 			$this->index();
 		}
-		$link =  "location:" . $this->path->getEvent('main', 'index');
-    header($link);
+		header("Refresh:0");
 		$this->view->generate('view_home.php', 'template_home.php', $data);
   }
     
