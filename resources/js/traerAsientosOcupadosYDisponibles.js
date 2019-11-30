@@ -1,10 +1,14 @@
 
 $(document).ready(function(){
   let params = (new URL(document.location)).searchParams;
-  let id = parseInt(params.get('vuelo_id'));
-  let reserva_id = parseInt(params.get('reserva_id'));
-  obtenerDisponibilidad(id);
-  guardarAsiento(id, reserva_id);
+  let vueloId = parseInt(params.get('vuelo_id'));
+  let reservaId = parseInt(params.get('reserva_id'));
+  if (params.get('vuelo_id') !== null) {
+    obtenerDisponibilidad(vueloId);
+  }
+  if (params.get('reserva_id') !== null && params.get('vuelo_id') !== null) {
+    guardarAsiento(vueloId, reservaId);
+  }
 });
 
 function obtenerTotalidadDeAsientos (id) {
