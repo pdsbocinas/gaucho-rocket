@@ -107,7 +107,8 @@ class Controller_MiCuenta extends Controller{
   }
 
   function checkin(){
-    $this->view->generate('micuenta/view_checkin.php', 'template_home.php');
+    $codigo = $_GET['codigo'];
+    $this->view->generate('micuenta/view_checkin.php', 'template_home.php', $codigo);
   }
 
   function traeReservasParaRealizarCheckin(){
