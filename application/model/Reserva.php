@@ -39,7 +39,7 @@
     }
 
     function obtenerReservasPorUsuario($id) {
-      $sql = "select r.id, r.codigo, r.fecha, v.titulo, s.descripcion, u.email, r.tipo_de_cabina, r.precio_final, r.pagada from Reserva r 
+      $sql = "select r.id, r.codigo, r.fecha, v.titulo, s.descripcion, u.email, r.tipo_de_cabina, r.precio_final, r.pagada, r.checkin from Reserva r 
       join Servicio s on s.id = r.servicio_id
       join Usuario u on u.id = r.usuario_id
       join Vuelo v on v.id = r.vuelo_id
@@ -156,6 +156,13 @@
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
+    }
+
+    function actualizarCheckin ($reserva_id) {
+      $sql = "update Reserva set checkin = 1 where id = " . $reserva_id;
+      $updateReserva = $this->database->exec($sql);
+      $updateReserva = $this->database->get_affected_rows();
+      $updateReserva;
     }
   }
 

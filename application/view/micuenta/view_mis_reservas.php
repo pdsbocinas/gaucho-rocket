@@ -1,4 +1,4 @@
-<div class="pl-4 pr-4 containe-fluid">
+<div class="pl-3 pr-3 mt-4 containe-fluid">
   <?php
     if (isset($data)) {
       echo "<h2>Mis Reservas</h2>";

@@ -39,7 +39,6 @@ class Controller_MiCuenta extends Controller{
     $this->equipo = new Equipo();
     $this->asiento = new Asiento();
     $this->mail = new PHPMailer(true);
-  
   }
   
   function index () {
@@ -49,18 +48,7 @@ class Controller_MiCuenta extends Controller{
   function reservas () {
     $id = $_SESSION['id'];
     $data = $this->reserva->obtenerReservasPorUsuario($id);
-    $checkin = $this->asiento->obtenerTodosLosAsientosPorUsuario($id);
     $data = json_decode($data, true);
-    $checkin = json_decode($checkin, true);
-    $values = array_values($checkin[0]);
-    foreach ($data as $key => $value) {
-      $exists = in_array($value['id'], $values);
-      if ($exists) {
-        $data[$key]['checkin'] = true;
-      } else {
-        $data[$key]['checkin'] = false;
-      }
-    }
     if (empty($data)) {
       $this->view->generate('micuenta/view_sin_reservas_hechas.php', 'template_home.php', $data);
     } else {
@@ -134,7 +122,11 @@ class Controller_MiCuenta extends Controller{
   function obtenerAsientosOcupados () {
     $vuelo_id = $_GET['vuelo_id'];
     $vuelo = json_decode($this->vuelo->obtenerVueloPorId($vuelo_id), true);
-    $data = $this->asiento->obtenerAsientosOcupados($vuelo);
+    $refVueloId = $vuelo[0]['vuelo_referencia'];
+    if(is_null($refVueloId)) {
+      $data = $this->asiento->obtenerAsientosOcupados($vuelo);
+    }
+    var_dump($data);die();
     echo $data;
   }
 
@@ -144,6 +136,7 @@ class Controller_MiCuenta extends Controller{
     $reserva_id = $_POST['reserva_id'];
     $usuario_id = $_SESSION['id'];
     $data = $this->asiento->guardarAsiento($asiento, $vuelo_id, $usuario_id, $reserva_id);
+    $dataReserva = $this->reserva->actualizarCheckin($reserva_id);
     echo $data;
   }
 
@@ -154,7 +147,7 @@ class Controller_MiCuenta extends Controller{
     $this->view->generate('micuenta/checkin_paso3.php', 'template_home.php', $data);
   }
 
-  function EnviarCodigoaMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email){
+  function EnviarCodigoAMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email = 'pds.gomez@gmail.com'){
     $time = date(DATE_RFC2822);
 
     $link =  "location:" . $this->path->getEvent('micuenta', 'finalizar') . "?reserva_id=" . $reserva_id;
@@ -173,7 +166,7 @@ class Controller_MiCuenta extends Controller{
 
       //Recipients
 			$this->mail->setFrom('twtesttest5@gmail.com', 'Datos del pasaje');
-			$this->mail->addAddress('pds.gomez@gmail.com', $nombre_de_usuario);     // Add a recipient
+			$this->mail->addAddress($email, $nombre_de_usuario);     // Add a recipient
       //$this->mail->addAddress('ellen@example.com');               // Name is optional
       //$this->mail->addReplyTo('info@example.com', 'Information');
       //$this->mail->addCC('cc@example.com');
@@ -207,7 +200,7 @@ class Controller_MiCuenta extends Controller{
     $reserva_id = $_GET['reserva_id'];
     $nombre_de_usuario = $_GET['nombre_de_usuario'];
     $email = $_GET['email'];
-    $this->EnviarCodigoaMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email);
+    $this->EnviarCodigoAMail($vuelo_id, $reserva_id, $nombre_de_usuario, $email);
   }
 
 }

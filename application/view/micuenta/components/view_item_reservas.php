@@ -10,12 +10,10 @@
   <!-- <p class="card-text" name='ubicacion'><?php echo $fila['pagada'] ?></p> -->
   <a href="<?php echo $path->getEvent('reservas', 'generaFactura') ?>?codigo=<?php echo $fila['codigo'] ?>" target="_blank" id="reserva-<?php echo $fila['id'] ?>" class="btn <?php echo $fila['pagada'] == 1 ? 'btn-success' : 'btn-primary pagar' ?>"><?php echo $fila['pagada'] == 1 ? 'Descargar factura' : 'Pagar' ?></a>
   <?php 
-    if ($fila['pagada'] == 1) {
-      if ($fila['checkin']) {
-        echo "<button disabled class='btn btn-success' disabled href=". $path->getEvent('micuenta', 'checkin') .">Checkin realizado</button>";
-      } else {
-        echo "<a class='btn btn-primary' href=". $path->getEvent('micuenta', 'checkin') ."?codigo=". $fila['codigo'] .">Realizar checkin</a>";
-      }
+    if ($fila['checkin'] == 1) {
+      echo "<button disabled class='btn btn-success' disabled href=". $path->getEvent('micuenta', 'checkin') .">Checkin realizado</button>";
+    } else {
+      echo "<a class='btn btn-primary' href=". $path->getEvent('micuenta', 'checkin') ."?codigo=". $fila['codigo'] .">Realizar checkin</a>";
     }
   ?>
   <a href="javascript:void(0)" id="reserva-<?php echo $fila['id'] ?>" class='btn btn-danger eliminar-reserva'>Cancelar reserva</a>

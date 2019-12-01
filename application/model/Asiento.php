@@ -22,10 +22,10 @@
       $vuelo_referencia = (int)$vuelo[0]['referencia_vuelo'];
       $reserva_id = (int)$vuelo[0]['reserva_id'];
       // $sql = "select asiento from Asiento where vuelo_id = '$vuelo_id'";
-      $sql = "select rt.vuelo_id, rt.destino_id, a.asiento from Asiento a
-      join Vuelo v on v.id = a.vuelo_id
+      $sql = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      join Asiento a on a.vuelo_id = v.id
       join ReservaTrayecto rt on rt.vuelo_id = v.id
-      where rt.vuelo_id = '$vuelo_id' or rt.vuelo_id = '$vuelo_referencia'";
+      where rt.vuelo_id = '$vuelo_id'";
       
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
