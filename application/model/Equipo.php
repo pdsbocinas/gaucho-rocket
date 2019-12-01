@@ -28,8 +28,8 @@
               FROM asiento JOIN vuelo ON asiento.vuelo_id=vuelo.id
               JOIN equipo ON  vuelo.avion_id=equipo.avion_id
               GROUP BY vuelo_id;";
-      $query = $this->database->query($sql);
-      $result = $query->fetch_all(MYSQLI_ASSOC);
-      return json_encode($result, true);
+        $query = $this->database->query($sql);
+        $result = $query->fetch_all(MYSQLI_ASSOC);
+        return json_encode($result, true);
     }
   }

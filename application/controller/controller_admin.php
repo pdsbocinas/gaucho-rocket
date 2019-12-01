@@ -8,6 +8,7 @@ class Controller_Admin extends Controller {
   private $centroMedico;
   private $listaDeEspera;
   private $reserva;
+  private $pdf;
 
   function __construct() {
     $this->path = Path::getInstance("config/path.ini");
@@ -17,6 +18,8 @@ class Controller_Admin extends Controller {
     require_once($this->path->getPage("model", "ListaDeEspera.php"));
     require_once($this->path->getPage("model", "Reserva.php"));
     require_once($this->path->getPage("model", "Equipo.php"));
+    //require_once( $this->path->getPage("model", "Pdf.php") );
+    require_once($this->path->getPage("fpdf", "html_table.php"));
 
     $this->vuelo = new Vuelo();
     $this->view = new View();
@@ -24,6 +27,8 @@ class Controller_Admin extends Controller {
     $this->listaDeEspera = new ListaDeEspera();
     $this->reserva = new Reserva();
     $this->equipo = new Equipo();
+    $this->pdf = new Pdf();
+    
   }
   
   function index () {
@@ -138,28 +143,75 @@ class Controller_Admin extends Controller {
   }
 
   function obtenerFacturacionPorMes () {
-    $inicio = "2019-01-01";
-    $fin = "2020-01-01";
-    $data = $this->reserva->obtenerFacturacionPorMes($inicio, $fin);
-    $data = json_decode($data, true);
-    $this->view->generate('Admin/reportes/view_admin_facturacion_por_mes.php', 'template_admin.php', $data);
+    $fin =  date("Y-m-d");
+    $inicio = date("Y-m-d",strtotime($fin. "- 30 days"));
+    $result = $this->reserva->obtenerFacturacionPorMes($inicio, $fin);
+    $data = json_decode($result, true);
+    $this->pdf->AliasNbPages();
+    $this->pdf->AddPage();
+    $this->pdf->SetFont('Times','',12);
+    foreach ($data as $fila) {
+      $tabla="
+        <h2>Desde: $inicio </h2><h2>Hasta : $fin </h2><br><br>
+        <table border='1'table bordercolor='666633' >
+          <tr>
+            <td colspan='2' width='200' height='30'>Total Vendido por Mes</td><td width='200' height='30'>{$fila['total']}</td>
+          </tr>
+        </table>";
+    }
+    $this->pdf->WriteHTML($tabla);
+    $this->pdf->Output();
   }
 
   function cabinaMasVendida () {
     $data = $this->reserva->obtenerCabinaMasVendida();
     $data = json_decode($data, true);
-    $this->view->generate('Admin/reportes/view_admin_cabina mas vendida.php', 'template_admin.php', $data);
+    $tabla = "";
+    $this->pdf->AliasNbPages();
+    $this->pdf->AddPage();
+    $this->pdf->SetFont('Times','',12);
+    $max=0;
+    foreach ($data as $fila) {
+      if ($fila['cantidad']>=$max) {
+        $tabla .="<table border='1' bordercolor='666633' ><tr><td colspan='2' width='200' height='30'>{$fila['tipo_de_cabina']}</td><td width='200' height='30'>{$fila['cantidad']}</td></tr></table>";
+      }
+    }
+    $tablaConTitulo="<table border='1' bordercolor='666633' ><td colspan='2' width='200' height='30'>TIPO DE CABINA</td><td width='200' height='30'>CANTIDAD</td><br></table>".$tabla;
+    $this->pdf->WriteHTML($tablaConTitulo);
+    $this->pdf->Output();
   }
 
   function facturacionPorUsuario () {
     $data = $this->reserva->obtenerFacturacionPorUsuario();
     $data = json_decode($data, true);
-    $this->view->generate('Admin/reportes/view_admin_facturacion_por_usuario.php', 'template_admin.php', $data);
+    $tabla = "";
+    $this->pdf->AliasNbPages();
+    $this->pdf->AddPage();
+    $this->pdf->SetFont('Times','',12);
+    foreach ($data as $fila) {
+      $tabla .="<table border='1' bordercolor='666633' ><tr><td colspan='2' width='200' height='30'>{$fila['usuario_id']}</td><td width='200' height='30'>{$fila['cantidad']}</td><td width='200' height='30'>$ {$fila['total']}</td></tr></table>";
+      }
+    $tablaConTitulo="<table border='1' bordercolor='666633' ><td colspan='2' width='200' height='30'>ID DE USUARIO</td><td width='200' height='30'>CANT. FACTURAS</td><td width='200' height='30'>TOTAL</td><br></table>".$tabla;
+    $this->pdf->WriteHTML($tablaConTitulo);
+    $this->pdf->Output();
+
   }
 
   function tasaOcupacionPorViajeyEquipo(){
     $data = $this->equipo->obtenerVuelosPorEquipoyCapacidad();
     $data = json_decode($data, true);
-    $this->view->generate('Admin/reportes/view_admin_tasa_ocupacion_viaje_equipo.php', 'template_admin.php', $data);
+    $tabla = "";
+    $this->pdf->AliasNbPages();
+    $this->pdf->AddPage();
+    $this->pdf->SetFont('Times','',12);
+    foreach ($data as $fila) {
+      $valor=number_format(((int)$fila['cantidad']/(int)$fila['totalEquipo'])*100,2);
+      $tabla.="<table border='1' bordercolor='666633' ><tr><td colspan='2' width='120' height='30'>{$fila['vuelo_id']}</td><td width='100' height='30'>{$fila['cantidad']}</td><td width='100' height='30'>{$fila['avion_id']}</td><td width='140' height='30'>{$fila['totalEquipo']}</td><td width='180' height='30'>$valor %</td></tr></table>";
+    }
+    $tablaConTitulo="<h1>TASA DE OCUPACION POR VIAJE Y EQUIPO</h1><br><br><table border='1' bordercolor='666633' ><td colspan='2' width='120' height='30'>ID DE VUELO</td><td width='100' height='30'>CANTIDAD</td><td width='100' height='30'>EQUIPO</td><td width='140' height='30'>TOTAL EQUIPO</td><td width='180' height='30'>TASA OCUPACION</td><br></table>".$tabla;
+    $this->pdf->WriteHTML($tablaConTitulo);
+    $this->pdf->Output();
+
+    //$this->view->generate('Admin/reportes/view_admin_tasa_ocupacion_viaje_equipo.php', 'template_admin.php', $data);
   }
 }
