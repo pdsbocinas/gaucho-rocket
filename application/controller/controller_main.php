@@ -109,7 +109,7 @@ class Controller_Main extends Controller
 	
 			//Recipients
 			$this->mail->setFrom('twtesttest5@gmail.com', 'Confirma tu cuenta');
-			$this->mail->addAddress('pds.gomez@gmail.com', $nombre_de_usuario);     // Add a recipient
+			$this->mail->addAddress($email, $nombre_de_usuario);     // Add a recipient
 			//$this->mail->addAddress('ellen@example.com');               // Name is optional
 			//$this->mail->addReplyTo('info@example.com', 'Information');
 			//$this->mail->addCC('cc@example.com');
