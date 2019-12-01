@@ -1,4 +1,4 @@
-<div class="card m-3 server" style="width: 18rem; float:left;">
+<div class="card card-vuelos-height m-3 server" style="width: 18rem; float:left;">
   <img class="card-img-top" src="https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg" class="card-img-top" alt="...">
   <div class="d-flex flex-column card-body">
     <h5 class="card-title"><?php echo $fila['titulo'] ?></h5>

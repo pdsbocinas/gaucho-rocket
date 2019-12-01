@@ -11,6 +11,8 @@ $(document).ready(function(){
   $('#precioFinal').val(precioInt);
   obtenerTodosLosServicios();
   precioFinalSegunServicio();
+  precioFinalSegunServicioDeAbordo();
+  obtenerEscalas();
 });
 
 function pagarReserva () {
@@ -53,7 +55,20 @@ function precioFinalSegunServicio () {
     const text = $("#servicios option:selected").text();
     const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
     const getPorcentaje = parseInt(text.match(regexOnlyNumber).shift());
-    const precio = $('.precioBase').text();
+    const precio = $('.precioFinal').text();
+    const precioInt = parseInt(precio.match(regexOnlyNumber).shift());
+    const precioFinal = precioInt + precioInt * getPorcentaje / 100;
+    $('#precioFinal').val(precioFinal);
+    $('.precioFinal').text(`$ ${precioFinal}`);
+  })
+}
+
+function precioFinalSegunServicioDeAbordo () {
+  $('#menu').on('change', function (e) {
+    const text = $("#menu option:selected").text();
+    const regexOnlyNumber = new RegExp('([0-9.,]+)', 'g');
+    const getPorcentaje = parseInt(text.match(regexOnlyNumber).shift());
+    const precio = $('.precioFinal').text();
     const precioInt = parseInt(precio.match(regexOnlyNumber).shift());
     const precioFinal = precioInt + precioInt * getPorcentaje / 100;
     $('#precioFinal').val(precioFinal);
@@ -103,4 +118,25 @@ function agregarAlVuelo () {
       }
     })
   });
+}
+
+function obtenerEscalas () {
+  let params = (new URL(document.location)).searchParams;
+  let vueloId = parseInt(params.get('id'));
+  $.ajax({
+    type: "GET",
+    url: `http://${window.location.host}/gaucho-rocket/vuelos/obtenerEscalasDelVuelo`,
+    data: {
+      id: vueloId
+    },
+    success: function(response) {
+      const responseParse = JSON.parse(response);
+      const html = responseParse.map(function(v){
+        return (
+          `<li class="mr-2"><h6><span class="badge badge-secondary">${v.origen}</span></h6></li>
+          <li class="mr-2"><h6><span class="badge badge-secondary">${v.destino}</span></h6></li>`
+        )})
+      $("#lista-de-escalas").html(html)
+    }
+  })
 }

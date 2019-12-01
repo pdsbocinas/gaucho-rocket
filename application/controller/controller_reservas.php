@@ -60,12 +60,12 @@ class Controller_Reservas extends Controller{
     $precioFinal = $_POST['precioFinal'];
     $vueloId = (int)$_POST['vuelo_id'];
     $servicio = $_POST['servicio'];
+    $menu = $_POST['menu'];
     $user_id = $_SESSION['id'];
     $userEmail = $_SESSION['email'];
     $userNivel = $_SESSION['nivel'];
     $nivel = $this->usuario->obtenerNivelDelUsuario($_SESSION['id']);
     $servicioPorId = json_decode($this->servicio->obtenerServicioPorId($servicio), true);
-    $cabina = $servicioPorId[0]['descripcion'];
     $data = $this->vuelo->obtenerVueloPorId($vueloId);
     $result = json_decode($data, true);
    
@@ -80,7 +80,7 @@ class Controller_Reservas extends Controller{
       $origen_id = (int)$result[0]['origen_id'];
       $destino_id = (int)$result[0]['destino_id'];
 
-      $codigoReserva = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $cabina);
+      $codigoReserva = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $menu);
       $circuitosPorId = $this->circuitoDestino->obtenerDestinosPorCircuito($circuito_id);
       $jsonCircuitos = json_decode($circuitosPorId, true);
 

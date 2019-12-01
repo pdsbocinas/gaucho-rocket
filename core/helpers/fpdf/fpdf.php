@@ -331,7 +331,7 @@ function AddPage($orientation='', $size='', $rotation=0)
 	$this->ColorFlag = $cf;
 	// Page header
 	$this->InHeader = true;
-	$this->Header();
+	$this->header();
 	$this->InHeader = false;
 	// Restore line width
 	if($this->LineWidth!=$lw)
@@ -357,7 +357,7 @@ function AddPage($orientation='', $size='', $rotation=0)
 	$this->ColorFlag = $cf;
 }
 
-function Header()
+function header()
 {
 	// To be implemented in your own inherited class
 }

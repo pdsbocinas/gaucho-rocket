@@ -57,4 +57,10 @@ class Controller_Vuelos extends Controller{
     echo $data;
   }
 
+  function obtenerEscalasDelVuelo () {
+    $vuelo_id = $_GET['id'];
+    $data = $this->vuelo->obtenerEscalasDelVuelo($vuelo_id);
+    echo $data;
+  }
+
 }
