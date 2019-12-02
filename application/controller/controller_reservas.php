@@ -88,23 +88,29 @@ class Controller_Reservas extends Controller{
         if ($value['destino_id'] === '17' and $origen_id === 17 ) {
           $index = array_search(18, array_column($jsonCircuitos, 'destino_id'));
           unset($jsonCircuitos[$index]);
+          $jsonCircuitos = array_values($jsonCircuitos);
         }
         if ($value['destino_id'] === '18' and $origen_id === 18 ) {
           $index = array_search(17, array_column($jsonCircuitos, 'destino_id'));
           unset($jsonCircuitos[$index]);
+          $jsonCircuitos = array_values($jsonCircuitos);
         }
       }
 
       $indexOrigen = array_search($origen_id, array_column($jsonCircuitos, 'destino_id'));
       $indexDestino = array_search($destino_id, array_column($jsonCircuitos, 'destino_id'));
+      $itemOrigen = $jsonCircuitos[$indexOrigen];
+      $itemDestino = $jsonCircuitos[$indexDestino];
 
       $dataReservaTrayectos = array_slice($jsonCircuitos, $indexOrigen, $indexDestino);
       $codigoReserva = json_decode($this->reserva->obtenerReservaPorCodigo($codigoReserva), true);
       $reserva_id = (int)$codigoReserva[0]['id'];
-      
+
       foreach ($dataReservaTrayectos as $key => $value) {
-        $destinoId = (int)$value['destino_id'];
-        $this->trayectos->guardarTrayectos($vueloId, $reserva_id, $destinoId);
+        if ((int)$value['circuito_destino'] >= (int)$itemOrigen['circuito_destino'] && (int)$value['circuito_destino'] < (int)$itemDestino['circuito_destino']){         
+            $destinoId = (int)$value['destino_id'];
+            $this->trayectos->guardarTrayectos($vueloId, $reserva_id, $destinoId);
+        }
       }
 
       $link =  "location:" . $this->path->getEvent('micuenta', 'reservas');
