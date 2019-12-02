@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
     <?php
-      if ($_SESSION['rol'] == 'admin') {
+      if (isset($_SESSION['rol']) && $_SESSION['rol'] == 'admin') {
         echo "<li class='nav-item active'>";
         echo "<a class='nav-link' href=" . $path->getEvent('admin', 'index') . ">Admin</a>";
         echo "</li>";

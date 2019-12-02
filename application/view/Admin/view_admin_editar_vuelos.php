@@ -5,7 +5,7 @@
     foreach ($data as $fila) {
 ?>
    
- <form action="<?php echo $path->getEvent('admin', 'actualizaVuelo'); ?>" method="POST">
+ <form action="<?php echo $path->getEvent('admin', 'actualizaVuelo'); ?>"  method="POST" enctype="multipart/form-data">
   <div class="form-group">
      <label for="id">id</label>
      <p><?php echo $fila['id']?></p>
@@ -46,6 +46,10 @@
     <div class="form-group">
         <label for="descripcion">Descripcion</label>
         <input type="text" name="descripcion" value="<?php echo $fila['descripcion']?>" class="form-control" id="descripcion"  placeholder="Descripcion">
+    </div>
+    <div class="form-group">
+        <label for="direccion">Imagen</label>
+        <input type="file" name="ruta"  class="form-control" id="ruta" value="<?php echo $fila['ruta']?>">
     </div>
     <input type="submit" class="btn btn-primary btn-lg" value="Guardar">
  
