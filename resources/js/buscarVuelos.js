@@ -165,7 +165,7 @@ function armarComboDestino (value, origenSeleccionado) {
     }
     return acc
   }, 0)
-  // console.log(reduce, porCircuito.slice(reduce, porCircuito.length))
-  const destinosFinales = porCircuito.slice(circuitoIndex, porCircuito.length).map(function(v){ return ( `<option value="${v.destino_id}">${v.destino} - ${v.tipo}</option>`) })
+  const filterBase = porCircuito.filter(function(v){ return (v.destino !== "Buenos aires" && v.destino !== "Ankara")})
+  const destinosFinales = porCircuito.map(function(v){ return ( `<option value="${v.destino_id}">${v.destino} - ${v.tipo}</option>`) })
   $(".destino").html(destinosFinales)
 }

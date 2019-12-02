@@ -1,5 +1,4 @@
 <div class="card" style="width: 18rem;">
-  
   <div class="card-body">
     <a href="<?php echo  $path->getEvent('admin','altaCentro'); ?>">alta centro</a> 
   </div>

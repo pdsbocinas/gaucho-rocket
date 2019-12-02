@@ -1,4 +1,4 @@
-<div class="card m-4" style="width: 18rem;">  
+<div class="" style="width: 18rem;">  
   <img class="card-img-top" src="https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg" class="card-img-top" alt="...">
   <a href="#!"><div class="mask rgba-white-slight"></div></a>
   <div class="card-body">
