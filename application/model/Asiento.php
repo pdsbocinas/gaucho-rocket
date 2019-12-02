@@ -60,15 +60,15 @@
       $resultVueloRef = $queryVueloRef->fetch_all(MYSQLI_ASSOC);
       $resultVueloId = $queryVueloId->fetch_all(MYSQLI_ASSOC);
             
-      $new = array_filter($resultVueloRef, function ($var) use ($resultVueloId) {
+      $list_filtered = array_filter($resultVueloRef, function ($var) use ($resultVueloId) {
         if (in_array($var['destino_id'], array_column($resultVueloId, 'destino_id'))) {
           return array_push($resultVueloId, $var);
         }
       });
 
-      $my_array = array_merge($resultVueloId, $new);
+      $merged_array = array_merge($resultVueloId, $list_filtered);
 
-      return json_encode($my_array);
+      return json_encode($merged_array);
     }
 
     function obtenerTodosLosAsientosPorUsuario ($usuario_id) {
