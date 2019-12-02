@@ -96,7 +96,14 @@ class Controller_MiCuenta extends Controller{
 
   function checkin(){
     $codigo = $_GET['codigo'];
-    $this->view->generate('micuenta/view_checkin.php', 'template_home.php', $codigo);
+    $pagada = $_GET['pagada'];
+    $checkin = $_GET['checkin'];
+    if (!isset($_GET['codigo']) || !isset($_GET['pagada']) || !isset($_GET['checkin']) || $_GET['checkin']===1) {
+      $link =  "location:" . $this->path->getEvent('main', 'index');
+			header($link);
+	  }else{
+      $this->view->generate('micuenta/view_checkin.php', 'template_home.php', $codigo);
+      }
   }
 
   function traeReservasParaRealizarCheckin(){
@@ -104,6 +111,10 @@ class Controller_MiCuenta extends Controller{
     $codigo = $_GET['codigo'];
     $result = $this->reserva->ConsultaPorCodigoDeReservaPagaUsuario($codigo, $id);
     $data = json_decode($result, true);
+    if (empty($data)) {
+      $link =  "location:" . $this->path->getEvent('main', 'index');
+			header($link);
+    }
     $this->view->generate('micuenta/checkin_paso1.php', 'template_home.php', $data);
   }
 

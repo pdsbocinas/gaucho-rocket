@@ -14,7 +14,7 @@
       if ($fila['checkin'] == 1) {
         echo "<button disabled class='btn btn-success' disabled href=". $path->getEvent('micuenta', 'checkin') .">Checkin realizado</button>";
       } else {
-        echo "<a class='btn btn-primary' href=". $path->getEvent('micuenta', 'checkin') ."?codigo=". $fila['codigo'] .">Realizar checkin</a>";
+        echo "<a class='btn btn-primary' href=". $path->getEvent('micuenta', 'checkin') ."?codigo=". $fila['codigo'] ."&pagada=". $fila['pagada'] ."&checkin=". $fila['checkin'] .">Realizar checkin</a>";
       }
     }
   ?>
