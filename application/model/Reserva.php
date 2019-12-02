@@ -57,7 +57,7 @@
     }
 
     function ConsultaPorCodigoDeReservaPagaUsuario($codigo,$usuario_id){
-      $sql="SELECT * FROM reserva WHERE codigo = '$codigo' and usuario_id = '$usuario_id' and pagada = 1";
+      $sql="SELECT * FROM reserva join vuelo on reserva.vuelo_id=vuelo.id WHERE codigo = '$codigo' and usuario_id = '$usuario_id' and pagada = 1";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
