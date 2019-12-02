@@ -1,4 +1,4 @@
-<form action="<?php echo $path->getEvent('admin', 'guardaVuelo'); ?>" method="POST">
+<form action="<?php echo $path->getEvent('admin', 'guardaVuelo'); ?>" method="POST" enctype="multipart/form-data">
 <div class="form-group">
 <div class="form-group">
      <label for="nro">id</label>
@@ -39,6 +39,10 @@
     <div class="form-group">
         <label for="avion_id">Avion</label>
         <input type="number" name="avion_id" class="form-control" id="avion_id" value="" required placeholder="Avion">
+    </div>
+    <div class="form-group">
+        <label for="direccion">Imagen</label>
+        <input type="file" name="ruta"  class="form-control" id="ruta" value="">
     </div>
     <input type="submit" class="btn btn-primary btn-lg" value="Guardar">
  

@@ -98,11 +98,11 @@ class Controller_Admin extends Controller {
   }
 
   function altaVuelos(){
-    if(isset($_SESSION['rol']) && $_SESSION['rol'] === "admin"){
-      $this->view->generate('Admin/view_admin_alta_vuelos.php', 'template_admin.php');
-    }
+    if(!isset($_SESSION['rol']) || !$_SESSION['rol'] === "admin"){
       $link =  "location:" . $this->path->getEvent('main', 'index');
-			header($link);
+      header($link);
+    }
+    $this->view->generate('Admin/view_admin_alta_vuelos.php', 'template_admin.php');
 
   }
 
@@ -118,17 +118,22 @@ class Controller_Admin extends Controller {
   }
 
   function editarVuelo(){
-    if(isset($_SESSION['rol']) && $_SESSION['rol'] === "admin"){
+    if(!isset($_SESSION['rol']) || !$_SESSION['rol'] === "admin"){
+      $link =  "location:" . $this->path->getEvent('main', 'index');
+      header($link);
+      }
       $id=$_GET['id'];
       $result = $this->vuelo->obtenerVueloPorId($id);
       $data = json_decode($result,true);
-      $this->view->generate('Admin/view_admin_editar_vuelos.php', 'template_admin.php',$data);
-    }
-      $link =  "location:" . $this->path->getEvent('main', 'index');
-			header($link);
-    
-  
-   
+      $this->view->generate('Admin/view_admin_editar_vuelos.php', 'template_admin.php',$data); 
+  }
+
+  function getRutaImagen(){
+    $directorio = "resources/images/";
+    $archivo = $directorio . basename($_FILES["ruta"]["name"]);
+                if (move_uploaded_file($_FILES["ruta"]["tmp_name"],$archivo)) {
+                    return $archivo;
+                }
   }
 
   function actualizaVuelo(){
@@ -143,7 +148,8 @@ class Controller_Admin extends Controller {
       $tarifa_id=$_POST['tarifa_id'];
       $descripcion=$_POST['descripcion'];
       $avion_id=$_POST['avion_id'];
-    $this->vuelo->actualizaVuelo($id, $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);
+      $archivo= $this->getRutaImagen();
+      $this->vuelo->actualizaVuelo($id, $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id,$archivo);
     }
       $link =  "location:" . $this->path->getEvent('main', 'index');
 			header($link);
@@ -160,11 +166,13 @@ class Controller_Admin extends Controller {
       $tarifa_id=$_POST['tarifa_id'];
       $descripcion=$_POST['descripcion'];
       $avion_id=$_POST['avion_id'];
-      $this->vuelo->nuevoVuelo($titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id);  
+      $archivo= $this->getRutaImagen();
+      $this->vuelo->nuevoVuelo($titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id,$archivo);  
     }
       $link =  "location:" . $this->path->getEvent('main', 'index');
 			header($link);
     }
+  
 
   function listas(){
     if(isset($_SESSION['rol']) && $_SESSION['rol'] === "admin"){

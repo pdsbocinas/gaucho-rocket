@@ -44,8 +44,8 @@ class Vuelo
     return json_encode($result);
   }
 
-  function nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id){
-    $sql= "INSERT INTO Vuelo (titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, descripcion, avion_id) VALUES ('$titulo',$precio,'$fecha_salida', '$fecha_llegada',$origen_id, $destino_id, $tarifa_id, '$descripcion', '$avion_id');";
+  function nuevoVuelo( $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id,$archivo){
+    $sql= "INSERT INTO Vuelo (titulo, precio, fecha_salida, fecha_llegada, origen_id, destino_id, tarifa_id, descripcion, avion_id,ruta) VALUES ('$titulo',$precio,'$fecha_salida', '$fecha_llegada',$origen_id, $destino_id, $tarifa_id, '$descripcion', '$avion_id','$archivo');";
     $query = $this->database->exec($sql);
     $query = $this->database->get_affected_rows();
     $link =  "location:" . $this->path->getEvent('admin', 'vuelos');
@@ -67,7 +67,7 @@ class Vuelo
     return json_encode($result);
   }
 
-  function actualizaVuelo($id, $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id) {
+  function actualizaVuelo($id, $titulo, $precio, $fecha_salida, $fecha_llegada, $origen_id, $destino_id, $tarifa_id, $descripcion, $avion_id,$archivo) {
     $sql= "UPDATE Vuelo
             SET titulo= '$titulo',
                 precio = $precio,
@@ -77,7 +77,8 @@ class Vuelo
                 destino_id = $destino_id,
                 tarifa_id = $tarifa_id,
                 descripcion = '$descripcion',
-                avion_id = $avion_id
+                avion_id = $avion_id,
+                ruta ='$archivo'
             WHERE id = $id;";
     $query = $this->database->exec($sql);
     $query = $this->database->get_affected_rows();
