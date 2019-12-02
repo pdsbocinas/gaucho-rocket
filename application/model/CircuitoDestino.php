@@ -25,7 +25,7 @@ class CircuitoDestino
   }
 
   function obtenerDestinosPorCircuito ($circuito_id) {
-    $sql = "select d.id as destino_id, cd.id, d.destino, c.tipo from CircuitoDestino cd
+    $sql = "select cd.id as circuito_destino, d.id as destino_id, d.destino, c.tipo from CircuitoDestino cd
     join Destino d on d.id = cd.destino_id
     join Circuito c on c.id = cd.circuito_id
     where cd.circuito_id = '$circuito_id'";

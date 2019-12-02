@@ -19,17 +19,56 @@
 
     function obtenerAsientosOcupados ($vuelo) {
       $vuelo_id = (int)$vuelo[0]['id'];
-      $vuelo_referencia = (int)$vuelo[0]['referencia_vuelo'];
-      $reserva_id = (int)$vuelo[0]['reserva_id'];
-      // $sql = "select asiento from Asiento where vuelo_id = '$vuelo_id'";
-      $sql = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+
+      $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
       join Asiento a on a.vuelo_id = v.id
       join ReservaTrayecto rt on rt.vuelo_id = v.id
       where rt.vuelo_id = '$vuelo_id'";
       
-      $query = $this->database->query($sql);
-      $result = $query->fetch_all(MYSQLI_ASSOC);
-      return json_encode($result);
+      $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      join Vuelo vRef on v.id = vRef.referencia_vuelo
+      join ReservaTrayecto rt on rt.vuelo_id = vRef.id
+      join Asiento a on a.vuelo_id = vRef.id";
+      
+
+      $queryVueloId = $this->database->query($sqlVueloId);
+      $queryVueloRef = $this->database->query($sqlVueloRef);
+
+      $resultVueloId = $queryVueloId->fetch_all(MYSQLI_ASSOC);
+      $resultVueloRef = $queryVueloRef->fetch_all(MYSQLI_ASSOC);
+
+      return json_encode(array_merge($resultVueloId, $resultVueloRef));
+    }
+
+    function obtenerAsientosOcupadosVuelosHijos ($vuelo) {
+      $vuelo_referencia = (int)$vuelo[0]['referencia_vuelo'];
+      $vuelo_id = (int)$vuelo[0]['id'];
+
+      $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      join Asiento a on a.vuelo_id = v.id
+      join ReservaTrayecto rt on rt.vuelo_id = v.id
+      where rt.vuelo_id = '$vuelo_id'";
+
+      $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      join Vuelo vRef on vRef.id = v.referencia_vuelo
+      join ReservaTrayecto rt on rt.vuelo_id = v.referencia_vuelo
+      join Asiento a on a.vuelo_id = v.referencia_vuelo";
+      
+      $queryVueloId = $this->database->query($sqlVueloId);
+      $queryVueloRef = $this->database->query($sqlVueloRef);
+
+      $resultVueloRef = $queryVueloRef->fetch_all(MYSQLI_ASSOC);
+      $resultVueloId = $queryVueloId->fetch_all(MYSQLI_ASSOC);
+            
+      $new = array_filter($resultVueloRef, function ($var) use ($resultVueloId) {
+        if (in_array($var['destino_id'], array_column($resultVueloId, 'destino_id'))) {
+          return array_push($resultVueloId, $var);
+        }
+      });
+
+      $my_array = array_merge($resultVueloId, $new);
+
+      return json_encode($my_array);
     }
 
     function obtenerTodosLosAsientosPorUsuario ($usuario_id) {
