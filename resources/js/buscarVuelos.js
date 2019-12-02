@@ -60,7 +60,7 @@ function obtenerVuelosPorFecha () {
       const html = jsonResponse.map(function(vuelo){
         return (
           `<div class='card' style='width: 18rem; float: left;'>
-          <img src='https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg' class='card-img-top'>
+          <img src='http://${window.location.host}/gaucho-rocket/resources/images/${vuelo.ruta}' class='card-img-top'>
           <div class='card-body'>
             <h5 class='card-title'> ${vuelo.titulo} </h5>
             <p class='card-text'> ${vuelo.descripcion} </p>
@@ -89,7 +89,7 @@ function obtenerVuelosPorTipo(obj) {
       const html = responseParse.map(function(vuelo){
         return (
           `<div class="card card-vuelos-height m-3" style="width: 18rem; float:left;">
-            <img class="card-img-top" src="https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg" class="card-img-top" alt="...">
+            <img class="card-img-top" src="http://${window.location.host}/gaucho-rocket/resources/images/${vuelo.ruta}" class="card-img-top" alt="...">
             <div class="d-flex flex-column card-body">
               <h5 class='card-title'> ${vuelo.titulo} </h5>
               <p class='card-text'> ${vuelo.descripcion} </p>
@@ -122,7 +122,7 @@ function obtenerVuelosPorPrecio () {
       const html = responseParse.map(function(vuelo){
         return (
           `<div class='card card-vuelos-height m-3' style='width: 18rem; float: left;'>
-          <img src='https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/pyr/55520750c0ea197b3fd513ef/luna-azul_1.jpg' class='card-img-top'>
+          <img src="http://${window.location.host}/gaucho-rocket/resources/images/${vuelo.ruta}" class='card-img-top'>
           <div class='card-body'>
             <h5 class='card-title'>${vuelo.titulo}</h5>
             <p class='card-text'>${vuelo.descripcion}</p>

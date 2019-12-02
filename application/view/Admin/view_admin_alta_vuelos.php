@@ -1,6 +1,6 @@
-<form action="<?php echo $path->getEvent('admin', 'guardaVuelo'); ?>" method="POST" enctype="multipart/form-data">
+<form class="container" action="<?php echo $path->getEvent('admin', 'guardaVuelo'); ?>" method="POST" enctype="multipart/form-data">
 <div class="form-group">
-<div class="form-group">
+  <div class="form-group">
      <label for="nro">id</label>
      <input type="number" class="form-control" name ="id" value="" aria-describedby="emailHelp" disabled placeholder="Id viaje ">
    </div>

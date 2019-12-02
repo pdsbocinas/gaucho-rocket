@@ -1,5 +1,5 @@
 <div class="card card-vuelos-height m-3 server" style="width: 18rem; float:left;">
-  <img class="card-img-top" src="../<?php echo $fila['ruta'] ?>" class="card-img-top" alt="...">
+  <img class="card-img-top" src="<?php echo $path->getLink("images", $fila['ruta']) ?>" class="card-img-top" alt="...">
   <div class="d-flex flex-column card-body">
     <h5 class="card-title"><?php echo $fila['titulo'] ?></h5>
     <p class="card-text"><?php echo $fila['descripcion'] ?></p>

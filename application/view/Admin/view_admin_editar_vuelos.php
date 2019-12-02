@@ -5,7 +5,7 @@
     foreach ($data as $fila) {
 ?>
    
- <form action="<?php echo $path->getEvent('admin', 'actualizaVuelo'); ?>"  method="POST" enctype="multipart/form-data">
+ <form action="<?php echo $path->getEvent('admin', 'actualizaVuelo'); ?>" class="container"  method="POST" enctype="multipart/form-data">
   <div class="form-group">
      <label for="id">id</label>
      <p><?php echo $fila['id']?></p>

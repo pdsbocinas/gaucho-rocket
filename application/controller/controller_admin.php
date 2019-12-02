@@ -129,11 +129,10 @@ class Controller_Admin extends Controller {
   }
 
   function getRutaImagen(){
-    $directorio = "resources/images/";
-    $archivo = $directorio . basename($_FILES["ruta"]["name"]);
-                if (move_uploaded_file($_FILES["ruta"]["tmp_name"],$archivo)) {
-                    return $archivo;
-                }
+    $archivo = basename($_FILES["ruta"]["name"]);
+    if (move_uploaded_file($_FILES["ruta"]["tmp_name"],$archivo)) {
+        return $archivo;
+    }
   }
 
   function actualizaVuelo(){

@@ -6,7 +6,7 @@
   <?php
     foreach ($data as $fila) {
       include($path->getPage("view", "components/card_vuelo.php"));
-    echo "<img src= ".$fila['ruta'].">";
+    // echo "<img src= " . $path->getLink("images", $fila['ruta']) . ">";
     }
   ?>
 </div>

@@ -15,6 +15,4 @@
    </div>	
 </div>
 <input type="submit" class="btn btn-primary btn-lg" value="Guardar">
-  
- 
 </form>
