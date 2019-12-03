@@ -30,7 +30,7 @@
     }
 
     function obtenerListaDeEspera () {
-      $sql = "select v.id, v.precio, l.vuelo_id, l.usuario_id, l.fecha, v.titulo, u.email, u.nombre_de_usuario from Vuelo v
+      $sql = "select v.id, v.referencia_vuelo, v.precio, l.vuelo_id, l.usuario_id, l.fecha, v.titulo, u.email, u.nombre_de_usuario from Vuelo v
       join ListaDeEspera l on l.vuelo_id = v.id
       join Usuario u on l.usuario_id = u.id";
       $query = $this->database->query($sql);

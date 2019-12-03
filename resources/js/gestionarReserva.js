@@ -92,7 +92,7 @@ function eliminarReserva () {
           $(".toast-body").text("Cancelacion exitosa");
           $(".toast").css('opacity', 1);  
         }
-        window.location.href = `http://${window.location.host}/gaucho-rocket/`
+        window.location.href = `http://${window.location.host}/gaucho-rocket/admin/reservas`
       }
     })
   })
@@ -102,7 +102,6 @@ function agregarAlVuelo () {
   $('.form-lista-de-espera').on('click', function(e) {
     e.preventDefault();
     const data = $(this).serializeArray();
-    console.log(data);
     $.ajax({
       type: "POST",
       url: `http://${window.location.host}/gaucho-rocket/reservas/confirmarReserva`,
@@ -114,7 +113,7 @@ function agregarAlVuelo () {
         } else {
           $('.generar-reserva').removeClass('btn-primary');
           $('.generar-reserva').addClass('btn-success disabled').text('Agregado');
-          window.location.href = `http://${window.location.host}/gaucho-rocket/admin/`
+          window.location.href = `http://${window.location.host}/gaucho-rocket/admin`
         }
       }
     })
