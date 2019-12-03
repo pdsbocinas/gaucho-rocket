@@ -18,7 +18,7 @@ $(document).ready(function(){
         if (response === 'Usuario no encontrado') {
           return $('#errors-login').text(response);
         }
-        // window.location.href = `http://${window.location.host}/gaucho-rocket/main/index`
+        window.location.href = `http://${window.location.host}/gaucho-rocket/`
       }
     })
   })
