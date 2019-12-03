@@ -20,55 +20,62 @@
     function obtenerAsientosOcupados ($vuelo) {
       $vuelo_id = (int)$vuelo[0]['id'];
 
-      $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
-      join Asiento a on a.vuelo_id = v.id
-      join ReservaTrayecto rt on rt.vuelo_id = v.id
-      where rt.vuelo_id = $vuelo_id";
+      $sql = "select a.asiento from asiento a
+      join Vuelo v on v.id = a.vuelo_id
+      where a.vuelo_id = $vuelo_id or exists
+      (SELECT id FROM Vuelo vl where vl.referencia_vuelo = $vuelo_id)";
+
+      // $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      // join Asiento a on a.vuelo_id = v.id
+      // join ReservaTrayecto rt on rt.vuelo_id = v.id
+      // where rt.vuelo_id = $vuelo_id";
       
-      $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
-      join Vuelo vRef on v.id = vRef.referencia_vuelo
-      join ReservaTrayecto rt on rt.vuelo_id = vRef.id
-      join Asiento a on a.vuelo_id = vRef.id";
+      // $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      // join Vuelo vRef on v.id = vRef.referencia_vuelo
+      // join ReservaTrayecto rt on rt.vuelo_id = vRef.id
+      // join Asiento a on a.vuelo_id = vRef.id";
       
 
-      $queryVueloId = $this->database->query($sqlVueloId);
-      $queryVueloRef = $this->database->query($sqlVueloRef);
+      $queryVueloId = $this->database->query($sql);
+      // $queryVueloRef = $this->database->query($sqlVueloRef);
 
       $resultVueloId = $queryVueloId->fetch_all(MYSQLI_ASSOC);
-      $resultVueloRef = $queryVueloRef->fetch_all(MYSQLI_ASSOC);
+      // $resultVueloRef = $queryVueloRef->fetch_all(MYSQLI_ASSOC);
 
-      return json_encode(array_merge($resultVueloId, $resultVueloRef));
+      return json_encode($resultVueloId);
     }
 
     function obtenerAsientosOcupadosVuelosHijos ($vuelo) {
       $vuelo_referencia = (int)$vuelo[0]['referencia_vuelo'];
       $vuelo_id = (int)$vuelo[0]['id'];
-
-      $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
-      join Asiento a on a.vuelo_id = v.id
-      join ReservaTrayecto rt on rt.vuelo_id = v.id
-      where rt.vuelo_id = $vuelo_id";
-
-      $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
-      join Vuelo vRef on vRef.id = v.referencia_vuelo
-      join ReservaTrayecto rt on rt.vuelo_id = v.referencia_vuelo
-      join Asiento a on a.vuelo_id = v.referencia_vuelo";
       
-      $queryVueloId = $this->database->query($sqlVueloId);
-      $queryVueloRef = $this->database->query($sqlVueloRef);
+      $sql = "select DISTINCT a.asiento from asiento a join Vuelo v on v.id = a.vuelo_id join Avion av on av.id = v.avion_id join ReservaTrayecto rt on rt.vuelo_id = v.id where (a.vuelo_id = $vuelo_id or a.vuelo_id = $vuelo_referencia)";
 
-      $resultVueloRef = $queryVueloRef->fetch_all(MYSQLI_ASSOC);
+      // $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      // join Asiento a on a.vuelo_id = v.id
+      // join ReservaTrayecto rt on rt.vuelo_id = v.id
+      // where rt.vuelo_id = $vuelo_id";
+
+      // $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
+      // join Vuelo vRef on vRef.id = v.referencia_vuelo
+      // join ReservaTrayecto rt on rt.vuelo_id = v.referencia_vuelo
+      // join Asiento a on a.vuelo_id = v.referencia_vuelo";
+
+      $queryVueloId = $this->database->query($sql);
+      // $queryVueloRef = $this->database->query($sqlVueloRef);
+
+      // $resultVueloRef = $queryVueloRef->fetch_all(MYSQLI_ASSOC);
       $resultVueloId = $queryVueloId->fetch_all(MYSQLI_ASSOC);
             
-      $list_filtered = array_filter($resultVueloRef, function ($var) use ($resultVueloId) {
-        if (in_array($var['destino_id'], array_column($resultVueloId, 'destino_id'))) {
-          return array_push($resultVueloId, $var);
-        }
-      });
+      // $list_filtered = array_filter($resultVueloRef, function ($var) use ($resultVueloId) {
+      //   if (in_array($var['destino_id'], array_column($resultVueloId, 'destino_id'))) {
+      //     return array_push($resultVueloId, $var);
+      //   }
+      // });
 
-      $merged_array = array_merge($resultVueloId, $list_filtered);
+      // $merged_array = array_merge($resultVueloId, $list_filtered);
 
-      return json_encode($merged_array);
+      return json_encode($resultVueloId);
     }
 
     function obtenerTodosLosAsientosPorUsuario ($usuario_id) {
