@@ -102,10 +102,11 @@ function agregarAlVuelo () {
   $('.form-lista-de-espera').on('click', function(e) {
     e.preventDefault();
     const data = $(this).serializeArray();
+    console.log(data);
     $.ajax({
       type: "POST",
-      url: `http://${window.location.host}/gaucho-rocket/reservas/confirm`,
-      data: { id: data[0].value, precioFinal: data[2].value, servicio: 1 },
+      url: `http://${window.location.host}/gaucho-rocket/reservas/confirmarReserva`,
+      data: { vuelo_id: data[0].value, usuario_id: data[1].value, precioFinal: data[2].value, servicio: 1 },
       success: function(response) {
         if (response === 'No hay lugar para este vuelo') {
           $(".toast").css('opacity', 1);

@@ -46,7 +46,7 @@ class Controller_MiCuenta extends Controller{
   }
 
   function reservas () {
-    $id = $_SESSION['id'];
+    $id = $_SESSION['userId'];
     $data = $this->reserva->obtenerReservasPorUsuario($id);
     $data = json_decode($data, true);
     if (empty($data)) {
@@ -57,9 +57,10 @@ class Controller_MiCuenta extends Controller{
   }
 
   function examenes () {
-    $id = $_SESSION['id'];
-    $user = $this->usuario->obtenerNivelDelUsuario($id);
+    $id = $_SESSION['userId'];
+    $user = $this->usuario->obtenerUsuario($id);
     $user = json_decode($user);
+
     if (is_null($_SESSION['nivel']) and is_null($user->nivel)) {
       $result = $this->centros->obtenerTodosLosCentrosMedicos();
       $data = json_decode($result, true);
@@ -71,12 +72,12 @@ class Controller_MiCuenta extends Controller{
   }
 
   function crearTurno () {
-    $id = $_SESSION['id'];
-    $user = $this->usuario->obtenerNivelDelUsuario($id);
+    $id = $_SESSION['userId'];
+    $user = $this->usuario->obtenerUsuario($id);
     $user = json_decode($user);
     if(is_null($_SESSION['nivel']) and is_null($user->nivel)) {
       $currentTime = date('Y-m-d H:i:s');
-      $usuario_id = (int)$_SESSION['id'];
+      $usuario_id = (int)$_SESSION['userId'];
       $centro_id = (int)$_POST['centro_id'];
       $result = $this->turno->crearTurno($usuario_id, $centro_id ,$currentTime);
       $this->centros->otorgarPermisoMedico($usuario_id);
@@ -107,7 +108,7 @@ class Controller_MiCuenta extends Controller{
   }
 
   function traeReservasParaRealizarCheckin(){
-    $id = (int)$_SESSION['id'];
+    $id = (int)$_SESSION['userId'];
     $codigo = $_GET['codigo'];
     $result = $this->reserva->ConsultaPorCodigoDeReservaPagaUsuario($codigo, $id);
     $data = json_decode($result, true);
@@ -145,9 +146,9 @@ class Controller_MiCuenta extends Controller{
 
   function guardarAsiento () {
     $asiento = $_POST['asiento'];
-    $vuelo_id = $_POST['vuelo_id'];
-    $reserva_id = $_POST['reserva_id'];
-    $usuario_id = $_SESSION['id'];
+    $vuelo_id = (int)$_POST['vuelo_id'];
+    $reserva_id = (int)$_POST['reserva_id'];
+    $usuario_id = (int)$_SESSION['userId'];
     $data = $this->asiento->guardarAsiento($asiento, $vuelo_id, $usuario_id, $reserva_id);
     $dataReserva = $this->reserva->actualizarCheckin($reserva_id);
     echo $data;

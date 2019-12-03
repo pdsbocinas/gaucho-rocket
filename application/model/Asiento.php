@@ -11,7 +11,7 @@
 
     function guardarAsiento ($asiento, $vuelo_id, $usuario_id, $reserva_id) {
       $sql = "insert into Asiento (asiento, vuelo_id, usuario_id, reserva_id) 
-      values ('$asiento', '$vuelo_id', '$usuario_id', '$reserva_id')";
+      values ('$asiento', $vuelo_id, $usuario_id, $reserva_id)";
       $insertAsiento = $this->database->exec($sql);
       $insertAsiento = $this->database->get_affected_rows();
       return $insertAsiento;
@@ -23,7 +23,7 @@
       $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
       join Asiento a on a.vuelo_id = v.id
       join ReservaTrayecto rt on rt.vuelo_id = v.id
-      where rt.vuelo_id = '$vuelo_id'";
+      where rt.vuelo_id = $vuelo_id";
       
       $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
       join Vuelo vRef on v.id = vRef.referencia_vuelo
@@ -47,7 +47,7 @@
       $sqlVueloId = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
       join Asiento a on a.vuelo_id = v.id
       join ReservaTrayecto rt on rt.vuelo_id = v.id
-      where rt.vuelo_id = '$vuelo_id'";
+      where rt.vuelo_id = $vuelo_id";
 
       $sqlVueloRef = "select distinct a.vuelo_id, rt.destino_id, a.asiento from Vuelo v
       join Vuelo vRef on vRef.id = v.referencia_vuelo

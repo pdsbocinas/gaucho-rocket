@@ -28,11 +28,11 @@
       $this->equipo = new Equipo();
     }
 
-    function crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $menu) {
+    function crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $menu = null) {
       $currentTime = date('Y-m-d H:i:s');
       $codigo = md5($currentTime);
       $sql = "insert into Reserva (codigo, fecha, vuelo_id, servicio_id, usuario_id, precio_final, pagada, tipo_de_cabina) 
-      values ('$codigo', '$currentTime', '$vueloId', $servicio, '$user_id', $precioFinal, 0, '$menu')";
+      values ('$codigo', '$currentTime', $vueloId, $servicio, $user_id, $precioFinal, 0, '$menu')";
       $insertReserva = $this->database->exec($sql);
       $insertReserva = $this->database->get_affected_rows();
       return $codigo;
@@ -57,20 +57,20 @@
     }
 
     function ConsultaPorCodigoDeReservaPagaUsuario($codigo,$usuario_id){
-      $sql="SELECT * FROM reserva join vuelo on reserva.vuelo_id=vuelo.id WHERE codigo = '$codigo' and usuario_id = '$usuario_id' and pagada = 1";
+      $sql="SELECT r.id as reserva_id, v.id as vuelo_id, r.codigo, v.fecha_salida, r.tipo_de_cabina FROM Reserva r join Vuelo v on r.vuelo_id = v.id WHERE codigo = '$codigo' and usuario_id = $usuario_id and pagada = 1";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
     }
     
     function obtenerDisponibilidad($result) {
-      $vuelo_id = $result[0]['vuelo_id'];
+      $vuelo_id = (int)$result[0]['id'];
       $avion_id = (int)$result[0]['avion_id'];
-
       $sql = "select count(*) as total from Reserva r 
       join Vuelo v on v.id = r.vuelo_id
       join Avion av on av.id = v.avion_id
-      where r.vuelo_id = '$vuelo_id' and v.avion_id = '$avion_id'";
+      where r.vuelo_id = $vuelo_id and v.avion_id = $avion_id";
+
       $query = $this->database->query($sql);
       $data = $query->fetch_all(MYSQLI_ASSOC);
       $cantidad_de_reservas = (int)$data[0]['total'];
@@ -101,6 +101,7 @@
       $deleteReserva = $this->database->get_affected_rows();
       $link =  "location:" . $this->path->getEvent('reservas', 'exito');
       header($link);
+      exit();
     }
 
     function obtenerReservasPagas () {

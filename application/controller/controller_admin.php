@@ -219,7 +219,7 @@ class Controller_Admin extends Controller {
             <h2>Desde: $inicio </h2><h2>Hasta : $fin </h2><br><br>
             <table border='1'table bordercolor='666633' >
               <tr>
-                <td colspan='2' width='200' height='30'>Total Vendido por Mes</td><td width='200' height='30'>{$fila['total']}</td>
+                <td colspan='2' width='200' height='30'>Total Vendido por Mes</td><td width='200' height='30'>".$fila['total']."</td>
               </tr>
             </table>";
         }

@@ -19,6 +19,7 @@ class Controller_Reservas extends Controller{
   private $circuitoDestino;
   private $trayectos;
   private $pdf;
+  private $lista;
 
   function __construct() {
     $this->path = Path::getInstance("config/path.ini");
@@ -52,28 +53,36 @@ class Controller_Reservas extends Controller{
     $this->view->generate('view_detalle_reserva.php', 'template_home.php', $data_mergeada);
   }
 
+  function obtenerNivelDelUsuario ($user_id) {
+    $nivel = json_decode($this->usuario->obtenerUsuario($user_id), true);
+    if (is_null($nivel['nivel'])) {
+      return $this->view->generate('micuenta/view_sin_estudio_hecho.php', 'template_home.php');
+    }
+  }
+
   function confirmarReserva () {
-    if (is_null($_SESSION['id'])) {
-      $session_null = $_SESSION['id'];
+    if (is_null($_SESSION['userId'])) {
+      $session_null = $_SESSION['userId'];
       $this->view->generate('view_detalle_reserva.php', 'template_home.php', $session_null);
     }
     $precioFinal = $_POST['precioFinal'];
     $vueloId = (int)$_POST['vuelo_id'];
     $servicio = $_POST['servicio'];
     $menu = $_POST['menu'];
-    $user_id = $_SESSION['id'];
-    $userEmail = $_SESSION['email'];
-    $userNivel = $_SESSION['nivel'];
-    $nivel = $this->usuario->obtenerNivelDelUsuario($_SESSION['id']);
-    $servicioPorId = json_decode($this->servicio->obtenerServicioPorId($servicio), true);
+    $user_id = is_null($_POST['usuario_id']) ? (int)$_SESSION['userId'] : (int)$_POST['usuario_id'];
+
+    $email = json_decode($this->usuario->obtenerUsuario($user_id), true);
+
+    $userEmail = $_SESSION['email'] == $email['email'] ? $_SESSION['email'] : $email['email'];
+    // $userNivel = $_SESSION['nivel'];
+    // $servicioPorId = json_decode($this->servicio->obtenerServicioPorId($servicio), true);
+    $this->obtenerNivelDelUsuario($user_id);
+
     $data = $this->vuelo->obtenerVueloPorId($vueloId);
     $result = json_decode($data, true);
    
     $disponibilidad = $this->reserva->obtenerDisponibilidad($result);
 
-    if (is_null($userNivel) and is_null($nivel)) {
-      $this->view->generate('micuenta/view_sin_estudio_hecho.php', 'template_home.php');
-    }
 
     if ($disponibilidad['disponibilidad']) {
       $circuito_id = (int)$result[0]['circuito_id'];
@@ -81,6 +90,10 @@ class Controller_Reservas extends Controller{
       $destino_id = (int)$result[0]['destino_id'];
 
       $codigoReserva = $this->reserva->crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $menu);
+      $usuarioEnEspera = json_decode($this->lista->obtenerUsuarioDeListaDeEspera($user_id, $vueloId), true);
+      if (!empty($usuarioEnEspera)) {
+        $this->lista->borrarDeLaListaDeEspera($user_id, $vueloId);
+      }
       $circuitosPorId = $this->circuitoDestino->obtenerDestinosPorCircuito($circuito_id);
       $jsonCircuitos = json_decode($circuitosPorId, true);
 
@@ -140,7 +153,7 @@ class Controller_Reservas extends Controller{
     $link =  "location:" . $this->path->getEvent('main', '');
     header($link);
 
-		try {
+    try {
 			$this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
 			$this->mail->isSMTP();                                            // Send using SMTP
 			$this->mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
