@@ -74,30 +74,35 @@ class Usuario
 
     $message = "";
 
-    $withEmail = "select * from Usuario where email = '$email'";
-    $withPassword = "select * from Usuario where password = '$password'";
-    $isActive = "select * from Usuario where email = '$email' and estado = 'activo'";
+    $contraseniaIncorrecta = "select * from Usuario where email = '$email' and password <> '$password' and estado = 'activo'";
+    $contraseniaCorrecta = "select * from Usuario where email = '$email' and password = '$password' and estado = 'activo'";
 
-    $queryEmail = $this->database->query($withEmail);
-    $queryPassword = $this->database->query($withPassword);
+    $emailNoEncontrado = "select email from Usuario where email = '$email'";
+    $isActive = "select * from Usuario where email = '$email' and estado <> 'activo' and password = '$password'";
+
+    $queryContraseniaIncorrecta = $this->database->query($contraseniaIncorrecta);
+    $queryContraseniaCorrecta = $this->database->query($contraseniaCorrecta);
+
+    $queryEmailNoEncontrado = $this->database->query($emailNoEncontrado);
     $queryIsActive = $this->database->query($isActive);
 
-    $resultoEmail = $queryEmail->fetch_all(MYSQLI_ASSOC);
-    $resultadoPassword = $queryPassword->fetch_all(MYSQLI_ASSOC);
+    $resultadoContraseniaIncorrecta = $queryContraseniaIncorrecta->fetch_all(MYSQLI_ASSOC);
+    $resultadoContraseniaCorrecta = $queryContraseniaCorrecta->fetch_all(MYSQLI_ASSOC);
+
+    $resultadoEmailNoEncontrado = $queryEmailNoEncontrado->fetch_all(MYSQLI_ASSOC);
     $resultadoIsActive = $queryIsActive->fetch_all(MYSQLI_ASSOC);
-    if (!empty($resultoEmail) and !empty($resultadoPassword) and !empty($resultadoIsActive)) {
-      return json_encode($resultoEmail);
-    }
-    
-    if (empty($resultadoIsActive)) {
-      $message = "<div class='login-error'>El usuario no esta activado<div>";
+
+    if (!empty($resultadoIsActive)) {
+      $message = "El usuario no esta activado";
       echo $message;
-    } else if (!empty($resultoEmail) and empty($resultadoPassword)) {
-      $message = "<div class='login-error'>Contraseña incorrecta</div>";
+    } else if (empty($resultadoEmailNoEncontrado)) {
+      $message = "Usuario no encontrado";
       echo $message;
-    } else {
-      $message = "<div class='login-error'>Usuario no encontrado</div>";
+    } else if (empty($resultadoContraseniaCorrecta) and empty($resultadoIsActive) and !empty($resultadoEmailNoEncontrado)) {
+      $message = "Contraseña incorrecta";
       echo $message;
+    } else if (empty($resultadoContraseniaIncorrecta) and empty($resultadoIsActive) and !empty($resultadoContraseniaCorrecta)) {
+      return json_encode($resultadoContraseniaCorrecta);
     }
   }
 
