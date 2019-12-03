@@ -55,8 +55,9 @@ class Controller_Main extends Controller
 		} else {
 			$data = $result;
 			session_start();
-			$this->index();
+			return $data;
 		}
+		
 		$link =  "location:" . $this->path->getEvent('main', 'index');
 		header($link);
 		exit();
