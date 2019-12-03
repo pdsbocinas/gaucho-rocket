@@ -92,7 +92,7 @@ function eliminarReserva () {
           $(".toast-body").text("Cancelacion exitosa");
           $(".toast").css('opacity', 1);  
         }
-        window.location.href = `http://${window.location.host}/gaucho-rocket/admin/reservas`
+        window.location.href = `http://${window.location.host}/gaucho-rocket/`
       }
     })
   })
