@@ -21,11 +21,15 @@
 
     private $tipo_de_cabina;
 
+    private $vuelo;
+
     public function __construct() {
       $this->path = Path::getInstance("config/path.ini");
       require_once( $this->path->getPage("model", "Equipo.php") );
+      require_once( $this->path->getPage("model", "Vuelo.php") );
       $this->database = new Database();
       $this->equipo = new Equipo();
+      $this->vuelo = new Vuelo();
     }
 
     function crearReserva($user_id, $userEmail, $vueloId, $servicio, $precioFinal, $menu = null) {
@@ -65,12 +69,21 @@
     
     function obtenerDisponibilidad($result) {
       $vuelo_id = (int)$result[0]['id'];
+      $vRef = (int)$result[0]['referencia_vuelo'];
       $avion_id = (int)$result[0]['avion_id'];
-      $sql = "select count(*) as total from Reserva r 
-      join Vuelo v on v.id = r.vuelo_id
-      join Avion av on av.id = v.avion_id
-      where r.vuelo_id = $vuelo_id and v.avion_id = $avion_id";
-
+      
+      if ($result[0]['referencia_vuelo'] == null) {
+        $sql = "select COUNT(*) as total from Reserva r
+        join Vuelo v on v.id = r.vuelo_id
+        where r.vuelo_id = $vuelo_id or exists
+        (SELECT id FROM Vuelo vl where vl.referencia_vuelo = $vuelo_id)";
+      } else {
+        $sql = "select COUNT(*) as total from Reserva r 
+        join Vuelo v on v.id = r.vuelo_id
+        join Vuelo vRef on vRef.id = v.referencia_vuelo
+        join Avion av on av.id = v.avion_id
+        where (r.vuelo_id = $vuelo_id or r.vuelo_id = $vRef) and v.avion_id = $avion_id";
+      }
       $query = $this->database->query($sql);
       $data = $query->fetch_all(MYSQLI_ASSOC);
       $cantidad_de_reservas = (int)$data[0]['total'];
