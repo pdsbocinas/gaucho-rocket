@@ -59,9 +59,8 @@ class Controller_MiCuenta extends Controller{
   function examenes () {
     $id = $_SESSION['userId'];
     $user = $this->usuario->obtenerUsuario($id);
-    $user = json_decode($user);
-
-    if (is_null($_SESSION['nivel']) and is_null($user->nivel)) {
+    $user = json_decode($user, true);
+    if (is_null($_SESSION['nivel']) and is_null($user['nivel'])) {
       $result = $this->centros->obtenerTodosLosCentrosMedicos();
       $data = json_decode($result, true);
       $this->view->generate('micuenta/view_sin_examen_medico.php', 'template_home.php', $data);
