@@ -80,10 +80,10 @@
       } else {
         $sql = "select COUNT(*) as total from Reserva r 
         join Vuelo v on v.id = r.vuelo_id
-        join Vuelo vRef on vRef.id = v.referencia_vuelo
         join Avion av on av.id = v.avion_id
         where (r.vuelo_id = $vuelo_id or r.vuelo_id = $vRef) and v.avion_id = $avion_id";
       }
+
       $query = $this->database->query($sql);
       $data = $query->fetch_all(MYSQLI_ASSOC);
       $cantidad_de_reservas = (int)$data[0]['total'];
@@ -118,14 +118,14 @@
     }
 
     function obtenerReservasPagas () {
-      $sql = "select * from Reserva where pagada = 1";
+      $sql = "select r.id as reserva_id, r.codigo, v.id as vuelo_id, v.referencia_vuelo, r.usuario_id from Reserva r join Vuelo v on v.id = r.vuelo_id where pagada = 1";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
     }
 
     function obtenerReservasNoPagas () {
-      $sql = "select * from Reserva where pagada = 0";
+      $sql = "select r.id as reserva_id, r.codigo, v.id as vuelo_id, v.referencia_vuelo, r.usuario_id from Reserva r join Vuelo v on v.id = r.vuelo_id where pagada = 0";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);

@@ -1,5 +1,6 @@
 <form class="d-flex flex-row list-group form-lista-de-espera">
   <li class="list-group-item"><?php echo $fila['id'] ?></li>
+  <li class="list-group-item"><?php echo $fila['referencia_vuelo'] ?></li>
   <li class="list-group-item"><?php echo $fila['fecha'] ?></li>
   <li class="list-group-item"><?php echo $fila['titulo'] ?></li>
   <li class="list-group-item"><?php echo $fila['nombre_de_usuario'] ?></li>
