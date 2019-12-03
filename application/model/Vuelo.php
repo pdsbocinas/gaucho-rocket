@@ -103,11 +103,4 @@ class Vuelo
     return json_encode($result);
   }
 
-  function obtenerVuelosPorReferencia ($vuelo_id) {
-    $sql = "SELECT id FROM Vuelo where referencia_vuelo = $vuelo_id";
-    $query = $this->database->query($sql);
-    $result = $query->fetch_all(MYSQLI_ASSOC);
-    var_dump($result);die();
-    return json_encode($result);
-  }
 }
