@@ -76,23 +76,29 @@ class Usuario
 
     $withEmail = "select * from Usuario where email = '$email'";
     $withPassword = "select * from Usuario where password = '$password'";
+    $isActive = "select * from Usuario where email = '$email' and estado = 'activo'";
+
     $queryEmail = $this->database->query($withEmail);
     $queryPassword = $this->database->query($withPassword);
+    $queryIsActive = $this->database->query($isActive);
 
     $resultoEmail = $queryEmail->fetch_all(MYSQLI_ASSOC);
     $resultadoPassword = $queryPassword->fetch_all(MYSQLI_ASSOC);
-
-    if (!empty($resultoEmail) and !empty($resultadoPassword)) {
+    $resultadoIsActive = $queryIsActive->fetch_all(MYSQLI_ASSOC);
+    if (!empty($resultoEmail) and !empty($resultadoPassword) and !empty($resultadoIsActive)) {
       return json_encode($resultoEmail);
     }
-
-    if (!empty($resultoEmail) and empty($resultadoPassword)) {
-      $message = "Contraseña incorrecta";
-      return $message;
+    
+    if (empty($resultadoIsActive)) {
+      $message = "<div class='login-error'>El usuario no esta activado<div>";
+      echo $message;
+    } else if (!empty($resultoEmail) and empty($resultadoPassword)) {
+      $message = "<div class='login-error'>Contraseña incorrecta</div>";
+      echo $message;
+    } else {
+      $message = "<div class='login-error'>Usuario no encontrado</div>";
+      echo $message;
     }
-
-    $message = "Usuario no encontrado";
-    return $message;
   }
 
   public function createNewUser($nombre_de_usuario, $email, $password, $estado) {
@@ -119,9 +125,11 @@ class Usuario
     return $updateUser;
   }
 
-  public function obtenerNivelDelUsuario ($id) {
-    $sql = "select * from Usuario where id = '$id'";
+  public function obtenerUsuario ($id) {
+    $user_id = (int)$id;
+    $sql = "select * from Usuario where id = $user_id";
     $query = $this->database->query_row($sql);
     return json_encode($query);
   }
+
 }

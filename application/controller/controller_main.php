@@ -42,7 +42,7 @@ class Controller_Main extends Controller
 		$array = json_decode($result, true);
 		session_start();
 		foreach ($array as $fila) {
-			$_SESSION['id'] = $fila['id'];
+			$_SESSION['userId'] = $fila['id'];
 			$_SESSION['nombre_de_usuario'] = $fila['nombre_de_usuario'];
 			$_SESSION['email'] = $fila['email'];
 			$_SESSION['userId'] = $fila['id'];
@@ -57,8 +57,9 @@ class Controller_Main extends Controller
 			session_start();
 			$this->index();
 		}
-		header("Refresh:0");
-		$this->view->generate('view_home.php', 'template_home.php', $data);
+		$link =  "location:" . $this->path->getEvent('main', 'index');
+		header($link);
+		exit();
   }
     
 	function confirm () {
@@ -68,18 +69,7 @@ class Controller_Main extends Controller
 			$result = $this->usuario->getUserByHash($hash);
 			$data = json_decode($result, true);
 			$query = $this->usuario->updateUserState($data['id']);
-
-			$this->usuario->setId($data['id']);
-			$this->usuario->setEmail($data['email']);
-			$this->usuario->setNombre($data['nombre_de_usuario']);
-			$this->usuario->setRol($data['rol']);
-
-			$_SESSION['nombre_de_usuario'] = $this->usuario->getNombre();
-			$_SESSION['email'] = $this->usuario->getEmail();
-			$_SESSION['userId'] = $this->usuario->getId();
-			$_SESSION['rol'] = $this->usuario->getRol();
 			
-
 			$link =  "location:" . $this->path->getEvent('main', 'index');
 			header($link);
 	}

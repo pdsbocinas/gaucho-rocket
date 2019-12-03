@@ -37,4 +37,11 @@
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
     }
+
+    function borrarDeLaListaDeEspera ($usuario_id, $vuelo_id) {
+      $sql= "delete from ListaDeEspera where vuelo_id = $vuelo_id and usuario_id = $usuario_id";
+      $query = $this->database->exec($sql);
+      $query = $this->database->get_affected_rows();
+      return $query;
+    }
   }
