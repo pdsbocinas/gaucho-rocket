@@ -132,7 +132,7 @@
     }
 
     function obtenerFacturacionPorMes ($desde, $hasta) {
-      $sql = "select sum(precio_final) as total,count(*) as 'Cantidad de Facturas' from Reserva where fecha BETWEEN '$desde' AND  '$hasta';";
+      $sql = "select sum(precio_final) as total,count(*) as 'Cantidad de Facturas' from Reserva where fecha >= '$desde' AND  fecha <'$hasta';";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
@@ -140,7 +140,7 @@
 
     function obtenerCabinaMasVendida ($inicio,$fin) {
       $sql = "
-      select tipo_de_cabina, count(tipo_de_cabina) as cantidad FROM Reserva where pagada = 1 AND fecha BETWEEN '$inicio' AND '$fin' GROUP BY tipo_de_cabina ORDER BY cantidad DESC";
+      select tipo_de_cabina, count(tipo_de_cabina) as cantidad FROM Reserva where pagada = 1 AND fecha >= '$inicio' AND fecha < '$fin' GROUP BY tipo_de_cabina ORDER BY cantidad DESC";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);

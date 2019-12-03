@@ -233,7 +233,7 @@ class Controller_Admin extends Controller {
  
   function cabinaMasVendida () {
     $fecha_inicio=$_POST['inicio'];
-    $fecha_fin=$_POST['fin'];
+    $fecha_fin=($_POST['fin']);
     
     if(isset($_SESSION['rol']) && $_SESSION['rol'] === "admin"){
       $data = $this->reserva->obtenerCabinaMasVendida($fecha_inicio,$fecha_fin);
