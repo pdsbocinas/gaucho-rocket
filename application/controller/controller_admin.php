@@ -206,9 +206,9 @@ class Controller_Admin extends Controller {
   }
 
   function obtenerFacturacionPorMes () {
-      if(isset($_SESSION['rol']) && $_SESSION['rol'] === "admin"){
-        $fin =  date("Y-m-d");
-        $inicio = date("Y-m-d",strtotime($fin. "- 30 days"));
+    if(isset($_SESSION['rol']) && $_SESSION['rol'] === "admin"){
+      $inicio=$_REQUEST['desde'];
+      $fin=$_REQUEST['hasta'];
         $result = $this->reserva->obtenerFacturacionPorMes($inicio, $fin);
         $data = json_decode($result, true);
         $this->pdf->AliasNbPages();
@@ -232,8 +232,11 @@ class Controller_Admin extends Controller {
         }
  
   function cabinaMasVendida () {
+    $fecha_inicio=$_POST['inicio'];
+    $fecha_fin=$_POST['fin'];
+    
     if(isset($_SESSION['rol']) && $_SESSION['rol'] === "admin"){
-      $data = $this->reserva->obtenerCabinaMasVendida();
+      $data = $this->reserva->obtenerCabinaMasVendida($fecha_inicio,$fecha_fin);
       $data = json_decode($data, true);
       $tabla = "";
       $this->pdf->AliasNbPages();
@@ -241,9 +244,7 @@ class Controller_Admin extends Controller {
       $this->pdf->SetFont('Times','',12);
       $max=0;
       foreach ($data as $fila) {
-        if ($fila['cantidad']>=$max) {
-          $tabla .="<table border='1' bordercolor='666633' ><tr><td colspan='2' width='200' height='30'>{$fila['tipo_de_cabina']}</td><td width='200' height='30'>{$fila['cantidad']}</td></tr></table>";
-        }
+          $tabla .="<table border='1' bordercolor='666633' ><tr><td colspan='2' width='200' height='30'>".$fila['tipo_de_cabina']."</td><td width='200' height='30'>".$fila['cantidad']."</td></tr></table>";
       }
       $tablaConTitulo="<table border='1' bordercolor='666633' ><td colspan='2' width='200' height='30'>TIPO DE CABINA</td><td width='200' height='30'>CANTIDAD</td><br></table>".$tabla;
       $this->pdf->WriteHTML($tablaConTitulo);
@@ -263,7 +264,7 @@ class Controller_Admin extends Controller {
       $this->pdf->AddPage();
       $this->pdf->SetFont('Times','',12);
       foreach ($data as $fila) {
-        $tabla .="<table border='1' bordercolor='666633' ><tr><td colspan='2' width='200' height='30'>{$fila['usuario_id']}</td><td width='200' height='30'>{$fila['cantidad']}</td><td width='200' height='30'>$ {$fila['total']}</td></tr></table>";
+        $tabla .="<table border='1' bordercolor='666633' ><tr><td colspan='2' width='200' height='30'>".$fila['usuario_id']."</td><td width='200' height='30'>".$fila['cantidad']."</td><td width='200' height='30'>$ ".$fila['total']."</td></tr></table>";
         }
       $tablaConTitulo="<table border='1' bordercolor='666633' ><td colspan='2' width='200' height='30'>ID DE USUARIO</td><td width='200' height='30'>CANT. FACTURAS</td><td width='200' height='30'>TOTAL</td><br></table>".$tabla;
       $this->pdf->WriteHTML($tablaConTitulo);
