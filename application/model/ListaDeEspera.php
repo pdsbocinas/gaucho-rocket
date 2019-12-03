@@ -15,7 +15,7 @@
     }
 
     function obtenerUsuarioDeListaDeEspera ($usuario_id, $vuelo_id) {
-      $sql = "select * from ListaDeEspera where vuelo_id = '$vuelo_id' and usuario_id = '$usuario_id'";
+      $sql = "select * from ListaDeEspera where vuelo_id = $vuelo_id and usuario_id = $usuario_id";
       $query = $this->database->query($sql);
       $result = $query->fetch_all(MYSQLI_ASSOC);
       return json_encode($result);
@@ -23,7 +23,9 @@
     
     function agregarAListaDeEspera ($usuario_id, $vuelo_id) {
       $currentTime = date('Y-m-d H:i:s');
-      $sql= "insert into ListaDeEspera (fecha, vuelo_id, usuario_id) values ('$currentTime', '$vuelo_id', '$usuario_id')";
+      $userInt = (int)$usuario_id;
+      $vueloInt = (int)$vuelo_id;
+      $sql= "insert into ListaDeEspera (fecha, vuelo_id, usuario_id) values ('$currentTime', $vueloInt, $userInt)";
       $query = $this->database->exec($sql);
       $query = $this->database->get_affected_rows();
       echo $query;
